@@ -1,6 +1,11 @@
 # Prerequisites
 *.d
 
+# Yacc & Lex
+*lex.yy.c
+*y.tab.c
+*y.tab.h
+
 # Object files
 *.o
 *.ko
