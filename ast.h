@@ -23,11 +23,6 @@ typedef struct StNode{
 	struct StNode * next;
 } Statements;  
 
-typedef struct pr{
-	Statements * body;
-} ProgramRoot;
- 
-
 
 typedef struct block{
 	void * node;

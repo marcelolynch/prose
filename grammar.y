@@ -49,7 +49,6 @@ int getId(char * strId){
  
   Block * block;
 
-  ProgramRoot * pgm;
   Statements * statements;
 }
 
@@ -61,7 +60,6 @@ int getId(char * strId){
 %token PRINT;
 
 %type <assignment> asig;
-%type <pgm> entry;
 %type <statements> program;
 %type <printnode> print;
 %type <block> block;
