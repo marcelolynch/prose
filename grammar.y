@@ -74,10 +74,9 @@ int getId(char * strId){
 
 
 entry : program {
-		$$ = malloc(sizeof(*$$));
 
-		$$->body = $1;
-		produce($$);
+		produce($1);
+	
 	  	}
 
 
