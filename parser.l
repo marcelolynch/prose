@@ -11,7 +11,7 @@ digit [0-9]
 
 %%
 
-[\t \n] 
+[\t \n] 			
 print           	return PRINT;
 
 {digit}+   			{

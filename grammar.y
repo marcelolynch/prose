@@ -46,6 +46,8 @@ int getId(char * strId){
 
   AssignmentNode * assignment;
   PrintNode * printnode;
+ 
+  Block * block;
 
   ProgramRoot * pgm;
   Statements * statements;
@@ -62,54 +64,67 @@ int getId(char * strId){
 %type <pgm> entry;
 %type <statements> program;
 %type <printnode> print;
+%type <block> block;
 
 %start entry
 
 %%
 
 
+
+
 entry : program {
 		$$ = malloc(sizeof(*$$));
-			
+
 		$$->body = $1;
 		produce($$);
-	}
+	  	}
 
 
-program : asig
+
+program : 
+
+		block
 		   {
 		   	$$ = malloc(sizeof(*$$));
-			$$->type = ASSIGNMENT;
-			$$->expressionNode = $1;
-			$$->next = NULL;		
+			$$->type = $1->type;;
+			$$->expressionNode = $1->node;
+			$$->next = NULL;
+			
+			free($1);
+
 			}
-		| asig program
+
+		| block program
 
 			{
 			$$ = malloc(sizeof(*$$));
 		
+			$$->type = $1->type;
+			$$->expressionNode = $1->node;
+			$$->next = $2;
+			
+			free($1);		
+			}
+
+		;
+
+
+block	: asig{
+		
+			$$ = malloc(sizeof(*$$));
 			$$->type = ASSIGNMENT;
-			$$->expressionNode = $1;
-			$$->next = $2;		
-			}
-
-		| print program
-			{
-			$$ = malloc(sizeof(*$$));
-			
-			$$->type = PRINT_CALL;
-			$$->expressionNode = $1;
-			$$->next = $2;		
-			}
-
+			$$->node = $1;
+		
+		}
 		| print {
+		
 			$$ = malloc(sizeof(*$$));
-			
 			$$->type = PRINT_CALL;
-			$$->expressionNode = $1;
-			$$->next = NULL;		
+			$$->node = $1;
 		}
 		;
+
 
 
 asig : IDENTIFIER '=' STR 
@@ -120,33 +135,44 @@ asig : IDENTIFIER '=' STR
 			$$->type = STR_T;
 
 			char * str = malloc(strlen($3) + 1);
+
 			strcpy(str, $3);
-			
+
 			free($3);
 			
-			$$->value = &str;
+			char* *value = malloc(sizeof(char*));
+
+			memcpy(value, &str, sizeof(char*));
+			$$->value = value;
 		}
 
 	 | IDENTIFIER '=' NUM
 	 	{	
 	 		$$ = malloc(sizeof(*$$));
-			
+
+
 			$$->var_id = getId($1);
 			$$->type = INT_T;
 
 			int * value = malloc(sizeof(int));
 
-			memcpy(value, &$3, 4);
+			memcpy(value, &$3, sizeof(int*));
 			$$->value = value;
 	 	}
 
 	 | IDENTIFIER '=' FLOAT
 	 	{
 	 		$$ = malloc(sizeof(*$$));
+	 		
 			
 			$$->var_id = getId($1);
 			$$->type = FLOAT_T;
-			$$->value = &$3;
+
+			float * value = malloc(sizeof(float));
+
+			memcpy(value, &$3, sizeof(float*));
+			$$->value = value;
+
 	 	}
 	 | IDENTIFIER '=' IDENTIFIER '+' IDENTIFIER
 	 	{
@@ -158,7 +184,6 @@ asig : IDENTIFIER '=' STR
 print : PRINT IDENTIFIER
 		{
 			$$ = malloc(sizeof(*$$));
-			
 			$$->var_id = getId($2);
 		}
 	  ;

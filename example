@@ -2,3 +2,7 @@ a = 9
 print a
 a = "Hola chelooo"
 print a
+b = "Aja"
+print b
+b = 12.9
+print b
