@@ -52,6 +52,12 @@ void doAssign(AssignmentNode * a){
 char* getArith(ArithNode * operation){
 	char * result;
 	switch(operation->type){
+		case VARIABLE:
+		{
+			result = malloc(STR_OVERHEAD + MAX_DIGITS);
+			sprintf(result, "get_var(%d)", *(int*)operation->left);
+			break;
+		}
 		case STR_TYPE:
 		{
 			char * str = *((char**)operation->left);

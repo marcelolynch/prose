@@ -39,7 +39,7 @@ verdad 				return TRUE;
 falso				return FALSE;
 mentira				return FALSE;
 
-\(							{return *yytext;}
+[\(\)]				{return *yytext;}
 
 {digit}+   			{
 						yylval.intval = atoi(yytext);

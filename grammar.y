@@ -58,6 +58,7 @@ int getId(char * strId){
   bool_operation boolop;
 }
 
+%error-verbose
 
 %token <strval> IDENTIFIER;
 %token <strval> STR;
@@ -182,15 +183,9 @@ arithmetic : STR
 
 			$$->type = STR_TYPE;
 
-			char * str = malloc(strlen($1) + 1);
+			$$->left = malloc(strlen($1) + 1);
 
-			strcpy(str, $1);
-
-			free($1);
-
-			$$->left = malloc(sizeof(char*));
-
-			memcpy($$->left, &str, sizeof(char*));
+			strcpy($$->left, $1);
 			}
 
 	 | NUM
@@ -214,6 +209,15 @@ arithmetic : STR
 			memcpy($$->left, &$1, sizeof(float));
 
 	 	}
+	 | IDENTIFIER
+	 	{
+			$$ = malloc(sizeof(*$$));
+			$$->type = VARIABLE;
+			$$->left = malloc(sizeof(int));
+			int id = getId($1);
+			memcpy($$->left, &id, sizeof(int));
+	 	}
+
 	 |	arithmetic '+' arithmetic
 			{
 				$$ = malloc(sizeof(*$$));
@@ -221,7 +225,7 @@ arithmetic : STR
 				$$->left = $1;
 				$$->right = $3;
 			}
-		|	'(' arithmetic ')'
+	 |	'(' arithmetic ')'
 			{
 				$$ = $2;
 			}
