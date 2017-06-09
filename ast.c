@@ -12,6 +12,7 @@ void produce(Statements * block, char * indent){
 	while(block != NULL){
 		printf("%s", indent);
 		switch(block->type){
+
 			case ASSIGNMENT: 
 				doAssign((AssignmentNode*)block->expressionNode);
 				break;
@@ -38,18 +39,18 @@ void produce(Statements * block, char * indent){
 void doAssign(AssignmentNode * a){
 	switch(a->type){
 		case STR_T:
-			printf("assign(%d, \"%s\", STR_T);\n", a->var_id, *((char**)a->value));
+			printf("assign(%d, anon_var(\"%s\", STR_T));\n", a->var_id, *((char**)a->value));
 			//free(*(a->value));
 		break;
 		
 		case INT_T:
 	 		printf("intHolder = %d;\n", *((int*)a->value));
-			printf("assign(%d, &intHolder, INT_T);\n", a->var_id);
+			printf("assign(%d, anon_var(&intHolder, INT_T));\n", a->var_id);
 		break;
 
 		case FLOAT_T:
 	 		printf("floatHolder = %f;\n", *((float*)a->value));
-			printf("assign(%d, &floatHolder, FLOAT_T);\n", a->var_id);
+			printf("assign(%d, anon_var(&floatHolder, FLOAT_T));\n", a->var_id);
 		break;
 
 	}
@@ -68,9 +69,8 @@ void doBooleanCondition(BoolNode * node){
 			break;
 
 		case BOOL_NOT:
-			printf("!(");
+			printf("!");
 			doBooleanCondition((BoolNode*)node->left);
-			printf(")");
 			break;
 
 		case BOOL_AND:
@@ -117,5 +117,5 @@ void doBooleanBinary(BoolNode*node, char* op){
 }
 
 void doBooleanComp(BoolNode * node, char* op){
-	printf("(compare(%d, %d) %s 0)", *((int*)node->left), *((int*)node->right), op);
+	printf("(compare(get_var(%d), get_var(%d)) %s 0)", *((int*)node->left), *((int*)node->right), op);
 }

@@ -7,57 +7,74 @@
 
 #define EPSILON 0.00001
 
-static int compareToInt(VAR* intVar, VAR* other);
-static int compareToFloat(VAR * floatVar, VAR* other);
-static int compareToStr(VAR * strVar, VAR * other);
+static int compareToInt(VAR intVar, VAR other);
+static int compareToFloat(VAR floatVar, VAR other);
+static int compareToStr(VAR strVar, VAR other);
 
 VAR * var_table[MAX_VARS] = {0};
 
-VAR * get_var(VAR_ID id){
-	return var_table[id];	
+VAR get_var(VAR_ID id){
+	return *var_table[id];	
 }
 
 
-VAR_ID assign(VAR_ID id, void * value, type_t type){
+VAR anon_var(void * value, type_t type){
+		VAR var;
+
+		var.type = type;
+
+		switch(type){
+		case INT_T:
+			var.value.intValue =  *((int*)value);
+		break;
+
+		case STR_T:
+			var.value.strValue = malloc(strlen(value));
+			strcpy(var.value.strValue, value);
+		break;
+
+		case FLOAT_T:
+			var.value.floatValue = *((float*)value);
+		break;
+	}
+
+	return var;
+}
+
+
+VAR assign(VAR_ID id, VAR assigned){
 	if(var_table[id] == NULL){
 		var_table[id] = malloc(4 * sizeof(*var_table[0]));
 	}
 	
 	VAR * var = var_table[id];
 
-	var->type = type;
+	var->type = assigned.type;
 
-	switch(type){
+	switch(assigned.type){
 		case INT_T:
-			var->value.intValue =  *((int*)value);
+			var->value.intValue =  assigned.value.intValue;
 		break;
 
 		case STR_T:
-			var->value.strValue = malloc(strlen(value));
-			strcpy(var->value.strValue, value);
+			var->value.strValue = malloc(strlen(assigned.value.strValue));
+			strcpy(var->value.strValue, assigned.value.strValue);
 		break;
 
 		case FLOAT_T:
-			var->value.floatValue = *((float*)value);
+			var->value.floatValue = assigned.value.floatValue;
 		break;
 	}
 
 	
-	return VAR_ID;
+	return *var;
 
 }
 
 
-int compare(VAR_ID a, VAR_ID b){
-	if(get_var(a) == NULL || get_var(b) == NULL){
-		return -1;
-	}
+int compare(VAR first, VAR second){
 
-
-	VAR* first = get_var(a);
-	VAR* second = get_var(b);
-
-	switch(first->type){
+	switch(first.type){
 		case INT_T:
 			return compareToInt(first, second);
 		
@@ -72,16 +89,16 @@ int compare(VAR_ID a, VAR_ID b){
 }
 
 
-static int compareToInt(VAR* intVar, VAR* other){
-	int i = intVar->value.intValue;
+static int compareToInt(VAR intVar, VAR other){
+	int i = intVar.value.intValue;
 
-	switch(other->type){
+	switch(other.type){
 		case INT_T:
-			return i - other->value.intValue;
+			return i - other.value.intValue;
 
 		case FLOAT_T:
-			return fabs(i - other->value.floatValue) < EPSILON ? 0 : 
-					(i - other->value.floatValue < 0) ? -1 : 1;
+			return fabs(i - other.value.floatValue) < EPSILON ? 0 : 
+					(i - other.value.floatValue < 0) ? -1 : 1;
 
 		case STR_T:
 			return 1;
@@ -89,15 +106,15 @@ static int compareToInt(VAR* intVar, VAR* other){
 }
 
 
-static int compareToFloat(VAR * floatVar, VAR* other){
-	float i = floatVar->value.floatValue;
-	switch(other->type){
+static int compareToFloat(VAR floatVar, VAR other){
+	float i = floatVar.value.floatValue;
+	switch(other.type){
 		case INT_T:
 			return -compareToInt(other, floatVar);
 
 		case FLOAT_T:
-			return fabs(i - other->value.floatValue) < EPSILON ? 0 : 
-					(i - other->value.floatValue < 0) ? -1 : 1;
+			return fabs(i - other.value.floatValue) < EPSILON ? 0 : 
+					(i - other.value.floatValue < 0) ? -1 : 1;
 
 		case STR_T:
 			return 1;
@@ -105,8 +122,8 @@ static int compareToFloat(VAR * floatVar, VAR* other){
 }
 
 
-static int compareToStr(VAR * strVar, VAR * other){
-		switch(other->type){
+static int compareToStr(VAR strVar, VAR  other){
+		switch(other.type){
 		case INT_T:
 			return -1;
 
@@ -114,10 +131,6 @@ static int compareToStr(VAR * strVar, VAR * other){
 			return -1;
 
 		case STR_T:
-			return strcmp(strVar->value.strValue, other->value.strValue);
+			return strcmp(strVar.value.strValue, other.value.strValue);
 	}
-}
-
-type_t getType(){
-
 }

@@ -1,9 +1,7 @@
-#include "variable_manager.h"
-
 #ifndef __ast_h
 #define __ast_h
 
-
+#include "variable_manager.h"
 
 #define ASSIGNMENT 		1
 #define PRINT_CALL 		2
@@ -26,6 +24,16 @@ typedef enum
 	COMP_GT,
 	COMP_GE
 } bool_operation;
+
+
+typedef enum{
+	VARIABLE,
+	INT_TYPE, FLOAT_TYPE, STR_TYPE,
+	SUM,
+	SUBSTRACTION,
+	PRODUCT,
+	DIVISION
+} arithm_operation;
 
 
 typedef int exp_t; 
@@ -51,6 +59,12 @@ typedef struct bc{
 	void * right;
 } BoolNode;
 
+
+typedef struct ar_n{
+	arithm_operation type;
+	void * left;
+	void * right;
+} ArithNode;
 
 
 typedef struct wn{	
