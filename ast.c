@@ -38,18 +38,18 @@ void produce(Statements * block, char * indent){
 void doAssign(AssignmentNode * a){
 	switch(a->type){
 		case STR_T:
-			printf("(char*)assign(%d, \"%s\", STR_T);\n", a->var_id, *((char**)a->value));
+			printf("assign(%d, \"%s\", STR_T);\n", a->var_id, *((char**)a->value));
 			//free(*(a->value));
 		break;
 		
 		case INT_T:
 	 		printf("intHolder = %d;\n", *((int*)a->value));
-			printf("(int)assign(%d, &intHolder, INT_T);\n", a->var_id);
+			printf("assign(%d, &intHolder, INT_T);\n", a->var_id);
 		break;
 
 		case FLOAT_T:
 	 		printf("floatHolder = %f;\n", *((float*)a->value));
-			printf("(float)assign(%d, &floatHolder, FLOAT_T);\n", a->var_id);
+			printf("assign(%d, &floatHolder, FLOAT_T);\n", a->var_id);
 		break;
 
 	}

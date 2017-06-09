@@ -18,7 +18,7 @@ VAR * get_var(VAR_ID id){
 }
 
 
-uint64_t assign(VAR_ID id, void * value, type_t type){
+VAR_ID assign(VAR_ID id, void * value, type_t type){
 	if(var_table[id] == NULL){
 		var_table[id] = malloc(4 * sizeof(*var_table[0]));
 	}
@@ -43,7 +43,7 @@ uint64_t assign(VAR_ID id, void * value, type_t type){
 	}
 
 	
-	return (uint64_t)var->value.intValue;
+	return VAR_ID;
 
 }
 
