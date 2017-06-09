@@ -3,12 +3,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-void doPrint(PrintNode * p);
+void doPrint(ExpressionNode * p);
 void doAssign(AssignmentNode * a);
 void doBooleanBinary(BoolNode*node, char* op);
 void doBooleanCondition(BoolNode * node);
 void doBooleanComp(BoolNode * node, char* op);
-char* getArith(ArithNode * operation);
+char* getExpr(ExpressionNode * operation);
 
 
 void produce(Statements * block, char * indent){
@@ -17,16 +17,16 @@ void produce(Statements * block, char * indent){
 		switch(block->type){
 
 			case ASSIGNMENT:
-				doAssign((AssignmentNode*)block->expressionNode);
+				doAssign((AssignmentNode*)block->body);
 				break;
 				
 			case PRINT_CALL:
-				doPrint((PrintNode*)block->expressionNode);
+				doPrint((ExpressionNode*)block->body);
 				break;
 
 			case WHILE_LOOP:
 				printf("\n\nwhile(");
-				WhileNode* w_node = (WhileNode*) block->expressionNode;
+				WhileNode* w_node = (WhileNode*) block->body;
 				doBooleanCondition(w_node->condition);
 				printf("){\n");
 				produce(w_node->body, "\t");
@@ -41,7 +41,7 @@ void produce(Statements * block, char * indent){
 
 
 void doAssign(AssignmentNode * a){
-	char * expression = getArith(a->value);
+	char * expression = getExpr(a->value);
 	printf("assign(%d, %s);\n", a->var_id, expression);
 	free(expression);
 }
@@ -49,41 +49,45 @@ void doAssign(AssignmentNode * a){
 
 #define STR_OVERHEAD 25
 #define MAX_DIGITS 30
-char* getArith(ArithNode * operation){
+char* getExpr(ExpressionNode * operation){
 	char * result;
 	switch(operation->type){
 		case VARIABLE:
 		{
 			result = malloc(STR_OVERHEAD + MAX_DIGITS);
 			sprintf(result, "get_var(%d)", *(int*)operation->left);
+			free(operation->left);
 			break;
 		}
-		case STR_TYPE:
+		case STR_LITERAL:
 		{
-			char * str = *((char**)operation->left);
+			char * str = (char*)operation->left;
 			result = malloc(STR_OVERHEAD + strlen(str));
 			sprintf(result, "anon_str(\"%s\")", str);
+			free(operation->left);
 			break;
 		}
 
-		case INT_TYPE:
+		case INT_LITERAL:
 		{
 			result = malloc(STR_OVERHEAD + MAX_DIGITS);
 			sprintf(result, "anon_int(%d)", *((int*)operation->left));
+			free(operation->left);
 			break;
 		}
 
-		case FLOAT_TYPE:
+		case FLOAT_LITERAL:
 		{
 			result = malloc(STR_OVERHEAD + MAX_DIGITS);
 			sprintf(result, "anon_float(%.10f)", *((float*)operation->left));
+			free(operation->left);
 			break;
 		}
 
 		case ARIT_SUM:
 		{
-			char * left = getArith((ArithNode*)operation->left);
-			char * right = getArith((ArithNode*)operation->right);
+			char * left = getExpr((ExpressionNode*)operation->left);
+			char * right = getExpr((ExpressionNode*)operation->right);
 			result = malloc(STR_OVERHEAD + strlen(left) + strlen(right) + 1);
 			sprintf(result, "sum(%s, %s)", left, right);
 			free(left);
@@ -91,12 +95,15 @@ char* getArith(ArithNode * operation){
 			break;
 		}
 	}
+
+	free(operation);
+
 	return result;
 }
 
-void doPrint(PrintNode * p){
-	char * expr = getArith(p->expression);
-	printf("print(%s);\n", expr);
+void doPrint(ExpressionNode * p){
+	char * expr = getExpr(p);
+	printf("print_var(%s);\n", expr);
 	free(expr);
 }
 

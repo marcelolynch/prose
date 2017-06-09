@@ -5,8 +5,8 @@ a vale 10 + 1.7
 mostrar a
 
 
-a vale 3 + 'Posta?'
-mostrar a
+a vale 3
+mostrar a + 45
 
 c vale ('carlu ' + (8+1.99)) + ' ' + (9+9) + ' ' + (1+0)
 mostrar c

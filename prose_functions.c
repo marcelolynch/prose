@@ -3,12 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void print_var(VAR_ID id){
-	VAR var = get_var(id);
-	print(var);
-}
 
-void print(VAR var){
+void print_var(VAR var){
 		switch(var.type){
 			case INT_T:
 				printf("Integer: %d \n", var.value.intValue);

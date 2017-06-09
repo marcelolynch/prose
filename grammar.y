@@ -45,10 +45,10 @@ int getId(char * strId){
   float floatval;
 
   AssignmentNode * assignment;
-  PrintNode * printnode;
+
   WhileNode * whilenode;
   BoolNode * boolnode;
-  ArithNode * arithnode;
+  ExpressionNode * exprnode;
 
   Block * block;
 
@@ -93,12 +93,12 @@ int getId(char * strId){
 
 %type <assignment> asig;
 %type <statements> program;
-%type <printnode> print;
+%type <exprnode> print;
 %type <block> block;
 %type <whilenode> while;
 %type <boolop> bool_comp;
 %type <boolnode> condition;
-%type <arithnode> arithmetic;
+%type <exprnode> expression;
 
 %start entry
 
@@ -121,7 +121,7 @@ program :
 		   {
 		   	$$ = malloc(sizeof(*$$));
 			$$->type = $1->type;;
-			$$->expressionNode = $1->node;
+			$$->body = $1->node;
 			$$->next = NULL;
 
 			free($1);
@@ -134,7 +134,7 @@ program :
 			$$ = malloc(sizeof(*$$));
 
 			$$->type = $1->type;
-			$$->expressionNode = $1->node;
+			$$->body = $1->node;
 			$$->next = $2;
 
 			free($1);
@@ -166,7 +166,7 @@ block	: asig{
 
 
 
-asig : IDENTIFIER VALE arithmetic
+asig : IDENTIFIER VALE expression
 	 	{
 	 		$$ = malloc(sizeof(*$$));
 	 		$$->var_id = getId($1);
@@ -177,11 +177,11 @@ asig : IDENTIFIER VALE arithmetic
 
 
 
-arithmetic : STR
+expression : STR
 		{
 			$$ = malloc(sizeof(*$$));
 
-			$$->type = STR_TYPE;
+			$$->type = STR_LITERAL;
 
 			$$->left = malloc(strlen($1) + 1);
 
@@ -191,7 +191,7 @@ arithmetic : STR
 	 | NUM
 	 	{
 	 		$$ = malloc(sizeof(*$$));
-			$$->type = INT_TYPE;
+			$$->type = INT_LITERAL;
 
 			$$->left = malloc(sizeof(int));
 
@@ -202,7 +202,7 @@ arithmetic : STR
 	 	{
 	 		$$ = malloc(sizeof(*$$));
 
-			$$->type = FLOAT_TYPE;
+			$$->type = FLOAT_LITERAL;
 
 			$$->left = malloc(sizeof(float));
 
@@ -218,24 +218,23 @@ arithmetic : STR
 			memcpy($$->left, &id, sizeof(int));
 	 	}
 
-	 |	arithmetic '+' arithmetic
+	 |	expression '+' expression
 			{
 				$$ = malloc(sizeof(*$$));
 				$$->type = ARIT_SUM;
 				$$->left = $1;
 				$$->right = $3;
 			}
-	 |	'(' arithmetic ')'
+	 |	'(' expression ')'
 			{
 				$$ = $2;
 			}
 		;
 
 
-print : PRINT arithmetic
+print : PRINT expression
 		{
-			$$ = malloc(sizeof(*$$));
-			$$->expression = $2;
+			$$ = $2;
 		}
 	  ;
 

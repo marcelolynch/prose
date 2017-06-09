@@ -1,7 +1,7 @@
 all:
 	yacc -d grammar.y
 	lex parser.l
-	gcc -o compiler lex.yy.c ast.c y.tab.c -ly
+	gcc -g -o compiler lex.yy.c ast.c y.tab.c -ly
 
 clean:
 	rm lex.yy.c

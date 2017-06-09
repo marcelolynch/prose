@@ -3,14 +3,6 @@
 
 #include "variable_manager.h"
 
-#define ASSIGNMENT 		1
-#define PRINT_CALL 		2
-
-
-#define WHILE_LOOP 		3
-
-
-
 typedef enum
 {
 	BOOL_LITERAL,
@@ -29,27 +21,34 @@ typedef enum
 
 typedef enum{
 	VARIABLE,
-	INT_TYPE, FLOAT_TYPE, STR_TYPE,
+	INT_LITERAL, 
+	FLOAT_LITERAL,
+	STR_LITERAL,
 	ARIT_SUM,
 	ARIT_SUB,
 	ARIT_PROD,
 	ARIT_DIV
-} arithm_operation;
+} expr_type;
 
 
-typedef int exp_t;
+typedef enum{
+	ASSIGNMENT,
+	PRINT_CALL,
+	WHILE_LOOP
+} stmnt_type;
+
 
 
 typedef struct StNode{
-	exp_t type;
-	void * expressionNode;
+	stmnt_type type;
+	void * body;
 	struct StNode * next;
 } Statements;
 
 
 typedef struct block{
 	void * node;
-	exp_t type;
+	stmnt_type type;
 } Block;
 
 
@@ -62,10 +61,10 @@ typedef struct bc{
 
 
 typedef struct ar_n{
-	arithm_operation type;
+	expr_type type;
 	void * left;
 	void * right;
-} ArithNode;
+} ExpressionNode;
 
 
 typedef struct wn{
@@ -81,13 +80,8 @@ typedef struct in{
 
 typedef struct asn{
 	int var_id;
-	ArithNode * value;
+	ExpressionNode * value;
 } AssignmentNode;
-
-
-typedef struct prn{
-	ArithNode* expression;
-} PrintNode;
 
 
 void produce(Statements * block, char * indent);
