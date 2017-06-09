@@ -8,6 +8,8 @@ static VAR sub(VAR left, VAR right);
 static VAR prod(VAR left, VAR right);
 static VAR division(VAR left, VAR right);
 static VAR integerSum(VAR left, VAR right, int sign);
+static VAR floatSum(VAR left, VAR right, int sign);
+static VAR stringCat(VAR left, VAR right);
 
 binaryOp operations[] = {sum, sub, prod, division};
 
@@ -21,11 +23,9 @@ static VAR sum(VAR left, VAR right){
 		case INT_T:
 			return integerSum(left, right, 1);
 		case STR_T:
-			break;
-			//return stringCat(left, right);
+			return stringCat(left, right);
 		case FLOAT_T:
-			break;
-		//	return floatSum(left, right, 1);
+			return floatSum(left, right, 1);
 	}
 }
 
@@ -36,8 +36,7 @@ static VAR sub(VAR left, VAR right){
 		case STR_T:
 			return left;
 		case FLOAT_T:
-			break;
-			//return floatSum(left, right, -1);
+			return floatSum(left, right, -1);
 	}
 
 }
@@ -70,8 +69,8 @@ static VAR integerSum(VAR left, VAR right, int sign){
 		}
 		case STR_T:
 		{
-			char * str = malloc(1000);
-			sprintf(str, "%d%s", right.value.intValue, left.value.strValue);
+			char * str = malloc(strlen(right.value.strValue) + 1000);
+			sprintf(str, "%d%s", left.value.intValue, right.value.strValue);
 			VAR ret = anon_var(str, STR_T);
 			free(str);
 			return ret;
@@ -79,3 +78,58 @@ static VAR integerSum(VAR left, VAR right, int sign){
 	}
 }
 
+
+static VAR floatSum(VAR left, VAR right, int sign){
+	switch(right.type){
+		case INT_T:
+		{
+			float iresult = left.value.floatValue + right.value.intValue;
+			iresult *= sign;
+			return anon_var(&iresult, INT_T);
+		}
+		case FLOAT_T:
+		{
+			float fresult = left.value.floatValue + right.value.floatValue;
+			fresult *= sign;
+			return anon_var(&fresult, FLOAT_T);
+		}
+		case STR_T:
+		{
+			char * str = malloc(strlen(right.value.strValue) + 1000);
+			sprintf(str, "%f%s", left.value.floatValue, right.value.strValue);
+			VAR ret = anon_var(str, STR_T);
+			free(str);
+			return ret;
+		}
+	}
+}
+
+
+static VAR stringCat(VAR left, VAR right){
+		switch(right.type){
+		case INT_T:
+		{
+			char * str = malloc(strlen(left.value.strValue) + strlen(right.value.strValue) + 1);
+			sprintf(str, "%s%d", left.value.strValue, right.value.intValue);
+			VAR ret = anon_var(str, STR_T);
+			free(str);
+			return ret;
+		}
+		case FLOAT_T:
+		{
+			char * str = malloc(strlen(left.value.strValue) + strlen(right.value.strValue) + 1);
+			sprintf(str, "%s%f", left.value.strValue, right.value.floatValue);
+			VAR ret = anon_var(str, STR_T);
+			free(str);
+			return ret;
+		}
+		case STR_T:
+		{
+			char * str = malloc(strlen(left.value.strValue) + strlen(right.value.strValue) + 1);
+			sprintf(str, "%s%s", left.value.strValue, right.value.strValue);
+			VAR ret = anon_var(str, STR_T);
+			free(str);
+			return ret;
+		}
+	}
+}

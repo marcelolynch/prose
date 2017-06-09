@@ -207,6 +207,10 @@ asig : IDENTIFIER VALE STR
 			memcpy($$->value, &$3, sizeof(float));
 
 	 	}
+	 | IDENTIFIER VALE arithmetic
+	 	{
+	 		
+	 	}
 	 ;
 
 
