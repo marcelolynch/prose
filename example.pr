@@ -5,19 +5,14 @@ a vale 10 + 1.7
 mostrar a
 
 
-a vale 3 + 'Posta?''
+a vale 3 + 'Posta?'
 mostrar a
 
 c vale 'La precedencia a izquierda hace esto: ' + 9 + 9 + 19.8 
 mostrar c
 
-
-d vale 'y la'
-e vale ' joyita'
-
-f vale d + e
-mostrar f
-
+a vale 4
+b vale 5
 mientras que "a es b" entonces
 	mostrar c
 	a vale 5
