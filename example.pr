@@ -9,7 +9,7 @@ mostrar b
 
 c vale 'Deberia mostrarse una vez'
 
-mientras que "no a vale 4 es c" entonces
+mientras que "a es c" entonces
 	mostrar c
 	a vale 5
 listo.

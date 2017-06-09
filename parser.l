@@ -17,6 +17,8 @@ mostrar           	return PRINT;
 
 vale				return VALE;
 mientras\ que		return WHILE;
+mientras\ que\ no 	return WHILE_NOT;
+
 entonces			return DO;
 listo.				return END;
 
@@ -29,6 +31,13 @@ no\ es 				return NEQ;
 es 					return EQ;
 
 \"					return SEP;
+
+verdadero			return TRUE;
+verdad 				return TRUE;
+
+falso				return FALSE;
+mentira				return FALSE;
+
 
 {digit}+   			{
 						yylval.intval = atoi(yytext);

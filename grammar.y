@@ -202,10 +202,6 @@ asig : IDENTIFIER VALE STR
 			memcpy($$->value, &$3, sizeof(float));
 
 	 	}
-	 | IDENTIFIER '=' IDENTIFIER '+' IDENTIFIER
-	 	{
-
-	 	}
 	 ;
 
 
@@ -226,7 +222,6 @@ while 	: WHILE SEP condition SEP DO program END
 				$$->body = $6;
 			}
 		;
-
 
 condition		: IDENTIFIER bool_comp NUM
 				{
