@@ -69,6 +69,8 @@ int getId(char * strId){
 %token SEP;
 
 %token WHILE;
+%token UNTIL;
+
 %token DO;
 %token END;
 
@@ -80,6 +82,9 @@ int getId(char * strId){
 %token GE;
 %token EQ;
 %token NEQ;
+
+%token TRUE FALSE;
+
 
 %left LE GE EQ AND OR NOT;
 

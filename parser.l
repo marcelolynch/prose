@@ -17,7 +17,8 @@ mostrar           	return PRINT;
 
 vale				return VALE;
 mientras\ que		return WHILE;
-mientras\ que\ no 	return WHILE_NOT;
+mientras\ que\ no 	return UNTIL;
+hasta\ que			return UNTIL;
 
 entonces			return DO;
 listo.				return END;
