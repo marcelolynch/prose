@@ -5,20 +5,34 @@
 
 
 
-#define ASSIGNMENT 1
-#define PRINT_CALL 2
+#define ASSIGNMENT 		1
+#define PRINT_CALL 		2
 
-#define COMPARISON
 
-#define WHILE_LOOP
+#define WHILE_LOOP 		3
+
+
+typedef enum
+{
+	BOOL_LITERAL,
+	BOOL_COMPARISON,
+	BOOL_AND,
+	BOOL_NOT,
+	BOOL_OR,
+	COMP_LT,
+	COMP_LE,
+	COMP_EQ,
+	COMP_NEQ,
+	COMP_GT,
+	COMP_GE
+} bool_operation;
+
 
 typedef int exp_t; 
 
 
-
-
 typedef struct StNode{
-	int type;
+	exp_t type;
 	void * expressionNode;
 	struct StNode * next;
 } Statements;  
@@ -30,21 +44,23 @@ typedef struct block{
 } Block;
 
 
+
 typedef struct bc{
-
-} BoolCheck;
-
+	bool_operation type;
+	void * left;
+	void * right;
+} BoolNode;
 
 
 
 typedef struct wn{	
-	BoolCheck * condition; 
+	BoolNode * condition; 
 	Statements * body;
 } WhileNode;
 
 
 typedef struct in{
-	BoolCheck * condition;
+	BoolNode * condition;
 	Statements * body;
 } IfNode;
 
@@ -60,6 +76,6 @@ typedef struct prn{
 } PrintNode;
 
 
-void produce(Statements * block);
+void produce(Statements * block, char * indent);
 
 #endif

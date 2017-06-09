@@ -1,8 +1,20 @@
-a = 9
-print a
-a = "Hola chelooo"
-print a
-b = "Aja"
-print b
-b = 12.9
-print b
+a vale 9
+mostrar a
+
+a vale 'Hola chelooo'
+mostrar a
+
+b vale 'Aja'
+mostrar b
+
+b vale 12.8
+
+mostrar b
+
+a vale 4
+b vale 4
+
+mientras que "a es b" entonces
+	mostrar a
+	a vale 5
+listo.

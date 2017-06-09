@@ -46,10 +46,15 @@ int getId(char * strId){
 
   AssignmentNode * assignment;
   PrintNode * printnode;
- 
+  WhileNode * whilenode; 
+  BoolNode * boolnode;
+  
   Block * block;
 
+  
   Statements * statements;
+
+  bool_operation boolop;
 }
 
 
@@ -59,10 +64,26 @@ int getId(char * strId){
 %token <floatval> FLOAT;
 %token PRINT;
 
+%token VALE;
+
+%token SEP;
+
+%token WHILE;
+%token DO;
+%token END;
+
+%token LE;
+%token GE;
+%token EQ;
+
 %type <assignment> asig;
 %type <statements> program;
 %type <printnode> print;
 %type <block> block;
+%type <whilenode> while;
+%type <boolop> bool_op;
+%type <boolnode> condition;
+
 
 %start entry
 
@@ -73,7 +94,7 @@ int getId(char * strId){
 
 entry : program {
 
-		produce($1);
+		produce($1,"");
 	
 	  	}
 
@@ -120,11 +141,17 @@ block	: asig{
 			$$->type = PRINT_CALL;
 			$$->node = $1;
 		}
+
+		| while {
+			$$ = malloc(sizeof(*$$));
+			$$->type = WHILE_LOOP;
+			$$->node = $1;
+		}
 		;
 
 
 
-asig : IDENTIFIER '=' STR 
+asig : IDENTIFIER VALE STR 
 		{
 			$$ = malloc(sizeof(*$$));
 			
@@ -137,13 +164,12 @@ asig : IDENTIFIER '=' STR
 
 			free($3);
 			
-			char* *value = malloc(sizeof(char*));
+			$$->value = malloc(sizeof(char*));
 
-			memcpy(value, &str, sizeof(char*));
-			$$->value = value;
-		}
+			memcpy($$->value, &str, sizeof(char*));
+			}
 
-	 | IDENTIFIER '=' NUM
+	 | IDENTIFIER VALE NUM
 	 	{	
 	 		$$ = malloc(sizeof(*$$));
 
@@ -151,13 +177,12 @@ asig : IDENTIFIER '=' STR
 			$$->var_id = getId($1);
 			$$->type = INT_T;
 
-			int * value = malloc(sizeof(int));
+			$$->value = malloc(sizeof(int));
 
-			memcpy(value, &$3, sizeof(int*));
-			$$->value = value;
-	 	}
+			memcpy($$->value, &$3, sizeof(int));
+		}
 
-	 | IDENTIFIER '=' FLOAT
+	 | IDENTIFIER VALE FLOAT
 	 	{
 	 		$$ = malloc(sizeof(*$$));
 	 		
@@ -165,10 +190,9 @@ asig : IDENTIFIER '=' STR
 			$$->var_id = getId($1);
 			$$->type = FLOAT_T;
 
-			float * value = malloc(sizeof(float));
+			$$->value = malloc(sizeof(float));
 
-			memcpy(value, &$3, sizeof(float*));
-			$$->value = value;
+			memcpy($$->value, &$3, sizeof(float));
 
 	 	}
 	 | IDENTIFIER '=' IDENTIFIER '+' IDENTIFIER
@@ -185,6 +209,55 @@ print : PRINT IDENTIFIER
 		}
 	  ;
 
+
+
+
+while 	: WHILE SEP condition SEP DO program END
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->condition = $3;
+				$$->body = $6;
+			}
+		;
+
+
+condition	: IDENTIFIER bool_op NUM
+				{
+					$$ = malloc(sizeof(*$$));
+					$$->type = $2;
+
+					int id = getId($1);
+					$$->left = malloc(sizeof(int));
+					memcpy($$->left, &id, sizeof(int));
+
+					$$->right = malloc(sizeof(int));
+					memcpy($$->right, &$3, sizeof(int));
+
+				}
+			| IDENTIFIER bool_op IDENTIFIER
+				{
+					$$ = malloc(sizeof(*$$));
+					$$->type = $2;
+
+					int id = getId($1);
+					$$->left = malloc(sizeof(int));
+					memcpy($$->left, &id, sizeof(int));
+
+					id = getId($3);
+					$$->right = malloc(sizeof(int));
+					memcpy($$->right, &id, sizeof(int));
+
+				}
+
+			;
+
+
+
+bool_op		: LE { $$ = COMP_LE; } 
+			| GE { $$ = COMP_GE; } 
+			| EQ { $$ = COMP_EQ; }
+			;
+
 %%
 
 
@@ -196,9 +269,11 @@ void main()
 	printf("float floatHolder;\n");
 	printf("int intHolder;\n");
     printf("void main(void) { \n\n");
-    // Start the Parsing (yacc
-      yyparse();
-    printf("}");
+    
+    // Start the Parsing (yacc)
+    yyparse();
+    
+    printf("}\n");
 } 
 
 

@@ -30,7 +30,9 @@ typedef struct{
 
 
 
-void assign(VAR_ID id, void * value, type_t type);
+uint64_t assign(VAR_ID id, void * value, type_t type);
+int compare(VAR_ID a, VAR_ID b);
+
 VAR_ID new_var(type_t type, void * value);
 VAR * get_var(VAR_ID id);
 

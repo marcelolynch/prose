@@ -12,7 +12,17 @@ digit [0-9]
 %%
 
 [\t \n] 			
-print           	return PRINT;
+
+mostrar           	return PRINT;
+
+vale				return VALE;
+mientras\ que		return WHILE;
+entonces			return DO;
+listo.				return END;
+
+es 					return EQ;
+
+\"					return SEP;
 
 {digit}+   			{
 						yylval.intval = atoi(yytext);
@@ -20,15 +30,15 @@ print           	return PRINT;
 					}	
 
 {digit}+\.{digit}+  { 	yylval.floatval = atof(yytext);
-						return FLOAT; }
-
+						return FLOAT; 
+					}
 
 {alpha}({alpha}|{digit})* { yylval.strval = malloc(strlen(yytext)+1);
 							strcpy(yylval.strval, yytext);
 							return IDENTIFIER;
 						}
 
-\".+\"			{
+\'.+\'			{
 					char * str = malloc(strlen(yytext) - 1);
 					strncpy(str, yytext + 1, strlen(yytext) - 2);
 					yylval.strval = str;
