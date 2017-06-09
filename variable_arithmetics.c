@@ -59,19 +59,19 @@ static VAR integerSum(VAR left, VAR right, int sign){
 		{
 			int iresult = left.value.intValue + right.value.intValue;
 			iresult *= sign;
-			return anon_var(&iresult, INT_T);
+			return anon_int(iresult);
 		}
 		case FLOAT_T:
 		{
 			float fresult = left.value.intValue + right.value.floatValue;
 			fresult *= sign;
-			return anon_var(&fresult, FLOAT_T);
+			return anon_float(fresult);
 		}
 		case STR_T:
 		{
 			char * str = malloc(strlen(right.value.strValue) + 1000);
 			sprintf(str, "%d%s", left.value.intValue, right.value.strValue);
-			VAR ret = anon_var(str, STR_T);
+			VAR ret = anon_str(str);
 			free(str);
 			return ret;
 		}
@@ -85,19 +85,19 @@ static VAR floatSum(VAR left, VAR right, int sign){
 		{
 			float iresult = left.value.floatValue + right.value.intValue;
 			iresult *= sign;
-			return anon_var(&iresult, INT_T);
+			return anon_int(iresult);
 		}
 		case FLOAT_T:
 		{
 			float fresult = left.value.floatValue + right.value.floatValue;
 			fresult *= sign;
-			return anon_var(&fresult, FLOAT_T);
+			return anon_float(fresult);
 		}
 		case STR_T:
 		{
 			char * str = malloc(strlen(right.value.strValue) + 1000);
 			sprintf(str, "%f%s", left.value.floatValue, right.value.strValue);
-			VAR ret = anon_var(str, STR_T);
+			VAR ret = anon_str(str);
 			free(str);
 			return ret;
 		}
@@ -111,7 +111,7 @@ static VAR stringCat(VAR left, VAR right){
 		{
 			char * str = malloc(strlen(left.value.strValue) + strlen(right.value.strValue) + 1);
 			sprintf(str, "%s%d", left.value.strValue, right.value.intValue);
-			VAR ret = anon_var(str, STR_T);
+			VAR ret = anon_str(str);
 			free(str);
 			return ret;
 		}
@@ -119,7 +119,7 @@ static VAR stringCat(VAR left, VAR right){
 		{
 			char * str = malloc(strlen(left.value.strValue) + strlen(right.value.strValue) + 1);
 			sprintf(str, "%s%f", left.value.strValue, right.value.floatValue);
-			VAR ret = anon_var(str, STR_T);
+			VAR ret = anon_str(str);
 			free(str);
 			return ret;
 		}
@@ -127,7 +127,7 @@ static VAR stringCat(VAR left, VAR right){
 		{
 			char * str = malloc(strlen(left.value.strValue) + strlen(right.value.strValue) + 1);
 			sprintf(str, "%s%s", left.value.strValue, right.value.strValue);
-			VAR ret = anon_var(str, STR_T);
+			VAR ret = anon_str(str);
 			free(str);
 			return ret;
 		}

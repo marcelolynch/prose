@@ -18,26 +18,25 @@ VAR get_var(VAR_ID id){
 }
 
 
-VAR anon_var(void * value, type_t type){
-		VAR var;
+VAR anon_float(float value){
+	VAR var;
+	var.type = FLOAT_T;
+	var.value.floatValue = value;
+	return var;
+}
 
-		var.type = type;
+VAR anon_int(int value){
+	VAR var;
+	var.type = INT_T;
+	var.value.intValue = value;
+	return var;
+}
 
-		switch(type){
-		case INT_T:
-			var.value.intValue =  *((int*)value);
-		break;
-
-		case STR_T:
-			var.value.strValue = malloc(strlen(value));
-			strcpy(var.value.strValue, value);
-		break;
-
-		case FLOAT_T:
-			var.value.floatValue = *((float*)value);
-		break;
-	}
-
+VAR anon_str(char * value){
+	VAR var;
+	var.type = STR_T;
+	var.value.strValue = malloc(strlen((char*)value));
+	strcpy(var.value.strValue, (char*)value);
 	return var;
 }
 

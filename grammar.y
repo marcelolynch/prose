@@ -87,7 +87,7 @@ int getId(char * strId){
 %token TRUE FALSE;
 
 
-%left LE GE EQ AND OR NOT;
+%left LE GE EQ AND OR NOT '+';
 
 
 %type <assignment> asig;
@@ -182,15 +182,15 @@ arithmetic : STR
 			
 			$$->type = STR_TYPE;
 
-			char * str = malloc(strlen($3) + 1);
+			char * str = malloc(strlen($1) + 1);
 
-			strcpy(str, $3);
+			strcpy(str, $1);
 
-			free($3);
+			free($1);
 			
 			$$->left = malloc(sizeof(char*));
 
-			memcpy($$->value, &str, sizeof(char*));
+			memcpy($$->left, &str, sizeof(char*));
 			}
 
 	 | NUM
@@ -200,7 +200,7 @@ arithmetic : STR
 
 			$$->left = malloc(sizeof(int));
 
-			memcpy($$->value, &$3, sizeof(int));
+			memcpy($$->left, &$1, sizeof(int));
 		}
 
 	 | FLOAT
@@ -211,12 +211,16 @@ arithmetic : STR
 
 			$$->left = malloc(sizeof(float));
 
-			memcpy($$->left, &$3, sizeof(float));
+			memcpy($$->left, &$1, sizeof(float));
 
 	 	}
 	 |	arithmetic '+' arithmetic
-				{
-				}
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->type = ARIT_SUM;
+				$$->left = $1;
+				$$->right = $3;
+			}
 
 
 print : PRINT IDENTIFIER

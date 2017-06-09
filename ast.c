@@ -37,23 +37,29 @@ void produce(Statements * block, char * indent){
 
 
 void doAssign(AssignmentNode * a){
-	switch(a->type){
-		case STR_T:
-			printf("assign(%d, anon_var(\"%s\", STR_T));\n", a->var_id, *((char**)a->value));
+	switch(a->value->type){
+		case STR_TYPE:
+			printf("assign(%d, anon_str(\"%s\"));\n", a->var_id, *((char**)a->value->left));
 			//free(*(a->value));
 		break;
 		
-		case INT_T:
-	 		printf("intHolder = %d;\n", *((int*)a->value));
-			printf("assign(%d, anon_var(&intHolder, INT_T));\n", a->var_id);
+		case INT_TYPE:
+			printf("assign(%d, anon_int(%d));\n", a->var_id, *((int*)a->value->left));
 		break;
 
-		case FLOAT_T:
-	 		printf("floatHolder = %f;\n", *((float*)a->value));
-			printf("assign(%d, anon_var(&floatHolder, FLOAT_T));\n", a->var_id);
+		case FLOAT_TYPE:
+			printf("assign(%d, anon_float(%f));\n",a->var_id , *((float*)a->value->left));
 		break;
+
+		case ARIT_SUM:
+			printf("assign(%d, sum(", a->var_id);
 
 	}
+}
+
+
+char* getArith(ArithNode * operation){
+
 }
 
 void doPrint(PrintNode * p){
