@@ -7,6 +7,8 @@
 #define INT_T 1
 #define STR_T 2
 #define FLOAT_T 3
+#define ARITHMETIC_EXP 4
+
 
 #define MAX_VARS 1000
 

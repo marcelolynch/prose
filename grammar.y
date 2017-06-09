@@ -48,7 +48,8 @@ int getId(char * strId){
   PrintNode * printnode;
   WhileNode * whilenode; 
   BoolNode * boolnode;
-  
+  ArithNode * arithnode;
+
   Block * block;
 
   
@@ -96,6 +97,7 @@ int getId(char * strId){
 %type <whilenode> while;
 %type <boolop> bool_comp;
 %type <boolnode> condition;
+%type <arithnode> arithmetic;
 
 %start entry
 
@@ -163,12 +165,22 @@ block	: asig{
 
 
 
-asig : IDENTIFIER VALE STR 
+asig : IDENTIFIER VALE arithmetic
+	 	{	 		
+	 		$$ = malloc(sizeof(*$$));
+	 		$$->var_id = getId($1);
+
+	 		$$->value = $3;
+	 	}
+	 ;
+
+
+
+arithmetic : STR 
 		{
 			$$ = malloc(sizeof(*$$));
 			
-			$$->var_id = getId($1);
-			$$->type = STR_T;
+			$$->type = STR_TYPE;
 
 			char * str = malloc(strlen($3) + 1);
 
@@ -176,42 +188,35 @@ asig : IDENTIFIER VALE STR
 
 			free($3);
 			
-			$$->value = malloc(sizeof(char*));
+			$$->left = malloc(sizeof(char*));
 
 			memcpy($$->value, &str, sizeof(char*));
 			}
 
-	 | IDENTIFIER VALE NUM
+	 | NUM
 	 	{	
 	 		$$ = malloc(sizeof(*$$));
+			$$->type = INT_TYPE;
 
-
-			$$->var_id = getId($1);
-			$$->type = INT_T;
-
-			$$->value = malloc(sizeof(int));
+			$$->left = malloc(sizeof(int));
 
 			memcpy($$->value, &$3, sizeof(int));
 		}
 
-	 | IDENTIFIER VALE FLOAT
+	 | FLOAT
 	 	{
 	 		$$ = malloc(sizeof(*$$));
 	 		
-			
-			$$->var_id = getId($1);
-			$$->type = FLOAT_T;
+			$$->type = FLOAT_TYPE;
 
-			$$->value = malloc(sizeof(float));
+			$$->left = malloc(sizeof(float));
 
-			memcpy($$->value, &$3, sizeof(float));
+			memcpy($$->left, &$3, sizeof(float));
 
 	 	}
-	 | IDENTIFIER VALE arithmetic
-	 	{
-	 		
-	 	}
-	 ;
+	 |	arithmetic '+' arithmetic
+				{
+				}
 
 
 print : PRINT IDENTIFIER

@@ -10,6 +10,7 @@
 #define WHILE_LOOP 		3
 
 
+
 typedef enum
 {
 	BOOL_LITERAL,
@@ -80,8 +81,7 @@ typedef struct in{
 
 typedef struct asn{
 	int var_id;
-	int type;
-	void * value;
+	ArithNode * value;
 } AssignmentNode;
 
 
