@@ -38,6 +38,7 @@ int getId(char * strId){
 
 %}
 
+%define parse.error verbose
 
 %union {
   int intval;
@@ -308,9 +309,9 @@ void main()
 {
 
 	printf("#include \"variable_manager.h\"\n");
+	printf("#include \"variable_arithmetics.h\"\n");
 	printf("#include \"prose_functions.h\"\n");
-	printf("float floatHolder;\n");
-	printf("int intHolder;\n");
+
     printf("void main(void) { \n\n");
     
     // Start the Parsing (yacc)

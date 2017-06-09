@@ -35,8 +35,10 @@ VAR anon_int(int value){
 VAR anon_str(char * value){
 	VAR var;
 	var.type = STR_T;
-	var.value.strValue = malloc(strlen((char*)value));
-	strcpy(var.value.strValue, (char*)value);
+	
+	var.value.strValue = malloc(strlen(value) + 1);
+	strcpy(var.value.strValue, value);
+
 	return var;
 }
 
@@ -56,7 +58,7 @@ VAR assign(VAR_ID id, VAR assigned){
 		break;
 
 		case STR_T:
-			var->value.strValue = malloc(strlen(assigned.value.strValue));
+			var->value.strValue = malloc(strlen(assigned.value.strValue) + 1);
 			strcpy(var->value.strValue, assigned.value.strValue);
 		break;
 

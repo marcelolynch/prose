@@ -1,11 +1,14 @@
 #include "ast.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 void doPrint(PrintNode * p);
 void doAssign(AssignmentNode * a);
 void doBooleanBinary(BoolNode*node, char* op);
 void doBooleanCondition(BoolNode * node);
 void doBooleanComp(BoolNode * node, char* op);
+char* getArith(ArithNode * operation);
 
 
 void produce(Statements * block, char * indent){
@@ -40,36 +43,17 @@ void doAssign(AssignmentNode * a){
 	char * expression = getArith(a->value);
 	printf("assign(%d, %s);\n", a->var_id, expression);
 	free(expression);
-
-	switch(a->value->type){
-		case STR_TYPE:
-			printf("assign(%d, anon_str(\"%s\"));\n", a->var_id, *((char**)a->value->left));
-			//free(*(a->value));
-		break;
-		
-		case INT_TYPE:
-			printf("assign(%d, anon_int(%d));\n", a->var_id, *((int*)a->value->left));
-		break;
-
-		case FLOAT_TYPE:
-			printf("assign(%d, anon_float(%f));\n",a->var_id , *((float*)a->value->left));
-		break;
-
-		case ARIT_SUM:
-			printf("assign(%d, sum(", a->var_id);
-
-	}
 }
 
 
-#define STR_OVERHEAD 20
+#define STR_OVERHEAD 25
 #define MAX_DIGITS 30
 char* getArith(ArithNode * operation){
 	char * result;
 	switch(operation->type){
 		case STR_TYPE: 
 		{
-			char * str = *((char**)a->value->left);
+			char * str = *((char**)operation->left);
 			result = malloc(STR_OVERHEAD + strlen(str));
 			sprintf(result, "anon_str(\"%s\")", str);
 			break;
@@ -78,14 +62,14 @@ char* getArith(ArithNode * operation){
 		case INT_TYPE:
 		{	
 			result = malloc(STR_OVERHEAD + MAX_DIGITS);
-			sprintf(result, "anon_int(%d)", *((int*)a->value->left));
+			sprintf(result, "anon_int(%d)", *((int*)operation->left));
 			break;
 		}
 
 		case FLOAT_TYPE:
 		{
 			result = malloc(STR_OVERHEAD + MAX_DIGITS);
-			sprintf(result, "anon_int(%30f)", *((float*)a->value->left));
+			sprintf(result, "anon_float(%.10f)", *((float*)operation->left));
 			break;
 		}
 
@@ -95,7 +79,9 @@ char* getArith(ArithNode * operation){
 			char * right = getArith((ArithNode*)operation->right);
 			result = malloc(STR_OVERHEAD + strlen(left) + strlen(right) + 1);
 			sprintf(result, "sum(%s, %s)", left, right);
-
+			free(left);
+			free(right);
+			break;
 		}
 	}
 	return result;

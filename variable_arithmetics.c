@@ -3,10 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-static VAR sum(VAR left, VAR right);
-static VAR sub(VAR left, VAR right);
-static VAR prod(VAR left, VAR right);
-static VAR division(VAR left, VAR right);
 static VAR integerSum(VAR left, VAR right, int sign);
 static VAR floatSum(VAR left, VAR right, int sign);
 static VAR stringCat(VAR left, VAR right);
@@ -18,7 +14,7 @@ VAR binaryOperation(VAR left, VAR right, binary_op op){
 }
 
 
-static VAR sum(VAR left, VAR right){
+VAR sum(VAR left, VAR right){
 	switch(left.type){
 		case INT_T:
 			return integerSum(left, right, 1);
@@ -29,7 +25,7 @@ static VAR sum(VAR left, VAR right){
 	}
 }
 
-static VAR sub(VAR left, VAR right){
+VAR sub(VAR left, VAR right){
 		switch(left.type){
 		case INT_T:
 			return integerSum(left, right, -1);
@@ -41,13 +37,13 @@ static VAR sub(VAR left, VAR right){
 
 }
 
-static VAR prod(VAR left, VAR right){
+VAR prod(VAR left, VAR right){
 
 }
 
 
  
-static VAR division(VAR left, VAR right){
+VAR division(VAR left, VAR right){
 
 }
 
@@ -105,11 +101,12 @@ static VAR floatSum(VAR left, VAR right, int sign){
 }
 
 
+#define MAX_DIGITS 30
 static VAR stringCat(VAR left, VAR right){
 		switch(right.type){
 		case INT_T:
 		{
-			char * str = malloc(strlen(left.value.strValue) + strlen(right.value.strValue) + 1);
+			char * str = malloc(MAX_DIGITS + strlen(left.value.strValue) + 1);
 			sprintf(str, "%s%d", left.value.strValue, right.value.intValue);
 			VAR ret = anon_str(str);
 			free(str);
@@ -117,8 +114,8 @@ static VAR stringCat(VAR left, VAR right){
 		}
 		case FLOAT_T:
 		{
-			char * str = malloc(strlen(left.value.strValue) + strlen(right.value.strValue) + 1);
-			sprintf(str, "%s%f", left.value.strValue, right.value.floatValue);
+			char * str = malloc(MAX_DIGITS + strlen(left.value.strValue) + 1);
+			sprintf(str, "%s%3f", left.value.strValue, right.value.floatValue);
 			VAR ret = anon_str(str);
 			free(str);
 			return ret;
