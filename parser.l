@@ -11,7 +11,7 @@ digit [0-9]
 
 %%
 
-[\t \n] 			
+[\t \n]
 
 mostrar           	return PRINT;
 
@@ -39,14 +39,15 @@ verdad 				return TRUE;
 falso				return FALSE;
 mentira				return FALSE;
 
+\(							{return *yytext;}
 
 {digit}+   			{
 						yylval.intval = atoi(yytext);
 						return NUM;
-					}	
+					}
 
 {digit}+\.{digit}+  { 	yylval.floatval = atof(yytext);
-						return FLOAT; 
+						return FLOAT;
 					}
 
 {alpha}({alpha}|{digit})* { yylval.strval = malloc(strlen(yytext)+1);
@@ -58,7 +59,7 @@ mentira				return FALSE;
 					char * str = malloc(strlen(yytext) - 1);
 					strncpy(str, yytext + 1, strlen(yytext) - 2);
 					yylval.strval = str;
-					return STR; 
+					return STR;
 				}
 
 .               {return yytext[0];}

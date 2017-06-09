@@ -25,7 +25,7 @@ typedef union{
 
 typedef struct{
   	varValue value;
-	type_t type;
+		type_t type;
 } VAR;
 
 

@@ -18,7 +18,7 @@ char * identifiers[MAX_IDS] = {0};
 
 int getId(char * strId){
 	int i;
-	
+
 	for(i = 0 ; i < MAX_IDS && identifiers[i] != NULL ; i++){
 		if(strcmp(identifiers[i], strId) == 0){
 			return i;
@@ -38,7 +38,6 @@ int getId(char * strId){
 
 %}
 
-%define parse.error verbose
 
 %union {
   int intval;
@@ -47,13 +46,13 @@ int getId(char * strId){
 
   AssignmentNode * assignment;
   PrintNode * printnode;
-  WhileNode * whilenode; 
+  WhileNode * whilenode;
   BoolNode * boolnode;
   ArithNode * arithnode;
 
   Block * block;
 
-  
+
   Statements * statements;
 
   bool_operation boolop;
@@ -110,12 +109,12 @@ int getId(char * strId){
 entry : program {
 
 		produce($1,"");
-	
+
 	  	}
 
 
 
-program : 
+program :
 
 		block
 		   {
@@ -123,7 +122,7 @@ program :
 			$$->type = $1->type;;
 			$$->expressionNode = $1->node;
 			$$->next = NULL;
-			
+
 			free($1);
 
 			}
@@ -132,26 +131,26 @@ program :
 
 			{
 			$$ = malloc(sizeof(*$$));
-		
+
 			$$->type = $1->type;
 			$$->expressionNode = $1->node;
 			$$->next = $2;
-			
-			free($1);		
+
+			free($1);
 			}
 
 		;
 
 
 block	: asig{
-		
+
 			$$ = malloc(sizeof(*$$));
 			$$->type = ASSIGNMENT;
 			$$->node = $1;
-		
+
 		}
 		| print {
-		
+
 			$$ = malloc(sizeof(*$$));
 			$$->type = PRINT_CALL;
 			$$->node = $1;
@@ -167,7 +166,7 @@ block	: asig{
 
 
 asig : IDENTIFIER VALE arithmetic
-	 	{	 		
+	 	{
 	 		$$ = malloc(sizeof(*$$));
 	 		$$->var_id = getId($1);
 
@@ -177,10 +176,10 @@ asig : IDENTIFIER VALE arithmetic
 
 
 
-arithmetic : STR 
+arithmetic : STR
 		{
 			$$ = malloc(sizeof(*$$));
-			
+
 			$$->type = STR_TYPE;
 
 			char * str = malloc(strlen($1) + 1);
@@ -188,14 +187,14 @@ arithmetic : STR
 			strcpy(str, $1);
 
 			free($1);
-			
+
 			$$->left = malloc(sizeof(char*));
 
 			memcpy($$->left, &str, sizeof(char*));
 			}
 
 	 | NUM
-	 	{	
+	 	{
 	 		$$ = malloc(sizeof(*$$));
 			$$->type = INT_TYPE;
 
@@ -207,7 +206,7 @@ arithmetic : STR
 	 | FLOAT
 	 	{
 	 		$$ = malloc(sizeof(*$$));
-	 		
+
 			$$->type = FLOAT_TYPE;
 
 			$$->left = malloc(sizeof(float));
@@ -222,12 +221,17 @@ arithmetic : STR
 				$$->left = $1;
 				$$->right = $3;
 			}
+		|	'(' arithmetic ')'
+			{
+				$$ = $2;
+			}
+		;
 
 
-print : PRINT IDENTIFIER
+print : PRINT arithmetic
 		{
 			$$ = malloc(sizeof(*$$));
-			$$->var_id = getId($2);
+			$$->expression = $2;
 		}
 	  ;
 
@@ -296,8 +300,8 @@ condition		: IDENTIFIER bool_comp NUM
 
 
 
-bool_comp	: LE { $$ = COMP_LE;  } 
-			| GE { $$ = COMP_GE;  } 
+bool_comp	: LE { $$ = COMP_LE;  }
+			| GE { $$ = COMP_GE;  }
 			| EQ { $$ = COMP_EQ;  }
 			;
 
@@ -313,15 +317,15 @@ void main()
 	printf("#include \"prose_functions.h\"\n");
 
     printf("void main(void) { \n\n");
-    
+
     // Start the Parsing (yacc)
     yyparse();
-    
+
     printf("}\n");
-} 
+}
 
 
 int yywrap()
 {
         return 1;
-} 
+}

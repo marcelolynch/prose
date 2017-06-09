@@ -37,14 +37,14 @@ typedef enum{
 } arithm_operation;
 
 
-typedef int exp_t; 
+typedef int exp_t;
 
 
 typedef struct StNode{
 	exp_t type;
 	void * expressionNode;
 	struct StNode * next;
-} Statements;  
+} Statements;
 
 
 typedef struct block{
@@ -68,8 +68,8 @@ typedef struct ar_n{
 } ArithNode;
 
 
-typedef struct wn{	
-	BoolNode * condition; 
+typedef struct wn{
+	BoolNode * condition;
 	Statements * body;
 } WhileNode;
 
@@ -86,7 +86,7 @@ typedef struct asn{
 
 
 typedef struct prn{
-	int var_id;
+	ArithNode* expression;
 } PrintNode;
 
 

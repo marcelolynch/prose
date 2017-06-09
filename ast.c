@@ -16,9 +16,10 @@ void produce(Statements * block, char * indent){
 		printf("%s", indent);
 		switch(block->type){
 
-			case ASSIGNMENT: 
+			case ASSIGNMENT:
 				doAssign((AssignmentNode*)block->expressionNode);
 				break;
+				
 			case PRINT_CALL:
 				doPrint((PrintNode*)block->expressionNode);
 				break;
@@ -51,16 +52,16 @@ void doAssign(AssignmentNode * a){
 char* getArith(ArithNode * operation){
 	char * result;
 	switch(operation->type){
-		case STR_TYPE: 
+		case STR_TYPE:
 		{
 			char * str = *((char**)operation->left);
 			result = malloc(STR_OVERHEAD + strlen(str));
 			sprintf(result, "anon_str(\"%s\")", str);
 			break;
 		}
-		
+
 		case INT_TYPE:
-		{	
+		{
 			result = malloc(STR_OVERHEAD + MAX_DIGITS);
 			sprintf(result, "anon_int(%d)", *((int*)operation->left));
 			break;
@@ -88,7 +89,9 @@ char* getArith(ArithNode * operation){
 }
 
 void doPrint(PrintNode * p){
-	printf("print_var(%d);\n", p->var_id);
+	char * expr = getArith(p->expression);
+	printf("print(%s);\n", expr);
+	free(expr);
 }
 
 
@@ -123,7 +126,7 @@ void doBooleanCondition(BoolNode * node){
 		case COMP_EQ:
 			doBooleanComp(node, "==");
 			break;
-		
+
 		case COMP_NEQ:
 			doBooleanComp(node, "!=");
 			break;
@@ -131,7 +134,7 @@ void doBooleanCondition(BoolNode * node){
 		case COMP_GT:
 			doBooleanComp(node, ">");
 			break;
-		
+
 		case COMP_GE:
 			doBooleanComp(node, ">=");
 			break;

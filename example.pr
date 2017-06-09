@@ -8,11 +8,11 @@ mostrar a
 a vale 3 + 'Posta?'
 mostrar a
 
-c vale 'La precedencia a izquierda hace esto: ' + 9 + 9 + 19.8 
+c vale ('carlu ' + (8+1.99)) + ' ' + (9+9) + ' ' + (1+0)
 mostrar c
 
 a vale 4
-b vale 5
+b vale 4
 mientras que "a es b" entonces
 	mostrar c
 	a vale 5
