@@ -1,20 +1,15 @@
 a vale 9
 mostrar a
 
-a vale 'Hola chelooo'
+a vale 'Hola'
 mostrar a
 
-b vale 'Aja'
+b vale 'Hola'
 mostrar b
 
-b vale 12.8
+c vale 'Deberia mostrarse una vez'
 
-mostrar b
-
-a vale 4
-b vale 4
-
-mientras que "a es b" entonces
-	mostrar a
+mientras que "no a vale 4 es c" entonces
+	mostrar c
 	a vale 5
 listo.

@@ -72,18 +72,25 @@ int getId(char * strId){
 %token DO;
 %token END;
 
+%token AND;
+%token OR;
+%token NOT;
+
 %token LE;
 %token GE;
 %token EQ;
+%token NEQ;
+
+%left LE GE EQ AND OR NOT;
+
 
 %type <assignment> asig;
 %type <statements> program;
 %type <printnode> print;
 %type <block> block;
 %type <whilenode> while;
-%type <boolop> bool_op;
+%type <boolop> bool_comp;
 %type <boolnode> condition;
-
 
 %start entry
 
@@ -221,7 +228,7 @@ while 	: WHILE SEP condition SEP DO program END
 		;
 
 
-condition	: IDENTIFIER bool_op NUM
+condition		: IDENTIFIER bool_comp NUM
 				{
 					$$ = malloc(sizeof(*$$));
 					$$->type = $2;
@@ -234,7 +241,7 @@ condition	: IDENTIFIER bool_op NUM
 					memcpy($$->right, &$3, sizeof(int));
 
 				}
-			| IDENTIFIER bool_op IDENTIFIER
+			| IDENTIFIER bool_comp IDENTIFIER
 				{
 					$$ = malloc(sizeof(*$$));
 					$$->type = $2;
@@ -249,14 +256,37 @@ condition	: IDENTIFIER bool_op NUM
 
 				}
 
+			| condition OR condition{
+					$$ = malloc(sizeof(*$$));
+					$$->type = BOOL_OR;
+
+					$$->left = $1;
+					$$->right = $3;
+			}
+			| condition AND condition{
+				$$ = malloc(sizeof(*$$));
+				$$->type = BOOL_AND;
+
+				$$->left = $1;
+				$$->right = $3;
+
+			}
+			| NOT condition{
+				$$ = malloc(sizeof(*$$));
+				$$->type = BOOL_NOT;
+
+				$$->left = $2;
+				$$->right = NULL;
+			}
 			;
 
 
 
-bool_op		: LE { $$ = COMP_LE; } 
-			| GE { $$ = COMP_GE; } 
-			| EQ { $$ = COMP_EQ; }
+bool_comp	: LE { $$ = COMP_LE;  } 
+			| GE { $$ = COMP_GE;  } 
+			| EQ { $$ = COMP_EQ;  }
 			;
+
 
 %%
 

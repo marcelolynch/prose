@@ -20,6 +20,12 @@ mientras\ que		return WHILE;
 entonces			return DO;
 listo.				return END;
 
+y\ ademas			return AND;
+o\ bien				return OR;
+
+no					return NOT;
+
+no\ es 				return NEQ;
 es 					return EQ;
 
 \"					return SEP;
