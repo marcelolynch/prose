@@ -27,8 +27,6 @@ typedef struct{
 } VAR;
 
 
-
-
 VAR assign(VAR_ID id, VAR assigned);
 VAR anon_var(void * value, type_t type);
 

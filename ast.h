@@ -29,10 +29,10 @@ typedef enum
 typedef enum{
 	VARIABLE,
 	INT_TYPE, FLOAT_TYPE, STR_TYPE,
-	SUM,
-	SUBSTRACTION,
-	PRODUCT,
-	DIVISION
+	ARIT_SUM,
+	ARIT_SUB,
+	ARIT_PROD,
+	ARIT_DIV
 } arithm_operation;
 
 
