@@ -3,17 +3,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 void print_var(VAR var){
 		switch(var.type){
 			case INT_T:
-				printf("Integer: %d \n", var.value.intValue);
+				printf("%d \n", var.value.intValue);
 				break;
 			case STR_T:
-				printf("String: %s \n", var.value.strValue);
+				printf("%s \n", var.value.strValue);
 				break;
 			case FLOAT_T:
-				printf("Float %f \n", var.value.floatValue);
+				printf("%f \n", var.value.floatValue);
 				break;
 		}
 }

@@ -1,12 +1,15 @@
-a vale 9
-b vale 1
-c vale 2
+a vale 6
 
-suponga que "a es b"
-entonces:
-	mostrar 'a es b'
-en cambio si "a es menor que c"
-	mostrar 'a es ' + a + ', c es ' + c
-si no:
-	mostrar 'else'
+hasta que valga "a es 0"
+hacer:
+	a vale a - 1
+	mostrar 'a = ' + a
+
+	suponga que "a es 3"
+	entonces: mostrar 'a vale 3!'
+	en cambio si "a es 5" mostrar 'a vale 5'
+	en otro caso mostrar 'a no vale 3 ni 5'
+	listo
+
 listo.
+

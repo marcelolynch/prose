@@ -103,7 +103,6 @@ int getId(char * strId){
 %type <block> block;
 
 %type <whilenode> while;
-%type <whilenode> until;
 
 %type <ifnode> if;
 %type <ifnode> elseif;
@@ -297,7 +296,7 @@ while 	: WHILE SEP condition SEP DO program END
 		| UNTIL SEP condition SEP DO program END
 			{
 				$$ = malloc(sizeof(*$$));
-				$$->condition = malloc(sizeof(*$$->condition)));
+				$$->condition = malloc(sizeof(*$$->condition));
 				
 				$$->condition->type = BOOL_NOT;
 				$$->condition->left = $3;

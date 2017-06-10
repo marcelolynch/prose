@@ -18,7 +18,7 @@ mostrar           		return PRINT;
 vale\ 					return VALE;
 mientras\ que\ 			return WHILE;
 mientras\ que\ no\  	return UNTIL;
-hasta\ que\ 			return UNTIL;
+hasta\ que\ (valga)? 	return UNTIL;
 
 
 suponga\ que			return IF;
@@ -31,6 +31,8 @@ en\ otro\ caso:?		return ELSE;
 
 
 entonces:?  			return DO;
+hacer:?					return DO;
+
 listo.?					return END;
 
 y\ ademas				return AND;
