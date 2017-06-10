@@ -7,14 +7,8 @@ static VAR integerSum(VAR left, VAR right, int sign);
 static VAR floatSum(VAR left, VAR right, int sign);
 static VAR stringCat(VAR left, VAR right);
 
-binaryOp operations[] = {sum, sub, prod, division};
 
-VAR binaryOperation(VAR left, VAR right, binary_op op){
-	return operations[op](left, right);
-}
-
-
-VAR sum(VAR left, VAR right){
+VAR var_sum(VAR left, VAR right){
 	switch(left.type){
 		case INT_T:
 			return integerSum(left, right, 1);
@@ -25,7 +19,7 @@ VAR sum(VAR left, VAR right){
 	}
 }
 
-VAR sub(VAR left, VAR right){
+VAR var_sub(VAR left, VAR right){
 		switch(left.type){
 		case INT_T:
 			return integerSum(left, right, -1);
@@ -37,30 +31,42 @@ VAR sub(VAR left, VAR right){
 
 }
 
-VAR prod(VAR left, VAR right){
+VAR var_prod(VAR left, VAR right){
 
 }
 
 
  
-VAR division(VAR left, VAR right){
+VAR var_div(VAR left, VAR right){
 
 }
 
+
+VAR var_minus(VAR var){
+
+	switch(var.type){
+		case INT_T:
+		case FLOAT_T:
+			var.value.intValue = -var.value.intValue;
+			break;
+		default:
+			break;
+	}
+
+	return var;
+}
 
 
 static VAR integerSum(VAR left, VAR right, int sign){
 	switch(right.type){
 		case INT_T:
 		{
-			int iresult = left.value.intValue + right.value.intValue;
-			iresult *= sign;
+			int iresult = left.value.intValue + sign * right.value.intValue;
 			return anon_int(iresult);
 		}
 		case FLOAT_T:
 		{
-			float fresult = left.value.intValue + right.value.floatValue;
-			fresult *= sign;
+			float fresult = left.value.intValue + sign * right.value.floatValue;
 			return anon_float(fresult);
 		}
 		case STR_T:

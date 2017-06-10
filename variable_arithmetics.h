@@ -6,21 +6,13 @@ typedef VAR (*binaryOp)(VAR l , VAR r);
 
 
 
-typedef enum{
-	SUM=0,
-	SUB,
-	PROD,
-	DIV
-} binary_op;
+VAR var_sum(VAR left, VAR right);
+VAR var_sub(VAR left, VAR right);
+VAR var_prod(VAR left, VAR right);
+VAR var_div(VAR left, VAR right);
+VAR var_minus(VAR var);
 
 
-VAR sum(VAR left, VAR right);
-VAR sub(VAR left, VAR right);
-VAR prod(VAR left, VAR right);
-VAR division(VAR left, VAR right);
-
-
-VAR binaryOperation(VAR left, VAR right, binary_op op);
 
 
 #endif

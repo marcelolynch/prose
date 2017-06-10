@@ -47,6 +47,7 @@ int getId(char * strId){
   AssignmentNode * assignment;
 
   WhileNode * whilenode;
+  IfNode * ifnode;
   BoolNode * boolnode;
   ExpressionNode * exprnode;
 
@@ -72,6 +73,9 @@ int getId(char * strId){
 
 %token WHILE;
 %token UNTIL;
+%token IF;
+%token ELSEIF;
+%token ELSE;
 
 %token DO;
 %token END;
@@ -88,7 +92,7 @@ int getId(char * strId){
 %token TRUE FALSE;
 
 
-%left LE GE EQ AND OR NOT '+';
+%left LE GE EQ AND OR NOT '+' '*' '/' '-';
 
 
 %type <assignment> asig;
@@ -96,6 +100,9 @@ int getId(char * strId){
 %type <exprnode> print;
 %type <block> block;
 %type <whilenode> while;
+%type <ifnode> if;
+%type <ifnode> elseif;
+
 %type <boolop> bool_comp;
 %type <boolnode> condition;
 %type <exprnode> expression;
@@ -109,7 +116,7 @@ int getId(char * strId){
 
 entry : program {
 
-		produce($1,"");
+		produce($1);
 
 	  	}
 
@@ -160,6 +167,11 @@ block	: asig{
 		| while {
 			$$ = malloc(sizeof(*$$));
 			$$->type = WHILE_LOOP;
+			$$->node = $1;
+		}
+		| if {
+			$$ = malloc(sizeof(*$$));
+			$$->type = IF_THEN_ELSE;
 			$$->node = $1;
 		}
 		;
@@ -225,6 +237,36 @@ expression : STR
 				$$->left = $1;
 				$$->right = $3;
 			}
+	 |  expression '*' expression 
+	 	{
+	 		$$ = malloc(sizeof(*$$));
+			$$->type = ARIT_PROD;
+			$$->left = $1;
+			$$->right = $3;
+
+	 	}
+	 
+	 | expression '-' expression {
+	 		$$ = malloc(sizeof(*$$));
+			$$->type = ARIT_SUB;
+			$$->left = $1;
+			$$->right = $3;
+	 }
+	 
+	 | expression '/' expression {
+	 		$$ = malloc(sizeof(*$$));
+			$$->type = ARIT_DIV;
+			$$->left = $1;
+			$$->right = $3;
+	 }
+
+	 | '-' expression
+	 	{
+	 		$$ = malloc(sizeof(*$$));
+			$$->type = ARIT_UNARY_MINUS;
+			$$->left = $2;
+	 	}
+	 
 	 |	'(' expression ')'
 			{
 				$$ = $2;
@@ -247,7 +289,52 @@ while 	: WHILE SEP condition SEP DO program END
 				$$->condition = $3;
 				$$->body = $6;
 			}
+		
 		;
+
+
+if 		: IF SEP condition SEP DO program END
+		{
+			$$ = malloc(sizeof(*$$));
+			$$->condition = $3;
+			$$->body = $6;
+			$$->elseif = NULL;
+		
+		}
+		| IF SEP condition SEP DO program elseif END
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->condition = $3;
+				$$->body = $6;
+				$$->elseif = $7;
+			}
+
+
+
+elseif : ELSEIF SEP condition SEP program
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->condition = $3;
+				$$->body = $5;
+				$$->elseif = NULL;
+
+			}
+		| ELSEIF SEP condition SEP program elseif
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->condition = $3;
+				$$->body = $5;
+				$$->elseif = $6;
+
+			}
+		| ELSE program
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->body = $2;
+				$$->elseif = NULL;
+				$$->condition = malloc(sizeof(*$$->condition));
+				$$->condition->type = TRUE_LITERAL;
+			};
 
 condition		: IDENTIFIER bool_comp NUM
 				{

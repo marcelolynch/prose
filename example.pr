@@ -1,19 +1,12 @@
 a vale 9
-mostrar a
+b vale 19
+c vale 92
 
-a vale 10 + 1.7
-mostrar a
-
-
-a vale 3
-mostrar a + 45
-
-c vale ('carlu ' + (8+1.99)) + ' ' + (9+9) + ' ' + (1+0)
-mostrar c
-
-a vale 4
-b vale 4
-mientras que "a es b" entonces
-	mostrar c
-	a vale 5
+suponga que "a es b"
+entonces:
+	mostrar 'a es b'
+en cambio si "a es c"
+	mostrar 'a es ' + a + ', c es ' + c
+si no:
+	mostrar 'else'
 listo.

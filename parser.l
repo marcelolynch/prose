@@ -13,31 +13,39 @@ digit [0-9]
 
 [\t \n]
 
-mostrar           	return PRINT;
+mostrar           		return PRINT;
 
-vale				return VALE;
-mientras\ que		return WHILE;
-mientras\ que\ no 	return UNTIL;
-hasta\ que			return UNTIL;
+vale\ 					return VALE;
+mientras\ que\ 			return WHILE;
+mientras\ que\ no\  	return UNTIL;
+hasta\ que\ 			return UNTIL;
 
-entonces			return DO;
-listo.				return END;
 
-y\ ademas			return AND;
-o\ bien				return OR;
+suponga\ que			return IF;
 
-no					return NOT;
+en\ cambio\ si  		return ELSEIF;
 
-no\ es 				return NEQ;
-es 					return EQ;
+si\ no:?				return ELSE;
 
-\"					return SEP;
 
-verdadero			return TRUE;
-verdad 				return TRUE;
+entonces:?  			return DO;
+listo.?					return END;
 
-falso				return FALSE;
-mentira				return FALSE;
+y\ ademas				return AND;
+o\ bien					return OR;
+
+no						return NOT;
+
+no\ es 					return NEQ;
+es 						return EQ;
+
+\"						return SEP;
+
+verdadero				return TRUE;
+verdad 					return TRUE;
+
+falso					return FALSE;
+mentira					return FALSE;
 
 [\(\)]				{return *yytext;}
 

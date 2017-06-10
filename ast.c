@@ -9,11 +9,11 @@ void doBooleanBinary(BoolNode*node, char* op);
 void doBooleanCondition(BoolNode * node);
 void doBooleanComp(BoolNode * node, char* op);
 char* getExpr(ExpressionNode * operation);
+char * doAritBinary(ExpressionNode* expr, char* funcName);
 
 
-void produce(Statements * block, char * indent){
+void produce(Statements * block){
 	while(block != NULL){
-		printf("%s", indent);
 		switch(block->type){
 
 			case ASSIGNMENT:
@@ -29,11 +29,33 @@ void produce(Statements * block, char * indent){
 				WhileNode* w_node = (WhileNode*) block->body;
 				doBooleanCondition(w_node->condition);
 				printf("){\n");
-				produce(w_node->body, "\t");
-				printf("%s}\n\n",indent);
+				produce(w_node->body);
+				printf("}\n\n");
+				break;
+
+			case IF_THEN_ELSE:
+				printf("\n\nif(");
+				IfNode* if_node = (IfNode*)block->body;
+				doBooleanCondition(if_node->condition);
+				printf("){\n");
+				produce(if_node->body);
+				printf("}\n");
+				while(if_node->elseif != NULL){
+					if_node = if_node->elseif;
+					printf("else if(");
+					doBooleanCondition(if_node->condition);
+					printf("){\n");
+					produce(if_node->body);
+					printf("} ");
+				}
+
+				break;
+			default:
 				break;
 		}
 
+		free(block);
+		
 		block = block->next;
 	}
 }
@@ -84,21 +106,56 @@ char* getExpr(ExpressionNode * operation){
 			break;
 		}
 
-		case ARIT_SUM:
-		{
-			char * left = getExpr((ExpressionNode*)operation->left);
-			char * right = getExpr((ExpressionNode*)operation->right);
-			result = malloc(STR_OVERHEAD + strlen(left) + strlen(right) + 1);
-			sprintf(result, "sum(%s, %s)", left, right);
-			free(left);
-			free(right);
+		case ARIT_UNARY_MINUS: {
+			char * expr = getExpr((ExpressionNode*)operation->left);
+			result = malloc(strlen(expr) + STR_OVERHEAD);
+			sprintf(result, "var_minus(%s)", expr);
+
+			free(expr);
 			break;
 		}
+
+
+		case ARIT_SUM:
+		{
+			result = doAritBinary(operation, "var_sum");
+			break;
+		}
+
+
+		case ARIT_SUB:
+		{
+			result = doAritBinary(operation, "var_sub");
+			break;
+		}
+
+		case ARIT_PROD:
+		{
+			result = doAritBinary(operation, "var_prod");
+			break;
+		}
+
+		case ARIT_DIV:
+		{
+			result = doAritBinary(operation, "var_div");
+		}
+
 	}
 
 	free(operation);
 
 	return result;
+}
+
+
+char * doAritBinary(ExpressionNode* expr, char* funcName){
+			char * left = getExpr((ExpressionNode*)expr->left);
+			char * right = getExpr((ExpressionNode*)expr->right);
+			char * result = malloc(STR_OVERHEAD + strlen(left) + strlen(right) + 1);
+			sprintf(result, "%s(%s, %s)", funcName, left, right);
+			free(left);
+			free(right);
+			return result;
 }
 
 void doPrint(ExpressionNode * p){
@@ -111,8 +168,12 @@ void doPrint(ExpressionNode * p){
 void doBooleanCondition(BoolNode * node){
 	switch(node->type){
 
-		case BOOL_LITERAL:
-			printf("%d", *((int*)node->left));
+		case TRUE_LITERAL:
+			printf("%d", BOOL_TRUE);
+			break;
+
+		case FALSE_LITERAL:
+			printf("%d", BOOL_FALSE);
 			break;
 
 		case BOOL_NOT:

@@ -3,9 +3,13 @@
 
 #include "variable_manager.h"
 
+#define BOOL_TRUE 1
+#define BOOL_FALSE 0
+
 typedef enum
 {
-	BOOL_LITERAL,
+	TRUE_LITERAL,
+	FALSE_LITERAL,
 	BOOL_COMPARISON,
 	BOOL_AND,
 	BOOL_NOT,
@@ -24,6 +28,7 @@ typedef enum{
 	INT_LITERAL, 
 	FLOAT_LITERAL,
 	STR_LITERAL,
+	ARIT_UNARY_MINUS,
 	ARIT_SUM,
 	ARIT_SUB,
 	ARIT_PROD,
@@ -34,7 +39,8 @@ typedef enum{
 typedef enum{
 	ASSIGNMENT,
 	PRINT_CALL,
-	WHILE_LOOP
+	WHILE_LOOP,
+	IF_THEN_ELSE
 } stmnt_type;
 
 
@@ -76,7 +82,9 @@ typedef struct wn{
 typedef struct in{
 	BoolNode * condition;
 	Statements * body;
+	struct in * elseif;
 } IfNode;
+
 
 typedef struct asn{
 	int var_id;
@@ -84,6 +92,6 @@ typedef struct asn{
 } AssignmentNode;
 
 
-void produce(Statements * block, char * indent);
+void produce(Statements * block);
 
 #endif
