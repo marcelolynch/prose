@@ -101,7 +101,10 @@ int getId(char * strId){
 %type <statements> program;
 %type <exprnode> print;
 %type <block> block;
+
 %type <whilenode> while;
+%type <whilenode> until;
+
 %type <ifnode> if;
 %type <ifnode> elseif;
 
@@ -291,7 +294,16 @@ while 	: WHILE SEP condition SEP DO program END
 				$$->condition = $3;
 				$$->body = $6;
 			}
-		
+		| UNTIL SEP condition SEP DO program END
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->condition = malloc(sizeof(*$$->condition)));
+				
+				$$->condition->type = BOOL_NOT;
+				$$->condition->left = $3;
+
+				$$->body = $6;
+			}
 		;
 
 
@@ -342,7 +354,7 @@ condition		: expression bool_comp expression
 				{
 					$$ = malloc(sizeof(*$$));
 					$$->type = $2;
-					
+
 					$$->left = $1;
 					$$->right = $3;
 				}
