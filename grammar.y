@@ -51,6 +51,8 @@ int getId(char * strId){
   BoolNode * boolnode;
   ExpressionNode * exprnode;
 
+  ExpressionList * explist;
+
   Block * block;
 
 
@@ -67,7 +69,8 @@ int getId(char * strId){
 %token <floatval> FLOAT;
 %token PRINT;
 
-%token VALE;
+%token QUE;
+%token VALGA;
 
 %token SEP;
 
@@ -79,6 +82,7 @@ int getId(char * strId){
 
 %token DO;
 %token END;
+%token WEND;
 
 %token AND;
 %token OR;
@@ -101,6 +105,8 @@ int getId(char * strId){
 %type <statements> program;
 %type <exprnode> print;
 %type <block> block;
+%type <explist> explist;
+%type <explist> array;
 
 %type <whilenode> while;
 
@@ -182,12 +188,12 @@ block	: asig{
 
 
 
-asig : IDENTIFIER VALE expression
+asig : QUE IDENTIFIER VALGA expression
 	 	{
 	 		$$ = malloc(sizeof(*$$));
-	 		$$->var_id = getId($1);
+	 		$$->var_id = getId($2);
 
-	 		$$->value = $3;
+	 		$$->value = $4;
 	 	}
 	 ;
 
@@ -225,6 +231,12 @@ expression : STR
 			memcpy($$->left, &$1, sizeof(float));
 
 	 	}
+	 | array {
+	 	$$ = malloc(sizeof(*$$));
+	 	$$->type = ARRAY_LITERAL;
+	 	$$->left = $1;
+	 }
+
 	 | IDENTIFIER
 	 	{
 			$$ = malloc(sizeof(*$$));
@@ -278,6 +290,27 @@ expression : STR
 		;
 
 
+
+array : '[' explist ']' {
+	$$ = $2;
+}
+
+
+explist : expression
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->expression = $1;
+				$$->next = NULL;
+			}
+		| expression ',' explist {
+				$$ = malloc(sizeof(*$$));
+				$$->expression = $1;
+				$$->next = $3;
+		}
+		;
+
+
+
 print : PRINT expression
 		{
 			$$ = $2;
@@ -287,13 +320,13 @@ print : PRINT expression
 
 
 
-while 	: WHILE SEP condition SEP DO program END
+while 	: WHILE SEP condition SEP DO program WEND
 			{
 				$$ = malloc(sizeof(*$$));
 				$$->condition = $3;
 				$$->body = $6;
 			}
-		| UNTIL SEP condition SEP DO program END
+		| UNTIL SEP condition SEP DO program WEND
 			{
 				$$ = malloc(sizeof(*$$));
 				$$->condition = malloc(sizeof(*$$->condition));

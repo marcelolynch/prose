@@ -1,4 +1,5 @@
 #include "variable_manager.h"
+#include "prose_arrays.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -43,6 +44,24 @@ VAR anon_str(char * value){
 }
 
 
+VAR anon_arr(){
+	VAR var;
+	var.type = ARRAY_T;
+
+	var.value.arrValue = newArray();
+	return var;
+}
+
+
+void array_add(VAR_ID id, VAR new_elem){
+	VAR * var = var_table[id];
+	if(var->type != ARRAY_T){
+		printf("Error fatal: agregando a algo distinto de arreglo\n");
+		exit(0);
+	} 
+	addToArray((Array)(var->value.arrValue), new_elem);
+}
+
 VAR assign(VAR_ID id, VAR assigned){
 	if(var_table[id] == NULL){
 		var_table[id] = malloc(4 * sizeof(*var_table[0]));
@@ -64,6 +83,9 @@ VAR assign(VAR_ID id, VAR assigned){
 
 		case FLOAT_T:
 			var->value.floatValue = assigned.value.floatValue;
+		break;
+		case ARRAY_T:
+			var->value.arrValue = newArray();
 		break;
 	}
 

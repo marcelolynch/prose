@@ -1,15 +1,16 @@
-a vale 6
+que a valga 6
 
-hasta que valga "a es 0"
+hasta que pase "a es 0"
 hacer:
-	a vale a - 1
+
+	que a valga a - 1
 	mostrar 'a = ' + a
 
-	suponga que "a es 3"
+	si pasa que "a vale 3"
 	entonces: mostrar 'a vale 3!'
-	en cambio si "a es 5" mostrar 'a vale 5'
+	en cambio si "a vale 5" mostrar 'a vale 5'
 	en otro caso mostrar 'a no vale 3 ni 5'
 	listo
 
-listo.
+y repetir.
 

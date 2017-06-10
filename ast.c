@@ -10,6 +10,7 @@ void doBooleanCondition(BoolNode * node);
 void doBooleanComp(BoolNode * node, char* op);
 char* getExpr(ExpressionNode * operation);
 char * doAritBinary(ExpressionNode* expr, char* funcName);
+void * doArrayCreation(AssignmentNode * a);
 
 
 void produce(Statements * block){
@@ -63,9 +64,14 @@ void produce(Statements * block){
 
 
 void doAssign(AssignmentNode * a){
-	char * expression = getExpr(a->value);
-	printf("assign(%d, %s);\n", a->var_id, expression);
-	free(expression);
+	if(a->value->type == ARRAY_LITERAL){
+		doArrayCreation(a);
+	}
+	else{ 
+		char * expression = getExpr(a->value);
+		printf("assign(%d, %s);\n", a->var_id, expression);
+		free(expression);
+	}
 }
 
 
@@ -148,6 +154,16 @@ char* getExpr(ExpressionNode * operation){
 }
 
 
+void * doArrayCreation(AssignmentNode * a){
+	printf("assign(%d, anon_arr());\n", a->var_id);
+	ExpressionList * list = (ExpressionList*)a->value->left;
+	while(list != NULL){
+		printf("array_add(%d, %s);\n", a->var_id, getExpr(list->expression));
+		list = list->next;
+	}
+}
+
+
 char * doAritBinary(ExpressionNode* expr, char* funcName){
 			char * left = getExpr((ExpressionNode*)expr->left);
 			char * right = getExpr((ExpressionNode*)expr->right);
@@ -160,7 +176,7 @@ char * doAritBinary(ExpressionNode* expr, char* funcName){
 
 void doPrint(ExpressionNode * p){
 	char * expr = getExpr(p);
-	printf("print_var(%s);\n", expr);
+	printf("print_var(%s, 1);\n", expr);
 	free(expr);
 }
 

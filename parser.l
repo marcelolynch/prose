@@ -15,13 +15,15 @@ digit [0-9]
 
 mostrar           		return PRINT;
 
-vale\ 					return VALE;
+que						return QUE;
+valga\ 					return VALGA;
 mientras\ que\ 			return WHILE;
 mientras\ que\ no\  	return UNTIL;
-hasta\ que\ (valga)? 	return UNTIL;
+hasta\ que\ (pase)? 	return UNTIL;
 
 
 suponga\ que			return IF;
+si\ pasa(\ que)?		return IF;
 
 en\ cambio\ si  		return ELSEIF;
 
@@ -34,6 +36,7 @@ entonces:?  			return DO;
 hacer:?					return DO;
 
 listo.?					return END;
+y\ repetir.?			return WEND;
 
 y\ ademas				return AND;
 o\ bien					return OR;
@@ -42,7 +45,9 @@ no						return NOT;
 
 no\ es 					return NEQ;
 es 						return EQ;
-es\ menor\ (a|que)[\ \n]		return LT;
+vale\ 					return EQ;
+
+es\ menor\ (a|que)[\ \n]	return LT;
 es\ menor\ que\ o\ es 	return LE;
 
 es\ mayor\ (a|que)[\ \n]		return GT;

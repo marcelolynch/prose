@@ -28,6 +28,7 @@ typedef enum{
 	INT_LITERAL, 
 	FLOAT_LITERAL,
 	STR_LITERAL,
+	ARRAY_LITERAL,
 	ARIT_UNARY_MINUS,
 	ARIT_SUM,
 	ARIT_SUB,
@@ -72,6 +73,11 @@ typedef struct ar_n{
 	void * right;
 } ExpressionNode;
 
+
+typedef struct expList{
+	ExpressionNode * expression;
+	struct expList* next;
+} ExpressionList;
 
 typedef struct wn{
 	BoolNode * condition;

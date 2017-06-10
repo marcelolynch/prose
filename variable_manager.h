@@ -8,7 +8,7 @@
 #define STR_T 2
 #define FLOAT_T 3
 #define ARITHMETIC_EXP 4
-
+#define ARRAY_T 5
 
 #define MAX_VARS 1000
 
@@ -21,6 +21,7 @@ typedef union{
 		int intValue;
 		float floatValue;
 		char* strValue;
+		void* arrValue;
 	} varValue;
 
 typedef struct{
@@ -35,8 +36,9 @@ VAR anon_var(uint64_t value, type_t type);
 VAR anon_float(float value);
 VAR anon_int(int value);
 VAR anon_str(char* value);
+VAR anon_arr();
 
-
+void array_add(VAR_ID id, VAR new_elem);
 
 int compare(VAR first, VAR second);
 
