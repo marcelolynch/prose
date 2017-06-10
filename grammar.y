@@ -86,6 +86,8 @@ int getId(char * strId){
 
 %token LE;
 %token GE;
+%token LT;
+%token GT;
 %token EQ;
 %token NEQ;
 
@@ -336,34 +338,14 @@ elseif : ELSEIF SEP condition SEP program
 				$$->condition->type = TRUE_LITERAL;
 			};
 
-condition		: IDENTIFIER bool_comp NUM
+condition		: expression bool_comp expression
 				{
 					$$ = malloc(sizeof(*$$));
 					$$->type = $2;
-
-					int id = getId($1);
-					$$->left = malloc(sizeof(int));
-					memcpy($$->left, &id, sizeof(int));
-
-					$$->right = malloc(sizeof(int));
-					memcpy($$->right, &$3, sizeof(int));
-
+					
+					$$->left = $1;
+					$$->right = $3;
 				}
-			| IDENTIFIER bool_comp IDENTIFIER
-				{
-					$$ = malloc(sizeof(*$$));
-					$$->type = $2;
-
-					int id = getId($1);
-					$$->left = malloc(sizeof(int));
-					memcpy($$->left, &id, sizeof(int));
-
-					id = getId($3);
-					$$->right = malloc(sizeof(int));
-					memcpy($$->right, &id, sizeof(int));
-
-				}
-
 			| condition OR condition{
 					$$ = malloc(sizeof(*$$));
 					$$->type = BOOL_OR;
@@ -391,8 +373,11 @@ condition		: IDENTIFIER bool_comp NUM
 
 
 bool_comp	: LE { $$ = COMP_LE;  }
+			| LT { $$ = COMP_LT;  }
+			| GT { $$ = COMP_GT;  }
 			| GE { $$ = COMP_GE;  }
 			| EQ { $$ = COMP_EQ;  }
+			| NEQ{ $$ = COMP_NEQ; }
 			;
 
 

@@ -26,6 +26,8 @@ suponga\ que			return IF;
 en\ cambio\ si  		return ELSEIF;
 
 si\ no:?				return ELSE;
+de\ otro\ modo:?		return ELSE;
+en\ otro\ caso:?		return ELSE;
 
 
 entonces:?  			return DO;
@@ -38,6 +40,11 @@ no						return NOT;
 
 no\ es 					return NEQ;
 es 						return EQ;
+es\ menor\ (a|que)[\ \n]		return LT;
+es\ menor\ que\ o\ es 	return LE;
+
+es\ mayor\ (a|que)[\ \n]		return GT;
+es\ mayor\ que\ o\ es 	return GE;
 
 \"						return SEP;
 

@@ -1,11 +1,11 @@
 a vale 9
-b vale 19
-c vale 92
+b vale 1
+c vale 2
 
 suponga que "a es b"
 entonces:
 	mostrar 'a es b'
-en cambio si "a es c"
+en cambio si "a es menor que c"
 	mostrar 'a es ' + a + ', c es ' + c
 si no:
 	mostrar 'else'

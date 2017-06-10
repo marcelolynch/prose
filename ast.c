@@ -190,7 +190,7 @@ void doBooleanCondition(BoolNode * node){
 			break;
 
 		case COMP_LT:
-			doBooleanBinary(node, "<");
+			doBooleanComp(node, "<");
 			break;
 
 		case COMP_LE:
@@ -225,5 +225,12 @@ void doBooleanBinary(BoolNode*node, char* op){
 }
 
 void doBooleanComp(BoolNode * node, char* op){
-	printf("(compare(get_var(%d), get_var(%d)) %s 0)", *((int*)node->left), *((int*)node->right), op);
+
+	char * first = getExpr((ExpressionNode*)node->left);
+	char * second = getExpr((ExpressionNode*)node->right);
+
+	printf("(compare(%s, %s) %s 0)", first, second, op);
+
+	free(first);
+	free(second);
 }
