@@ -17,7 +17,7 @@ mostrar           		return PRINT;
 
 que						return QUE;
 valga\ 					return VALGA;
-mientras\ que\ 			return WHILE;
+mientras\ que			return WHILE;
 mientras\ que\ no\  	return UNTIL;
 hasta\ que\ (pase)? 	return UNTIL;
 

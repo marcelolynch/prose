@@ -1,3 +1,13 @@
-que a valga [6,7,'hola']
-que b valga [10, a]
-mostrar b
+que a valga 0
+que b valga 10
+
+mientras que "b es mayor que 0" 
+hacer:
+	que b valga b - 1
+	que a valga a + b
+y repetir.
+mostrar a
+
+
+mostrar 'Hola mundo'
+mostrar 'Hola mundo'
