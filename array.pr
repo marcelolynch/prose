@@ -6,8 +6,5 @@ hacer:
 	que b valga b - 1
 	que a valga a + b
 y repetir.
-mostrar a
 
-
-mostrar 'Hola mundo'
 mostrar 'Hola mundo'
