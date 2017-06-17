@@ -3,3 +3,13 @@ que b sea [10, a]
 mostrar b
 que b sea [1, 2, 3]
 mostrar b
+que a valga 0
+que b valga 10
+
+mientras que "b es mayor que 0" 
+hacer:
+	que b valga b - 1
+	que a valga a + b
+y repetir.
+
+mostrar 'Hola mundo'
