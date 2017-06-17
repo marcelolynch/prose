@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 #include "prose_arrays.h"
-
 #include "prose_functions.h"
 
 static void increaseCapacity(Array arr);
@@ -43,6 +42,16 @@ void printArray(Array arr){
 		if(i < arr->size -1) printf(", ");
 	}	
 	printf("]");
+}
+
+
+void freeArray(Array arr){
+	int i;
+	for(i=0 ; i < arr->size ; i++){
+		free_var_resources(&arr->values[i]);
+	}
+	free(arr->values);
+	free(arr);
 }
 
 static void increaseCapacity(Array arr){

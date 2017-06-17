@@ -14,5 +14,6 @@ typedef ArrayCDT* Array;
 Array newArray();
 void addToArray(Array arr, VAR value);
 void printArray(Array arr);
+void freeArray(Array arr);
 
 #endif

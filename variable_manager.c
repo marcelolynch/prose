@@ -69,6 +69,8 @@ VAR assign(VAR_ID id, VAR assigned){
 	
 	VAR * var = var_table[id];
 
+	free_var_resources(var);
+
 	var->type = assigned.type;
 
 	switch(assigned.type){
@@ -94,6 +96,18 @@ VAR assign(VAR_ID id, VAR assigned){
 
 }
 
+
+void free_var_resources(VAR* v){
+	switch(v->type){
+		case STR_T:
+			free(v->value.strValue);
+			break;
+		case ARRAY_T:
+			freeArray(v->value.arrValue);
+			break;
+	}
+
+}
 
 int compare(VAR first, VAR second){
 

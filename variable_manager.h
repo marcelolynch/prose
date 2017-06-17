@@ -32,6 +32,7 @@ typedef struct{
 
 VAR assign(VAR_ID id, VAR assigned);
 VAR anon_var(uint64_t value, type_t type);
+void free_var_resources(VAR* v);
 
 VAR anon_float(float value);
 VAR anon_int(int value);

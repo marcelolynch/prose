@@ -11,4 +11,9 @@ assign(1, anon_arr());
 array_add(1, anon_int(10));
 array_add(1, get_var(0));
 print_var(get_var(1), 1);
+assign(1, anon_arr());
+array_add(1, anon_int(1));
+array_add(1, anon_int(2));
+array_add(1, anon_int(3));
+print_var(get_var(1), 1);
 }

@@ -1,3 +1,5 @@
-que a valga [6,7,'hola']
-que b valga [10, a]
+que a sea [6,7,'hola']
+que b sea [10, a]
+mostrar b
+que b sea [1, 2, 3]
 mostrar b
