@@ -1,13 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "prose_arrays.h"
-#include "prose_functions.h"
+#include "include/prose_arrays.h"
+#include "include/prose_functions.h"
 
 static void increaseCapacity(Array arr);
 
 #define INITIAL_SIZE 15
-Array newArray(){
+Array new_array(){
 	Array arr = malloc(sizeof(*arr));
 	arr->values = malloc(INITIAL_SIZE * sizeof(VAR));
 	arr->size = 0;
@@ -16,7 +16,7 @@ Array newArray(){
 }
 
 
-void addToArray(Array arr, VAR value){
+void add_to_array(Array arr, VAR value){
 	if(arr == NULL){ //TODO: Error
 		return;
 	}
@@ -30,7 +30,7 @@ void addToArray(Array arr, VAR value){
 }	
 
 
-void printArray(Array arr){
+void print_array(Array arr){
 	if(arr == NULL){
 		printf("ERROR");
 		exit(0);
@@ -45,7 +45,7 @@ void printArray(Array arr){
 }
 
 
-void freeArray(Array arr){
+void free_array(Array arr){
 	int i;
 	for(i=0 ; i < arr->size ; i++){
 		free_var_resources(&arr->values[i]);

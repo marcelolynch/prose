@@ -30,6 +30,9 @@ typedef struct{
 } VAR;
 
 
+
+/* MANTENIMIENTO, CREACION DE VARIABLES */
+
 VAR assign(VAR_ID id, VAR assigned);
 VAR anon_var(uint64_t value, type_t type);
 void free_var_resources(VAR* v);
@@ -39,12 +42,31 @@ VAR anon_int(int value);
 VAR anon_str(char* value);
 VAR anon_arr();
 
-void array_add(VAR_ID id, VAR new_elem);
-
-int compare(VAR first, VAR second);
 
 VAR_ID new_var(type_t type, void * value);
 VAR get_var(VAR_ID id);
+
+
+
+/* OPERACIONES ENTRE VARIABLES */
+/*Comparacion */
+
+int compare(VAR first, VAR second);
+
+
+
+/* Operaciones aritmeticas */
+VAR var_sum(VAR left, VAR right);
+VAR var_sub(VAR left, VAR right);
+VAR var_prod(VAR left, VAR right);
+VAR var_div(VAR left, VAR right);
+VAR var_minus(VAR var);
+
+
+
+
+
+
 
 
 #endif

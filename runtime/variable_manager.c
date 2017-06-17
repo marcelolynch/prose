@@ -1,16 +1,10 @@
-#include "variable_manager.h"
-#include "prose_arrays.h"
+#include "include/variables.h"
+#include "include/prose_arrays.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <math.h>
 #include <stdint.h>
-
-#define EPSILON 0.00001
-
-static int compareToInt(VAR intVar, VAR other);
-static int compareToFloat(VAR floatVar, VAR other);
-static int compareToStr(VAR strVar, VAR other);
 
 VAR * var_table[MAX_VARS] = {0};
 
@@ -48,7 +42,7 @@ VAR anon_arr(){
 	VAR var;
 	var.type = ARRAY_T;
 
-	var.value.arrValue = newArray();
+	var.value.arrValue = new_array();
 	return var;
 }
 
@@ -59,7 +53,7 @@ void array_add(VAR_ID id, VAR new_elem){
 		printf("Error fatal: agregando a algo distinto de arreglo\n");
 		exit(0);
 	} 
-	addToArray((Array)(var->value.arrValue), new_elem);
+	add_to_array((Array)(var->value.arrValue), new_elem);
 }
 
 VAR assign(VAR_ID id, VAR assigned){
@@ -87,7 +81,7 @@ VAR assign(VAR_ID id, VAR assigned){
 			var->value.floatValue = assigned.value.floatValue;
 		break;
 		case ARRAY_T:
-			var->value.arrValue = newArray();
+			var->value.arrValue = new_array();
 		break;
 	}
 
@@ -103,71 +97,8 @@ void free_var_resources(VAR* v){
 			free(v->value.strValue);
 			break;
 		case ARRAY_T:
-			freeArray(v->value.arrValue);
+			free_array(v->value.arrValue);
 			break;
 	}
 
-}
-
-int compare(VAR first, VAR second){
-
-	switch(first.type){
-		case INT_T:
-			return compareToInt(first, second);
-		
-		case FLOAT_T:
-			return compareToFloat(first, second);
-
-		case STR_T:
-			return compareToStr(first, second);
-
-	}
-
-}
-
-
-static int compareToInt(VAR intVar, VAR other){
-	int i = intVar.value.intValue;
-
-	switch(other.type){
-		case INT_T:
-			return i - other.value.intValue;
-
-		case FLOAT_T:
-			return fabs(i - other.value.floatValue) < EPSILON ? 0 : 
-					(i - other.value.floatValue < 0) ? -1 : 1;
-
-		case STR_T:
-			return 1;
-	}
-}
-
-
-static int compareToFloat(VAR floatVar, VAR other){
-	float i = floatVar.value.floatValue;
-	switch(other.type){
-		case INT_T:
-			return -compareToInt(other, floatVar);
-
-		case FLOAT_T:
-			return fabs(i - other.value.floatValue) < EPSILON ? 0 : 
-					(i - other.value.floatValue < 0) ? -1 : 1;
-
-		case STR_T:
-			return 1;
-	}
-}
-
-
-static int compareToStr(VAR strVar, VAR  other){
-		switch(other.type){
-		case INT_T:
-			return -1;
-
-		case FLOAT_T:
-			return -1;
-
-		case STR_T:
-			return strcmp(strVar.value.strValue, other.value.strValue);
-	}
 }

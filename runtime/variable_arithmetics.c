@@ -1,32 +1,32 @@
-#include "variable_arithmetics.h"
+#include "include/variables.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
-static VAR integerSum(VAR left, VAR right, int sign);
-static VAR floatSum(VAR left, VAR right, int sign);
-static VAR stringCat(VAR left, VAR right);
+static VAR integer_add(VAR left, VAR right, int sign);
+static VAR float_add(VAR left, VAR right, int sign);
+static VAR string_add(VAR left, VAR right);
 
 
 VAR var_sum(VAR left, VAR right){
 	switch(left.type){
 		case INT_T:
-			return integerSum(left, right, 1);
+			return integer_add(left, right, 1);
 		case STR_T:
-			return stringCat(left, right);
+			return string_add(left, right);
 		case FLOAT_T:
-			return floatSum(left, right, 1);
+			return float_add(left, right, 1);
 	}
 }
 
 VAR var_sub(VAR left, VAR right){
 		switch(left.type){
 		case INT_T:
-			return integerSum(left, right, -1);
+			return integer_add(left, right, -1);
 		case STR_T:
 			return left;
 		case FLOAT_T:
-			return floatSum(left, right, -1);
+			return float_add(left, right, -1);
 	}
 
 }
@@ -57,7 +57,7 @@ VAR var_minus(VAR var){
 }
 
 
-static VAR integerSum(VAR left, VAR right, int sign){
+static VAR integer_add(VAR left, VAR right, int sign){
 	switch(right.type){
 		case INT_T:
 		{
@@ -81,7 +81,7 @@ static VAR integerSum(VAR left, VAR right, int sign){
 }
 
 
-static VAR floatSum(VAR left, VAR right, int sign){
+static VAR float_add(VAR left, VAR right, int sign){
 	switch(right.type){
 		case INT_T:
 		{
@@ -108,7 +108,7 @@ static VAR floatSum(VAR left, VAR right, int sign){
 
 
 #define MAX_DIGITS 30
-static VAR stringCat(VAR left, VAR right){
+static VAR string_add(VAR left, VAR right){
 		switch(right.type){
 		case INT_T:
 		{

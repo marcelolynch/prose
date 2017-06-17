@@ -1,6 +1,13 @@
+cd compiler
 make all
-gcc -o compiler y.tab.c ast.c lex.yy.c -ly
-./compiler < $1 > compiled.c
-gcc compiled.c prose_functions.c variable_manager.c variable_arithmetics.c prose_arrays.c -o prose.out
-rm compiler
+gcc -o prose_compiler y.tab.c ast.c lex.yy.c -ly
+
+
+cd ..
+./compiler/prose_compiler < $1 > compiled.c
+gcc compiled.c runtime/*.c -o prose.out
+
+cd compiler
+
+rm prose_compiler
 make clean

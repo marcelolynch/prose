@@ -1,6 +1,6 @@
 #ifndef __p_arrays
 #define __p_arrays
-#include "variable_manager.h"
+#include "variables.h"
 
 typedef struct arr{
 	VAR * values;
@@ -11,9 +11,9 @@ typedef struct arr{
 
 typedef ArrayCDT* Array;
 
-Array newArray();
-void addToArray(Array arr, VAR value);
-void printArray(Array arr);
-void freeArray(Array arr);
+Array new_array();
+void add_to_array(Array arr, VAR value);
+void print_array(Array arr);
+void free_array(Array arr);
 
 #endif

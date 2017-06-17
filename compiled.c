@@ -1,6 +1,5 @@
-#include "variable_manager.h"
-#include "variable_arithmetics.h"
-#include "prose_functions.h"
+#include "runtime/include/variables.h"
+#include "runtime/include/prose_functions.h"
 void main(void) { 
 
 assign(0, anon_int(6));

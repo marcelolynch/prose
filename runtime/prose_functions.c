@@ -1,6 +1,6 @@
-#include "variable_manager.h"
-#include "prose_functions.h"
-#include "prose_arrays.h"
+#include "include/variables.h"
+#include "include/prose_functions.h"
+#include "include/prose_arrays.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -16,7 +16,7 @@ void print_var(VAR var, int newline){
 				printf("%f", var.value.floatValue);
 				break;
 			case ARRAY_T:
-				printArray((Array)var.value.arrValue);
+				print_array((Array)var.value.arrValue);
 				break;
 		}
 
