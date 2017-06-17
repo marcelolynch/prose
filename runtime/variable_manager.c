@@ -38,11 +38,11 @@ VAR anon_str(char * value){
 }
 
 
-VAR anon_arr(){
+VAR anon_arr(Array old){
 	VAR var;
 	var.type = ARRAY_T;
 
-	var.value.arrValue = new_array();
+	var.value.arrValue = (old == NULL) ? new_array() : array_clone(old);
 	return var;
 }
 
@@ -58,14 +58,12 @@ VAR var_clone(VAR var){
 
 		case ARRAY_T:
 		{
-			VAR new;
-			new.type = ARRAY_T;
-			new.value.arrValue = array_clone(var.value.arrValue);
-			return new;
+			return anon_arr(var.value.arrValue);
 		}
 	}
 }
 
+//TODO: Unused - pensar que hacer con este tema
 void add_to_array(VAR_ID id, VAR new_elem){
 	VAR * var = var_table[id];
 	if(var->type != ARRAY_T){
@@ -81,9 +79,6 @@ VAR assign(VAR_ID id, VAR assigned){
 	}
 	
 	VAR * var = var_table[id];
-
-	free_var_resources(var);
-
 	var->type = assigned.type;
 
 	switch(assigned.type){
@@ -103,6 +98,8 @@ VAR assign(VAR_ID id, VAR assigned){
 			var->value.arrValue = array_clone(assigned.value.arrValue);
 		break;
 	}
+
+	//free_var_resources(var);
 
 	
 	return *var;

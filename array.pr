@@ -1,10 +1,5 @@
-que a sea 'str'
-que b sea 3
-que c sea [1,2]
-que d sea [a,b,c]
+que d sea 1
+que d sea [d, d]
 mostrar d
-que b sea 4
-que a sea 'hola'
-que c sea 1.9
+que d sea [d, d]
 mostrar d
-mostrar c

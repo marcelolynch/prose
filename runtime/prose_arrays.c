@@ -38,7 +38,7 @@ void array_add(Array arr, VAR value){
 		increaseCapacity(arr);
 	}
 
-	arr->values[arr->size] = value;
+	arr->values[arr->size] = var_clone(value);
 	arr->size++;
 }	
 
@@ -64,7 +64,6 @@ void array_free(Array arr){
 		free_var_resources(&arr->values[i]);
 	}
 	free(arr->values);
-	free(arr);
 }
 
 static void increaseCapacity(Array arr){
