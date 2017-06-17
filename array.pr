@@ -1,15 +1,10 @@
-que a sea [6,7,'hola']
-que b sea [10, a]
-mostrar b
-que b sea [1, 2, 3]
-mostrar b
-que a valga 0
-que b valga 10
-
-mientras que "b es mayor que 0" 
-hacer:
-	que b valga b - 1
-	que a valga a + b
-y repetir.
-
-mostrar 'Hola mundo'
+que a sea 'str'
+que b sea 3
+que c sea [1,2]
+que d sea [a,b,c]
+mostrar d
+que b sea 4
+que a sea 'hola'
+que c sea 1.9
+mostrar d
+mostrar c

@@ -47,13 +47,32 @@ VAR anon_arr(){
 }
 
 
-void array_add(VAR_ID id, VAR new_elem){
+VAR var_clone(VAR var){
+	switch(var.type){
+		case INT_T:
+		case FLOAT_T:
+			return var;
+
+		case STR_T:
+			return anon_str(var.value.strValue);
+
+		case ARRAY_T:
+		{
+			VAR new;
+			new.type = ARRAY_T;
+			new.value.arrValue = array_clone(var.value.arrValue);
+			return new;
+		}
+	}
+}
+
+void add_to_array(VAR_ID id, VAR new_elem){
 	VAR * var = var_table[id];
 	if(var->type != ARRAY_T){
 		printf("Error fatal: agregando a algo distinto de arreglo\n");
 		exit(0);
 	} 
-	add_to_array((Array)(var->value.arrValue), new_elem);
+	array_add((Array)(var->value.arrValue), var_clone(new_elem));
 }
 
 VAR assign(VAR_ID id, VAR assigned){
@@ -81,7 +100,7 @@ VAR assign(VAR_ID id, VAR assigned){
 			var->value.floatValue = assigned.value.floatValue;
 		break;
 		case ARRAY_T:
-			var->value.arrValue = new_array();
+			var->value.arrValue = array_clone(assigned.value.arrValue);
 		break;
 	}
 
@@ -97,7 +116,7 @@ void free_var_resources(VAR* v){
 			free(v->value.strValue);
 			break;
 		case ARRAY_T:
-			free_array(v->value.arrValue);
+			array_free(v->value.arrValue);
 			break;
 	}
 

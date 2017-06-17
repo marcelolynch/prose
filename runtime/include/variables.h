@@ -42,10 +42,11 @@ VAR anon_int(int value);
 VAR anon_str(char* value);
 VAR anon_arr();
 
+void add_to_array(VAR_ID id, VAR new_elem);
 
 VAR_ID new_var(type_t type, void * value);
 VAR get_var(VAR_ID id);
-
+VAR var_clone(VAR var);
 
 
 /* OPERACIONES ENTRE VARIABLES */

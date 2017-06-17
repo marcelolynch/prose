@@ -12,8 +12,9 @@ typedef struct arr{
 typedef ArrayCDT* Array;
 
 Array new_array();
-void add_to_array(Array arr, VAR value);
-void print_array(Array arr);
-void free_array(Array arr);
+void array_add(Array arr, VAR value);
+void array_print(Array arr);
+void array_free(Array arr);
+Array array_clone(Array arr);
 
 #endif

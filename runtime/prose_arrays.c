@@ -15,8 +15,21 @@ Array new_array(){
 	return arr;
 }
 
+Array array_clone(Array other){
+	if(other == NULL){
+		return NULL;
+	}
+	Array clone = new_array();
+	
+	int i;
+	for(i=0 ; i < other->size ; i++){
+		array_add(clone, var_clone(other->values[i]));
+	}
 
-void add_to_array(Array arr, VAR value){
+	return clone;
+}
+
+void array_add(Array arr, VAR value){
 	if(arr == NULL){ //TODO: Error
 		return;
 	}
@@ -30,7 +43,7 @@ void add_to_array(Array arr, VAR value){
 }	
 
 
-void print_array(Array arr){
+void array_print(Array arr){
 	if(arr == NULL){
 		printf("ERROR");
 		exit(0);
@@ -45,7 +58,7 @@ void print_array(Array arr){
 }
 
 
-void free_array(Array arr){
+void array_free(Array arr){
 	int i;
 	for(i=0 ; i < arr->size ; i++){
 		free_var_resources(&arr->values[i]);

@@ -16,7 +16,7 @@ VAR var_sum(VAR left, VAR right){
 			return string_add(left, right);
 		case FLOAT_T:
 			return float_add(left, right, 1);
-	}
+		}
 }
 
 VAR var_sub(VAR left, VAR right){
@@ -32,7 +32,7 @@ VAR var_sub(VAR left, VAR right){
 }
 
 VAR var_prod(VAR left, VAR right){
-
+	
 }
 
 

@@ -16,7 +16,7 @@ void print_var(VAR var, int newline){
 				printf("%f", var.value.floatValue);
 				break;
 			case ARRAY_T:
-				print_array((Array)var.value.arrValue);
+				array_print((Array)var.value.arrValue);
 				break;
 		}
 
