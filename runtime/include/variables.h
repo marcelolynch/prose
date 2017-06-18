@@ -32,7 +32,7 @@ typedef struct{
 
 
 /* MANTENIMIENTO, CREACION DE VARIABLES */
-
+void map_name(VAR_ID id, char * name);
 VAR assign(VAR_ID id, VAR assigned);
 VAR anon_var(uint64_t value, type_t type);
 void free_var_resources(VAR* v);
@@ -43,6 +43,8 @@ VAR anon_str(char* value);
 VAR anon_arr();
 
 void add_to_array(VAR_ID id, VAR new_elem);
+VAR array_index(VAR array, VAR index);
+void array_assign(VAR array, VAR index, VAR new);
 
 VAR_ID new_var(type_t type, void * value);
 VAR get_var(VAR_ID id);

@@ -17,4 +17,7 @@ void array_print(Array arr);
 void array_free(Array arr);
 Array array_clone(Array arr);
 
+VAR array_access(Array arr, int index);
+void array_modify(Array arr, int index, VAR value);
+
 #endif

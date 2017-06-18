@@ -1,6 +1,5 @@
-que lista sea [1,1]
-
 que lista sea [3,4,1,2,5,10,9,8,6,7]
+mostrar '\nDesordenada:'
 mostrar lista
 
 que tam sea 10
@@ -25,4 +24,6 @@ mientras que "i es menor a tam" hacer:
 	que i sea i+1
 y repetir.
 
+mostrar '\nOrdenada:'
 mostrar lista
+mostrar '\n'

@@ -1,5 +1,6 @@
 #include "include/variables.h"
 #include "include/prose_arrays.h"
+#include "include/prose_functions.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -7,8 +8,35 @@
 #include <stdint.h>
 
 VAR * var_table[MAX_VARS] = {0};
+char* name_table[MAX_VARS] = {0};
+
+
+void map_name(VAR_ID id, char * name){
+	name_table[id] = name;
+}
+
+
+char* get_typename(int type){
+	switch(type){
+		case INT_T:
+		case FLOAT_T:
+			return "número";
+		case STR_T:
+			return "texto";
+		case ARRAY_T:
+			return "lista";	
+		default:
+			return "(algo desconocido)";
+	}
+	return "";
+}
+
 
 VAR get_var(VAR_ID id){
+	if(var_table[id] == NULL){
+		fprintf(stderr, "Error fatal: usted intentó utilizar una variable nunca antes definida, de nombre '%s'.\nAsegúrese de no haberse equivocado y recompile. \n", name_table[id]);
+		exit(1);
+	}
 	return *var_table[id];	
 }
 
@@ -46,6 +74,34 @@ VAR anon_arr(Array old){
 	return var;
 }
 
+VAR array_index(VAR array, VAR index){
+	if(array.type != ARRAY_T){
+		printf("Error fatal: se intenta acceder a un elemento de algo que no es una lista\n");
+		exit(1);
+	}
+
+	if(index.type != INT_T){
+		printf("Error fatal: se intenta acceder a un elemento no entero de una lista.\n");
+		exit(1);
+	}
+
+	return array_access(array.value.arrValue, index.value.intValue);
+}
+
+
+void array_assign(VAR array, VAR index, VAR new){
+	if(array.type != ARRAY_T){
+		printf("Error fatal: se intenta acceder a un elemento de algo que no es una lista\n");
+		exit(1);
+	}
+
+	if(index.type != INT_T){
+		printf("Error fatal: se intenta acceder a un elemento no entero de una lista.\n");
+		exit(1);
+	}
+
+	array_modify(array.value.arrValue, index.value.intValue, new);
+}
 
 VAR var_clone(VAR var){
 	switch(var.type){
@@ -74,11 +130,10 @@ void add_to_array(VAR_ID id, VAR new_elem){
 }
 
 VAR assign(VAR_ID id, VAR assigned){
-	if(var_table[id] == NULL){
-		var_table[id] = malloc(4 * sizeof(*var_table[0]));
-	}
-	
-	VAR * var = var_table[id];
+
+	// Se crea un objeto nuevo cada vez que se asigna
+	VAR * var = malloc(4 * sizeof(*var_table[0]));
+
 	var->type = assigned.type;
 
 	switch(assigned.type){
@@ -99,7 +154,9 @@ VAR assign(VAR_ID id, VAR assigned){
 		break;
 	}
 
-	//free_var_resources(var);
+	//Se liberan los recursos anteriores
+	free_var_resources(var_table[id]);
+	var_table[id] = var;
 
 	
 	return *var;
@@ -108,6 +165,8 @@ VAR assign(VAR_ID id, VAR assigned){
 
 
 void free_var_resources(VAR* v){
+	if(v == NULL) return;
+
 	switch(v->type){
 		case STR_T:
 			free(v->value.strValue);

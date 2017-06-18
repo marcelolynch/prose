@@ -29,6 +29,22 @@ Array array_clone(Array other){
 	return clone;
 }
 
+VAR array_access(Array arr, int index){
+	if(index >= arr->size){
+		printf("Array index out of bounds");
+		exit(1);
+	}
+	return arr->values[index];
+}
+
+void array_modify(Array arr, int index, VAR value){
+	if(index >= arr->size){
+		printf("Index out of bounds");
+		exit(1);
+	}
+	arr->values[index] = var_clone(value);
+}
+
 void array_add(Array arr, VAR value){
 	if(arr == NULL){ //TODO: Error
 		return;
