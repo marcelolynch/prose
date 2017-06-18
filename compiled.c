@@ -4,26 +4,26 @@
 #include "runtime/include/prose_functions.h"
 void main(void) { 
 
-VAR convenientVar;
+VAR v;
 map_name(0, "lista");
 map_name(1, "tam");
 map_name(2, "i");
 map_name(3, "j");
 map_name(4, "minimo");
 map_name(5, "aux");
-convenientVar = anon_arr(NULL);
-array_add(convenientVar.value.arrValue, anon_int(3));
-array_add(convenientVar.value.arrValue, anon_int(4));
-array_add(convenientVar.value.arrValue, anon_int(1));
-array_add(convenientVar.value.arrValue, anon_int(2));
-array_add(convenientVar.value.arrValue, anon_int(5));
-array_add(convenientVar.value.arrValue, anon_int(10));
-array_add(convenientVar.value.arrValue, anon_int(9));
-array_add(convenientVar.value.arrValue, anon_int(8));
-array_add(convenientVar.value.arrValue, anon_int(6));
-array_add(convenientVar.value.arrValue, anon_int(7));
-assign(0, convenientVar);
-free_var_resources(&convenientVar);
+v = anon_arr(NULL);
+array_add(v.value.arrValue, anon_int(3));
+array_add(v.value.arrValue, anon_int(4));
+array_add(v.value.arrValue, anon_int(1));
+array_add(v.value.arrValue, anon_int(2));
+array_add(v.value.arrValue, anon_int(5));
+array_add(v.value.arrValue, anon_int(10));
+array_add(v.value.arrValue, anon_int(9));
+array_add(v.value.arrValue, anon_int(8));
+array_add(v.value.arrValue, anon_int(6));
+array_add(v.value.arrValue, anon_int(7));
+assign(0, v);
+free_var_resources(&v);
 print_var(anon_str("\nDesordenada:"), 1);
 print_var(get_var(0), 1);
 assign(1, anon_int(10));
