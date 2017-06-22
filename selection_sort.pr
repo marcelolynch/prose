@@ -11,10 +11,13 @@ mientras que "i es menor a tam" hacer:
 	que minimo sea j
 
 	mientras que "j es menor a tam" hacer:
+	
 		si pasa "lista[j] es menor a lista[minimo]" entonces 
 			que minimo valga j
 		listo.
 		que j sea j+1
+	
+
 	y repetir.
 
 	que aux sea lista[i]
