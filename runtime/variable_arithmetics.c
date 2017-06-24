@@ -159,7 +159,9 @@ static VAR array_sum(VAR left, VAR right){
 	switch(right.type){
 		case ARRAY_T:
 		{
-			VAR ary = anon_arr(left.value.arrValue);
+			VAR ary;
+			ary.type = ARRAY_T;
+			ary.value.arrValue = array_clone(left.value.arrValue);
 			array_cat(ary.value.arrValue, right.value.arrValue);
 			return ary;
 		}
@@ -167,7 +169,9 @@ static VAR array_sum(VAR left, VAR right){
 		case FLOAT_T:
 		case STR_T:
 		{
-			VAR ary = anon_arr(left.value.arrValue);
+			VAR ary;
+			ary.type = ARRAY_T;
+			ary.value.arrValue = array_clone(left.value.arrValue);
 			array_push((Array)(ary.value.arrValue), var_clone(right));
 			return ary;
 		}

@@ -68,14 +68,9 @@ void produce(Statements * block){
 
 
 void do_assign(AssignmentNode * a){
-	if(a->value->type == ARRAY_LITERAL){
-		do_array_creation(a);
-	}
-	else{ 
 		char * expression = get_expression(a->value);
 		printf("assign(%d, %s);\n", a->var_id, expression);
 		free(expression);
-	}
 }
 
 #define STR_OVERHEAD 25
@@ -155,6 +150,27 @@ char* get_expression(ExpressionNode * operation){
 			break;
 		}
 
+		case ARRAY_LITERAL:
+		{
+				result = malloc(STR_OVERHEAD);
+				sprintf(result, "anon_arr(%d", *((int*)operation->right));
+				ExpressionList * list = (ExpressionList*)operation->left;
+	
+				while(list != NULL){
+					char * expr = get_expression(list->expression);
+					int len = strlen(result);
+					result = realloc(result, len + strlen(expr) + 1);
+					sprintf(result+len, ", %s", expr);
+					free(expr);
+					list = list->next;
+				}
+				int len = strlen(result);
+				result = realloc(result, len + 1);
+				sprintf(result+len, ")");
+
+				return result;
+			}
+
 		case INDEXED_ARRAY:
 		{
 			char * idx = get_expression((ExpressionNode*)operation->right);
@@ -222,7 +238,7 @@ char* get_expression(ExpressionNode * operation){
 
 
 void do_array_creation(AssignmentNode * a){
-	printf("v = anon_arr(NULL);\n");
+	printf("v = anon_arr(0);\n");
 	ExpressionList * list = (ExpressionList*)a->value->left;
 	while(list != NULL){
 		printf("array_push(v.value.arrValue, %s);\n", get_expression(list->expression));

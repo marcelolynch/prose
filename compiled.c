@@ -7,17 +7,9 @@ void main(void) {
 VAR v;
 map_name(0, "a");
 map_name(1, "b");
-v = anon_arr(NULL);
-array_push(v.value.arrValue, anon_int(1));
-array_push(v.value.arrValue, anon_int(2));
-array_push(v.value.arrValue, anon_int(3));
-array_push(v.value.arrValue, anon_int(4));
-assign(0, v);
-free_var_resources(&v);
-v = anon_arr(NULL);
-array_push(v.value.arrValue, anon_int(6));
-array_push(v.value.arrValue, anon_int(7));
-assign(1, v);
-free_var_resources(&v);
-print_var(var_sum(get_var(0), get_var(1)), 1);
+assign(0, anon_int(4));
+print_var(get_var(0), 1);
+assign(1, anon_arr(5, anon_int(10), anon_int(1), anon_arr(2, anon_int(2), anon_int(4)), anon_int(3), anon_int(5)));
+print_var(get_var(1), 1);
+array_assign(get_var(1), anon_int(1), anon_int(3));print_var(get_var(1), 1);
 }

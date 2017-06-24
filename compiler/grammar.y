@@ -37,6 +37,15 @@ int getId(char * strId){
 
 }
 
+int list_length(ExpressionList * list){
+	int len = 0;
+	while(list != NULL){
+		len++;
+		list = list->next;
+	}
+	return len;
+}
+
 %}
 
 
@@ -251,6 +260,8 @@ expression : STR
 	 	$$ = malloc(sizeof(*$$));
 	 	$$->type = ARRAY_LITERAL;
 	 	$$->left = $1;
+	 	$$->right = malloc(sizeof(int));
+	 	*((int*)$$->right) = list_length($1);
 	 }
 
 	 | IDENTIFIER

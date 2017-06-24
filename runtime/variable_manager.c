@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdarg.h>
 
 VAR * var_table[MAX_VARS] = {0};
 char* name_table[MAX_VARS] = {0};
@@ -66,11 +67,24 @@ VAR anon_str(char * value){
 }
 
 
-VAR anon_arr(Array old){
+
+VAR anon_arr(int num, ...){
 	VAR var;
 	var.type = ARRAY_T;
 
-	var.value.arrValue = (old == NULL) ? new_array() : array_clone(old);
+	var.value.arrValue = new_array();
+
+	va_list valist;
+	int i;
+
+	va_start(valist, num);
+	
+	for (i = 0; i < num; i++) {
+      array_push(var.value.arrValue, va_arg(valist, VAR));
+  	}
+	
+   	va_end(valist);
+
 	return var;
 }
 
@@ -114,20 +128,14 @@ VAR var_clone(VAR var){
 
 		case ARRAY_T:
 		{
-			return anon_arr(var.value.arrValue);
+			VAR clone;
+			clone.type = ARRAY_T;
+			clone.value.arrValue = array_clone(var.value.arrValue);
+			return clone;
 		}
 	}
 }
 
-//TODO: Unused - pensar que hacer con este tema
-void add_to_array(VAR_ID id, VAR new_elem){
-	VAR * var = var_table[id];
-	if(var->type != ARRAY_T){
-		printf("Error fatal: agregando a algo distinto de arreglo\n");
-		exit(0);
-	} 
-	array_push((Array)(var->value.arrValue), var_clone(new_elem));
-}
 
 VAR assign(VAR_ID id, VAR assigned){
 

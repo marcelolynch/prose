@@ -40,7 +40,7 @@ void free_var_resources(VAR* v);
 VAR anon_float(float value);
 VAR anon_int(int value);
 VAR anon_str(char* value);
-VAR anon_arr();
+VAR anon_arr(int n, ...);
 
 void add_to_array(VAR_ID id, VAR new_elem);
 VAR array_index(VAR array, VAR index);
