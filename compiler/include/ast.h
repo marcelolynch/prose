@@ -70,7 +70,7 @@ typedef struct StNode{
 /*
 	Nodo para la lista encadenada Statements,
 	se utiliza en el parser como intermediario de 
-	nodos aislados (en las reducciones)
+	nodos aislados (en las reducciones de 'abajo' en el arbol)
 	antes de construir la lista.
 
 */
@@ -80,7 +80,16 @@ typedef struct block{
 } Block;
 
 
+/*
+	Nodo para una expresion booleana
+	El tipo es un bool_operation.
 
+	left y right apuntan a los operandos, que pueden ser BoolNode en el 
+	caso de operaciones logicas, o ExpressioNode en el caso de comparaciones.
+
+	En el caso de TRUE_ y FALSE_LITERAL no se utilizan left ni right,
+	BOOL_NOT utiliza solo el campo left para apuntar al BoolNode que se esta negando 
+*/
 typedef struct bc{
 	bool_operation type;
 	void * left;
@@ -88,6 +97,13 @@ typedef struct bc{
 } BoolNode;
 
 
+/*
+	ExpressionNode guarda la informacion correspondiente a una expresion,
+	que puede ser una de las definidas en el enum expr_type.
+	En el caso de _LITERAL solo se utiliza el campo left para apuntar al valor,
+	para operadores aritmeticas binarias se guardan las expresiones derecha e izquierda en left y right.
+	El menos unario usa solo el campo left para la apuntar expresion afectada.
+*/
 typedef struct ar_n{
 	expr_type type;
 	void * left;
@@ -95,17 +111,38 @@ typedef struct ar_n{
 } ExpressionNode;
 
 
+/*
+	Lista encadenada de expresiones:
+	se utiliza para guardar los valores de los arreglos literales.
+*/
 typedef struct expList{
 	ExpressionNode * expression;
 	struct expList* next;
 } ExpressionList;
 
+
+
+/*
+	WhileNode guarda la información correspondiente a un bloque while:
+	una condicion de corte y el cuerpo, que es una lista Statements
+*/
 typedef struct wn{
 	BoolNode * condition;
 	Statements * body;
 } WhileNode;
 
 
+
+
+/*
+	IfNode guarda la información correspondiente a un bloque if-elseif: 
+	funciona como una cadena de condiciones: la cabeza de la cadena corresponde
+	al if y el resto a else-ifs.
+
+	Guarda una condicion, el cuerpo, que es una lista Statements,
+	y un puntero a otro IfNode que corresponde al siguiente else-if (o NULL si
+	es el ultimo en la cadena)
+*/
 typedef struct in{
 	BoolNode * condition;
 	Statements * body;
@@ -113,6 +150,12 @@ typedef struct in{
 } IfNode;
 
 
+
+/*
+	Un AssignmentNode guarda la información correspondiente a una
+	sentencia de asignacion, esto es, el ID de la variable que se
+	esta asignando y un puntero a la expresion que se asigna.
+*/
 typedef struct asn{
 	int var_id;
 	ExpressionNode * value;
