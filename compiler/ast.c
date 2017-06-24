@@ -10,7 +10,6 @@ void do_boolean_condition(BoolNode * node);
 void do_boolean_comp(BoolNode * node, char* op);
 char* get_expression(ExpressionNode * operation);
 char * do_arith_binary(ExpressionNode* expr, char* funcName);
-void do_array_creation(AssignmentNode * a);
 void do_array_assignment(ArrayAssignment* a);
 
 void produce(Statements * block){
@@ -234,19 +233,6 @@ char* get_expression(ExpressionNode * operation){
 	free(operation);
 
 	return result;
-}
-
-
-void do_array_creation(AssignmentNode * a){
-	printf("v = anon_arr(0);\n");
-	ExpressionList * list = (ExpressionList*)a->value->left;
-	while(list != NULL){
-		printf("array_push(v.value.arrValue, %s);\n", get_expression(list->expression));
-		list = list->next;
-	}
-	printf("assign(%d, v);\n", a->var_id);
-	printf("free_var_resources(&v);\n");
-
 }
 
 

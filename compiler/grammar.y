@@ -491,7 +491,6 @@ int main()
 	printf("#include \"runtime/include/prose_functions.h\"\n");
 
     printf("void main(void) { \n\n");
-   	printf("VAR v;\n");
 
     // Start the Parsing (yacc)
     yyparse();
