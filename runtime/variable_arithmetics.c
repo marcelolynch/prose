@@ -206,6 +206,15 @@ static VAR integer_prod(VAR left, VAR right){
 			free(str);
 			return ret;
 		}
+		case ARRAY_T:
+		{
+			VAR multi = anon_arr(0);
+			int i;
+			for(i = 0 ; i < left.value.intValue ; i++){
+				array_cat(multi.value.arrValue, right.value.arrValue);
+			}
+			return multi;
+		}
 	}
 }
 
