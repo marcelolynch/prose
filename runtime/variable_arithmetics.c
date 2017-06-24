@@ -233,6 +233,7 @@ static VAR float_prod(VAR left, VAR right){
 			return anon_float(fresult);
 		}
 		case STR_T:
+		case ARRAY_T:
 		{
 			return integer_prod(anon_int(left.value.floatValue), right);
 		}
