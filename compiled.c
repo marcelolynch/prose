@@ -6,9 +6,7 @@ void main(void) {
 
 VAR v;
 map_name(0, "a");
-map_name(1, "b");
-assign(0, anon_int(3));
+assign(0, anon_str("holaaa"));
 print_var(get_var(0), 1);
-assign(1, var_prod(get_var(0), var_sum(anon_arr(2, anon_int(1), anon_int(2)), anon_arr(2, anon_int(3), anon_int(4)))));
-print_var(get_var(1), 1);
+print_var(var_div(get_var(0), anon_int(2)), 1);
 }

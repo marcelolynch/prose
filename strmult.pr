@@ -1,4 +1,5 @@
-que a sea 3
+que a sea 'holaaa'
+
 mostrar a
-que b sea a*([1, 2] + [3,4])
-mostrar b
+
+mostrar a/2

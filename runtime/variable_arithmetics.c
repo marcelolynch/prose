@@ -13,6 +13,11 @@ static VAR integer_prod(VAR left, VAR right);
 static VAR string_prod(VAR left, VAR right);
 static VAR float_prod(VAR left, VAR right);
 
+static VAR float_div(VAR left, VAR right);
+static VAR string_div(VAR left, VAR right);
+static VAR integer_div(VAR left, VAR right);
+
+
 VAR var_sum(VAR left, VAR right){
 	switch(left.type){
 		case INT_T:
@@ -54,6 +59,17 @@ VAR var_prod(VAR left, VAR right){
 
  
 VAR var_div(VAR left, VAR right){
+	switch(left.type){
+		case INT_T:
+			return integer_div(left, right);
+		case STR_T:
+			return string_div(left, right);
+		case FLOAT_T:
+			return float_div(left, right);
+			break;
+
+	}
+
 
 }
 
@@ -261,4 +277,91 @@ static VAR string_prod(VAR left, VAR right){
 		}
 	}
 }
+
+
+
+
+static VAR integer_div(VAR left, VAR right){
+	switch(right.type){
+		case INT_T:
+		{
+			int iresult = left.value.intValue / right.value.intValue;
+			return anon_int(iresult);
+		}
+		case FLOAT_T:
+		{
+			float fresult = left.value.intValue / right.value.floatValue;
+			return anon_float(fresult);
+		}
+		case STR_T:
+		{
+			printf("Error: se intenta dividir un numero por un texto. El programa no puede continuar\n");
+			exit(1);
+		}
+		case ARRAY_T:
+		{
+			printf("Error: se intenta dividir un numero por una lista. El programa no puede continuar\n");
+			exit(1);
+		}
+	}
+}
+
+
+static VAR float_div(VAR left, VAR right){
+	switch(right.type){
+		case INT_T:
+		{
+			float iresult = left.value.intValue / right.value.intValue;
+			return anon_float(iresult);
+		}
+		case FLOAT_T:
+		{
+			float fresult = left.value.intValue / right.value.floatValue;
+			return anon_float(fresult);
+		}
+		case STR_T:
+		{
+			printf("Error: se intenta dividir un numero por un texto. El programa no puede continuar\n");
+			exit(1);
+		}
+		case ARRAY_T:
+		{
+			printf("Error: se intenta dividir un numero por una lista. El programa no puede continuar\n");
+			exit(1);
+		}
+	}
+}
+
+
+
+static VAR string_div(VAR left, VAR right){
+	switch(right.type){
+		case INT_T:
+		{
+			int len = strlen(left.value.strValue) / right.value.intValue;
+			char * str = malloc(len + 1);
+			memcpy(str, left.value.strValue, len);
+			*(str+len) = 0;
+			VAR divided = anon_str(str);
+			free(str);
+			return divided;
+		}
+		case FLOAT_T:
+		{
+			float fresult = left.value.intValue / right.value.floatValue;
+			return anon_float(fresult);
+		}
+		case STR_T:
+		{
+			printf("Error: se intenta dividir un texto por un texto. El programa no puede continuar\n");
+			exit(1);
+		}
+		case ARRAY_T:
+		{
+			printf("Error: se intenta dividir un texto por una lista. El programa no puede continuar\n");
+			exit(1);
+		}
+	}
+}
+
 
