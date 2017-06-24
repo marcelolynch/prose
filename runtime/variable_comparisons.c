@@ -9,6 +9,14 @@ static int compare_to_int(VAR intVar, VAR other);
 static int compare_to_float(VAR floatVar, VAR other);
 static int compare_to_str(VAR strVar, VAR other);
 
+/*
+	Funciones para comparar dos variables de cualquier tipo;
+	las variables no comparables tienen comportamiento indefinido.
+
+	Se retorna un numero positivo si el primr parametro es mayor
+	que el segundo, negativo en el caso opuesto, cero si son iguales.
+*/
+
 
 int compare(VAR first, VAR second){
 	switch(first.type){

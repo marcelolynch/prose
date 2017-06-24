@@ -12,11 +12,15 @@ VAR * var_table[MAX_VARS] = {0};
 char* name_table[MAX_VARS] = {0};
 
 
+/* Mapea el id de una variable al nombre puesto por el programador 
+	(para mostrar errores)
+ El compilador debería setear esto cuando corresponda.  */
 void map_name(VAR_ID id, char * name){
 	name_table[id] = name;
 }
 
 
+/* Devuelve el tipo de la variable (para mostrar errores) */
 char* get_typename(int type){
 	switch(type){
 		case INT_T:
@@ -33,6 +37,7 @@ char* get_typename(int type){
 }
 
 
+/* Devuelve la variable de ID id */
 VAR get_var(VAR_ID id){
 	if(var_table[id] == NULL){
 		fprintf(stderr, "Error fatal: usted intentó utilizar una variable nunca antes definida, de nombre '%s'.\nAsegúrese de no haberse equivocado y recompile. \n", name_table[id]);
@@ -42,6 +47,7 @@ VAR get_var(VAR_ID id){
 }
 
 
+/* Construye una variable del tipo float y la retorna */
 VAR anon_float(float value){
 	VAR var;
 	var.type = FLOAT_T;
@@ -49,6 +55,8 @@ VAR anon_float(float value){
 	return var;
 }
 
+
+/* Construye una variable del tipo entero y la retorna */
 VAR anon_int(int value){
 	VAR var;
 	var.type = INT_T;
@@ -56,6 +64,8 @@ VAR anon_int(int value){
 	return var;
 }
 
+
+/* Construye una variable del tipo texto y la retorna */
 VAR anon_str(char * value){
 	VAR var;
 	var.type = STR_T;
@@ -68,6 +78,10 @@ VAR anon_str(char * value){
 
 
 
+/* Construye una variable del tipo lista y la retorna 
+ El primer argumento corresponde al numero de elementos con que se inicializa.
+ Si es mayor a cero, se deben pasar como el resto de los parámetros las 
+ variables (VAR) con las que se inicializa la lista */
 VAR anon_arr(int num, ...){
 	VAR var;
 	var.type = ARRAY_T;
@@ -88,6 +102,7 @@ VAR anon_arr(int num, ...){
 	return var;
 }
 
+/* Devuelve la variable en la posicion index de la lista array */
 VAR array_index(VAR array, VAR index){
 	if(array.type != ARRAY_T){
 		printf("Error fatal: se intenta acceder a un elemento de algo que no es una lista\n");
@@ -103,6 +118,8 @@ VAR array_index(VAR array, VAR index){
 }
 
 
+
+/* Actualiza la posición index de la lista array con la variable new */
 void array_assign(VAR array, VAR index, VAR new){
 	if(array.type != ARRAY_T){
 		printf("Error fatal: se intenta acceder a un elemento de algo que no es una lista\n");
@@ -117,6 +134,8 @@ void array_assign(VAR array, VAR index, VAR new){
 	array_modify(array.value.arrValue, index.value.intValue, new);
 }
 
+
+/* Deep copy de la variable que se pasa como parametro */
 VAR var_clone(VAR var){
 	switch(var.type){
 		case INT_T:
@@ -136,7 +155,7 @@ VAR var_clone(VAR var){
 	}
 }
 
-
+/* Se asigna el objeto VAR assigned a la variable nombrada de ID id */
 VAR assign(VAR_ID id, VAR assigned){
 
 	// Se crea un objeto nuevo cada vez que se asigna
@@ -171,7 +190,9 @@ VAR assign(VAR_ID id, VAR assigned){
 
 }
 
-
+/*Libera los recursos alocados para la variable apuntada 
+(en el caso de string, la cadena, y si es una variable de 
+tipo lista, se liberan los recursos de la misma */
 void free_var_resources(VAR* v){
 	if(v == NULL) return;
 

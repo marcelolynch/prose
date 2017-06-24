@@ -7,6 +7,8 @@
 static void increaseCapacity(Array arr);
 
 #define INITIAL_SIZE 15
+
+
 Array new_array(){
 	Array arr = malloc(sizeof(*arr));
 	arr->values = malloc(INITIAL_SIZE * sizeof(VAR));
@@ -15,6 +17,7 @@ Array new_array(){
 	return arr;
 }
 
+/* Deep copy del arreglo */
 Array array_clone(Array other){
 	if(other == NULL){
 		return NULL;
@@ -29,6 +32,8 @@ Array array_clone(Array other){
 	return clone;
 }
 
+
+/*Devuelve el valor de la posición index*/
 VAR array_access(Array arr, int index){
 	if(index >= arr->size){
 		printf("Array index out of bounds");
@@ -37,6 +42,7 @@ VAR array_access(Array arr, int index){
 	return arr->values[index];
 }
 
+/* Actualiza el valor de la posicion index */
 void array_modify(Array arr, int index, VAR value){
 	if(index >= arr->size){
 		printf("Index out of bounds");
@@ -45,6 +51,7 @@ void array_modify(Array arr, int index, VAR value){
 	arr->values[index] = var_clone(value);
 }
 
+/* Agrega al final del arreglo */
 void array_push(Array arr, VAR value){
 	if(arr == NULL){ //TODO: Error
 		return;
@@ -58,7 +65,7 @@ void array_push(Array arr, VAR value){
 	arr->size++;
 }	
 
-
+/* Append del arreglo other al arreglo arr */
 void array_cat(Array arr, Array other){
 	if(arr == NULL || other == NULL){
 		return;
