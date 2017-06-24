@@ -23,7 +23,7 @@ Array array_clone(Array other){
 	
 	int i;
 	for(i=0 ; i < other->size ; i++){
-		array_add(clone, var_clone(other->values[i]));
+		array_push(clone, var_clone(other->values[i]));
 	}
 
 	return clone;
@@ -45,7 +45,7 @@ void array_modify(Array arr, int index, VAR value){
 	arr->values[index] = var_clone(value);
 }
 
-void array_add(Array arr, VAR value){
+void array_push(Array arr, VAR value){
 	if(arr == NULL){ //TODO: Error
 		return;
 	}
@@ -57,6 +57,18 @@ void array_add(Array arr, VAR value){
 	arr->values[arr->size] = var_clone(value);
 	arr->size++;
 }	
+
+
+void array_cat(Array arr, Array other){
+	if(arr == NULL || other == NULL){
+		return;
+	}
+	
+	int i;
+	for(i=0 ; i < other->size ; i++){
+		array_push(arr, var_clone(other->values[i]));
+	}
+}
 
 
 void array_print(Array arr){

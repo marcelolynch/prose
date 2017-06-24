@@ -126,7 +126,7 @@ void add_to_array(VAR_ID id, VAR new_elem){
 		printf("Error fatal: agregando a algo distinto de arreglo\n");
 		exit(0);
 	} 
-	array_add((Array)(var->value.arrValue), var_clone(new_elem));
+	array_push((Array)(var->value.arrValue), var_clone(new_elem));
 }
 
 VAR assign(VAR_ID id, VAR assigned){

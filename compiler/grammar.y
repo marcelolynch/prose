@@ -29,7 +29,7 @@ int getId(char * strId){
 		return -1;
 	}
 
-	identifiers[i] = malloc(strlen(strId));
+	identifiers[i] = malloc(strlen(strId) + 1);
 	strcpy(identifiers[i], strId);
 	printf("map_name(%d, \"%s\");\n", i, strId);
 

@@ -225,7 +225,7 @@ void do_array_creation(AssignmentNode * a){
 	printf("v = anon_arr(NULL);\n");
 	ExpressionList * list = (ExpressionList*)a->value->left;
 	while(list != NULL){
-		printf("array_add(v.value.arrValue, %s);\n", get_expression(list->expression));
+		printf("array_push(v.value.arrValue, %s);\n", get_expression(list->expression));
 		list = list->next;
 	}
 	printf("assign(%d, v);\n", a->var_id);
