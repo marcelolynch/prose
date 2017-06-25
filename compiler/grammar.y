@@ -67,7 +67,7 @@ int list_length(ExpressionList * list){
   Block * block;
 
 
-  Statements * statements;
+  StatementList * statements;
 
   bool_operation boolop;
 }

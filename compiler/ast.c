@@ -15,7 +15,7 @@ void do_array_assignment(ArrayAssignment* a);
 
 /* Recibe una lista de bloques de codigo (raices de arboles sintacticos)
  y produce output por salida estandar del codigo C correspondiente  */
-void produce(Statements * block){
+void produce(StatementList * block){
 	while(block != NULL){
 		switch(block->type){
 
@@ -60,10 +60,12 @@ void produce(Statements * block){
 			default:
 				break;
 		}
-
-		free(block);
 		
+		StatementList * prev = block;
+
 		block = block->next;
+
+		free(prev);
 	}
 }
 

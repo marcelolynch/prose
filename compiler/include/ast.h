@@ -52,7 +52,7 @@ typedef enum{
 
 
 /* 
-    Statements funciona como lista encadenada 
+    StatementList funciona como lista encadenada 
 	de sentencias aisladas (los tipos posibles
 	son los definidos en el enum stmnt_type).
 	
@@ -64,11 +64,11 @@ typedef struct StNode{
 	stmnt_type type;
 	void * body;
 	struct StNode * next;
-} Statements;
+} StatementList;
 
 
 /*
-	Nodo para la lista encadenada Statements,
+	Nodo para la lista encadenada StatementList,
 	se utiliza en el parser como intermediario de 
 	nodos aislados (en las reducciones de 'abajo' en el arbol)
 	antes de construir la lista.
@@ -124,11 +124,11 @@ typedef struct expList{
 
 /*
 	WhileNode guarda la información correspondiente a un bloque while:
-	una condicion de corte y el cuerpo, que es una lista Statements
+	una condicion de corte y el cuerpo, que es una lista StatementList
 */
 typedef struct wn{
 	BoolNode * condition;
-	Statements * body;
+	StatementList * body;
 } WhileNode;
 
 
@@ -139,13 +139,13 @@ typedef struct wn{
 	funciona como una cadena de condiciones: la cabeza de la cadena corresponde
 	al if y el resto a else-ifs.
 
-	Guarda una condicion, el cuerpo, que es una lista Statements,
+	Guarda una condicion, el cuerpo, que es una lista StatementList,
 	y un puntero a otro IfNode que corresponde al siguiente else-if (o NULL si
 	es el ultimo en la cadena)
 */
 typedef struct in{
 	BoolNode * condition;
-	Statements * body;
+	StatementList * body;
 	struct in * elseif;
 } IfNode;
 
@@ -203,6 +203,6 @@ typedef struct arr_as {
 
 
 /* Produce el codigo a partir de la raiz del AST */
-void produce(Statements * block);
+void produce(StatementList * block);
 
 #endif
