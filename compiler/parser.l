@@ -14,6 +14,9 @@ digit [0-9]
 [\t \n]
 mostrar           		return PRINT;
 
+anexar(le)?				return ANEXAR;
+a 						return A;
+
 que						return QUE;
 valga\ 					return VALGA;
 sea\ 					return VALGA;
@@ -46,12 +49,12 @@ no						return NOT;
 
 no\ es 					return NEQ;
 es 						return EQ;
-vale\ 					return EQ;
+vale 					return EQ;
 
 es\ menor\ (a|que)		return LT;
 es\ menor\ que\ o\ es 	return LE;
 
-es\ mayor\ (a|que)[\ \n]		return GT;
+es\ mayor\ (a|que)		return GT;
 es\ mayor\ que\ o\ es 	return GE;
 
 \"						return SEP;
@@ -69,21 +72,22 @@ mentira					return FALSE;
 						return NUM;
 					}
 
-{digit}+\.{digit}+  { 	yylval.floatval = atof(yytext);
+{digit}+(\.|,){digit}+  { 	yylval.floatval = atof(yytext);
 						return FLOAT;
-					}
+						}
 
-{alpha}({alpha}|{digit})* { yylval.strval = malloc(strlen(yytext)+1);
+{alpha}({alpha}|{digit})*  { 
+							yylval.strval = malloc(strlen(yytext)+1);
 							strcpy(yylval.strval, yytext);
 							return IDENTIFIER;
-						}
+							}
 
 \'[^\'.]+\'			{
 					char * str = malloc(strlen(yytext) - 1);
 					strncpy(str, yytext + 1, strlen(yytext) - 2);
 					yylval.strval = str;
 					return STR;
-				}
+					}
 
 .               {return yytext[0];}
 

@@ -60,6 +60,8 @@ int list_length(ExpressionList * list){
   WhileNode * whilenode;
   IfNode * ifnode;
   BoolNode * boolnode;
+  FunctionNode* fnnode;
+
   ExpressionNode * exprnode;
 
   ExpressionList * explist;
@@ -78,7 +80,15 @@ int list_length(ExpressionList * list){
 %token <strval> STR;
 %token <intval> NUM;
 %token <floatval> FLOAT;
+
 %token PRINT;
+%token ANEXAR;
+%token A;
+%token MAYUSCULA;
+%token MINUSCULA;
+%token DECREMENTAR;
+%token INCREMENTAR;
+%token PASAR;
 
 %token QUE;
 %token VALGA;
@@ -120,6 +130,8 @@ int list_length(ExpressionList * list){
 %type <block> block;
 %type <explist> explist;
 %type <explist> array;
+
+%type <fnnode> func_call;
 
 %type <whilenode> while;
 
@@ -203,6 +215,12 @@ block	: asig{
 			$$->type = IF_THEN_ELSE;
 			$$->node = $1;
 		}
+	    | func_call {
+	 		$$ = malloc(sizeof(*$$));
+	 		$$->type = FUNCTION_CALL;
+	 		$$->node = $1;
+	 	}
+
 		;
 
 
@@ -321,6 +339,46 @@ expression : STR
 			}
 		;
 
+
+func_call : ANEXAR expression A IDENTIFIER 
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->function = ARR_APPEND;
+				$$->first = malloc(sizeof(int));
+				*((int*)$$->first) = getId($4);
+				$$->second = $2;
+			}
+		  | PASAR IDENTIFIER A MAYUSCULA
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->function = TO_UPPER;
+				$$->first = malloc(sizeof(int));					
+				*((int*)$$->first) = getId($2);
+			}
+
+		  | PASAR IDENTIFIER A MINUSCULA
+			{
+				$$ = malloc(sizeof(*$$));
+				$$->function = TO_LOWER;
+				$$->first = malloc(sizeof(int));					
+				*((int*)$$->first) = getId($2);
+			}
+		  | INCREMENTAR IDENTIFIER
+		  	{
+		  		$$ = malloc(sizeof(*$$));
+				$$->function = INCREMENT;
+				$$->first = malloc(sizeof(int));					
+				*((int*)$$->first) = getId($2);
+		  	}
+
+		  | DECREMENTAR IDENTIFIER
+		  	{
+		  		$$ = malloc(sizeof(*$$));
+				$$->function = DECREMENT;
+				$$->first = malloc(sizeof(int));					
+				*((int*)$$->first) = getId($2);
+		  	}
+		  ;
 
 
 array : '[' explist ']' {

@@ -47,9 +47,18 @@ typedef enum{
 	ARRAY_ASSIGNMENT,
 	PRINT_CALL,
 	WHILE_LOOP,
-	IF_THEN_ELSE
+	IF_THEN_ELSE,
+	FUNCTION_CALL
 } stmnt_type;
 
+
+typedef enum{
+	ARR_APPEND,
+	TO_UPPER,
+	TO_LOWER,
+	INCREMENT,
+	DECREMENT
+} fn_type;
 
 /* 
     StatementList funciona como lista encadenada 
@@ -66,6 +75,14 @@ typedef struct StNode{
 	struct StNode * next;
 } StatementList;
 
+
+
+typedef struct fncall{
+	fn_type function;
+	void* first;
+	void* second;
+	void* third;
+} FunctionNode;
 
 /*
 	Nodo para la lista encadenada StatementList,

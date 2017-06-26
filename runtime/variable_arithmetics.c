@@ -32,7 +32,7 @@ VAR var_sum(VAR left, VAR right){
 }
 
 VAR var_sub(VAR left, VAR right){
-		switch(left.type){
+	switch(left.type){
 		case INT_T:
 			return integer_sum(left, right, -1);
 		case STR_T:
@@ -44,16 +44,14 @@ VAR var_sub(VAR left, VAR right){
 }
 
 VAR var_prod(VAR left, VAR right){
-			switch(left.type){
+	switch(left.type){
 		case INT_T:
 			return integer_prod(left, right);
 		case STR_T:
 			return string_prod(left, right);
 		case FLOAT_T:
 			return float_prod(left, right);
-			break;
-
-	}
+		}
 }
 
 
@@ -104,6 +102,12 @@ static VAR integer_sum(VAR left, VAR right, int sign){
 		}
 		case STR_T:
 		{
+			
+			if(sign < 0){
+				printf("Error"); //TODO
+				exit(1);
+			}
+
 			char * str = malloc(strlen(right.value.strValue) + 1000);
 			sprintf(str, "%d%s", left.value.intValue, right.value.strValue);
 			VAR ret = anon_str(str);
@@ -130,6 +134,11 @@ static VAR float_sum(VAR left, VAR right, int sign){
 		}
 		case STR_T:
 		{
+			if(sign < 0){
+				printf("Error"); //TODO
+				exit(1);
+			}
+
 			char * str = malloc(strlen(right.value.strValue) + 1000);
 			sprintf(str, "%f%s", left.value.floatValue, right.value.strValue);
 			VAR ret = anon_str(str);

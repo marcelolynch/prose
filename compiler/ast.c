@@ -7,6 +7,7 @@ void do_print(ExpressionNode * p);
 void do_assign(AssignmentNode * a);
 void do_while(WhileNode* w_node);
 void do_if(IfNode* if_node);
+void do_function_call(FunctionNode * fn);
 
 void do_boolean_binary(BoolNode*node, char* op);
 void do_boolean_condition(BoolNode * node);
@@ -44,7 +45,12 @@ void produce(StatementList * block){
 			case IF_THEN_ELSE:
 				do_if((IfNode*)block->body);
 				break;
+			
+			case FUNCTION_CALL:
+				do_function_call((FunctionNode*)block->body);
+				break;
 		
+
 			default:
 				break;
 		}
@@ -54,6 +60,14 @@ void produce(StatementList * block){
 		block = block->next;
 
 		free(prev);
+	}
+}
+
+void do_function_call(FunctionNode * fn){
+	switch(fn->function){
+		case 1:
+			printf("assign(%d, var_sum(get_var(%d), %s));", *((int*)fn->first), *((int*)fn->first), get_expression(fn->second));
+
 	}
 }
 
@@ -122,7 +136,7 @@ void do_array_assignment(ArrayAssignment* a){
 		{
 			char * idx = get_expression((ExpressionNode*)array->right);
 			char * val = get_expression(value);
-			printf("get_var(%d), %s, %s);", *((int*)array->left), idx, val);
+			printf("get_var(%d), %s, %s);\n", *((int*)array->left), idx, val);
 	
 			free(idx);
 
@@ -277,7 +291,7 @@ char* get_expression(ExpressionNode * operation){
 		case FLOAT_LITERAL:
 		{
 			result = malloc(STR_OVERHEAD + MAX_DIGITS);
-			sprintf(result, "anon_float(%.10f)", *((float*)operation->left));
+			sprintf(result, "anon_float(%.5f)", *((float*)operation->left));
 			free(operation->left);
 			break;
 		}

@@ -16,8 +16,6 @@ static int compare_to_str(VAR strVar, VAR other);
 	Se retorna un numero positivo si el primr parametro es mayor
 	que el segundo, negativo en el caso opuesto, cero si son iguales.
 */
-
-
 int compare(VAR first, VAR second){
 	switch(first.type){
 		case INT_T:
