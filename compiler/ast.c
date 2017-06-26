@@ -5,6 +5,9 @@
 
 void do_print(ExpressionNode * p);
 void do_assign(AssignmentNode * a);
+void do_while(WhileNode* w_node);
+void do_if(IfNode* if_node);
+
 void do_boolean_binary(BoolNode*node, char* op);
 void do_boolean_condition(BoolNode * node);
 void do_boolean_comp(BoolNode * node, char* op);
@@ -18,7 +21,10 @@ void do_array_assignment(ArrayAssignment* a);
 void produce(StatementList * block){
 	while(block != NULL){
 		switch(block->type){
-
+			/*
+				Cada tipo de statement tiene un nodo asignado: se castea y procesa
+				śegún corresponda.	
+			*/
 			case ASSIGNMENT:
 				do_assign((AssignmentNode*)block->body);
 				break;
@@ -32,31 +38,13 @@ void produce(StatementList * block){
 				break;
 
 			case WHILE_LOOP:
-				printf("\n\nwhile(");
-				WhileNode* w_node = (WhileNode*) block->body;
-				do_boolean_condition(w_node->condition);
-				printf("){\n");
-				produce(w_node->body);
-				printf("}\n\n");
+				do_while((WhileNode*) block->body);
 				break;
 
 			case IF_THEN_ELSE:
-				printf("\n\nif(");
-				IfNode* if_node = (IfNode*)block->body;
-				do_boolean_condition(if_node->condition);
-				printf("){\n");
-				produce(if_node->body);
-				printf("}\n");
-				while(if_node->elseif != NULL){
-					if_node = if_node->elseif;
-					printf("else if(");
-					do_boolean_condition(if_node->condition);
-					printf("){\n");
-					produce(if_node->body);
-					printf("} ");
-				}
-
+				do_if((IfNode*)block->body);
 				break;
+		
 			default:
 				break;
 		}
@@ -69,6 +57,48 @@ void produce(StatementList * block){
 	}
 }
 
+/* Produce output por salida estandar:
+	codigo para un while loop */
+void do_while(WhileNode* w_node){
+		printf("\n\nwhile(");
+		
+		do_boolean_condition(w_node->condition); //Se outputea la condicion
+		
+		printf("){\n");
+
+			produce(w_node->body);	// El codigo dentro del while es lo mismo que un programa entero
+									// (una serie de Statements)
+		
+		printf("}\n\n");
+
+}
+
+
+
+/* Produce output por salida estandar:
+	codigo para una serie de if-then-else */
+void do_if(IfNode* if_node){
+	printf("\n\nif(");
+	do_boolean_condition(if_node->condition); //Se outputea la condicion
+	printf("){\n");
+
+	produce(if_node->body); // El codigo dentro del if es lo mismo que un programa entero
+							// (una serie de Statements)
+
+	printf("}\n");
+
+	/* De aca para adelante se encadenan los else-if*/
+	while(if_node->elseif != NULL){
+		if_node = if_node->elseif;
+		printf("else if(");
+		do_boolean_condition(if_node->condition);
+		printf("){\n");
+		produce(if_node->body);
+		printf("} ");
+	}
+
+
+}
 
 /* Produce output por salida estandar:
 	codigo de asignación de un valor a una variable nombrada (con ID) */

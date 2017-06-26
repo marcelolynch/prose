@@ -4,9 +4,20 @@
 #include "runtime/include/prose_functions.h"
 void main(void) { 
 
-VAR v;
 map_name(0, "a");
-assign(0, anon_str("holaaa"));
+map_name(1, "b");
+assign(0, anon_int(4));
+assign(1, var_sum(get_var(0), anon_int(2)));
+
+
+if((compare(get_var(0), get_var(1)) < 0)){
 print_var(get_var(0), 1);
-print_var(var_div(get_var(0), anon_int(2)), 1);
+}
+assign(0, anon_int(4));
+assign(1, var_sum(get_var(0), anon_int(2)));
+
+
+if((compare(get_var(0), get_var(1)) < 0)){
+print_var(get_var(0), 1);
+}
 }
