@@ -72,7 +72,7 @@ mentira					return FALSE;
 						return NUM;
 					}
 
-{digit}+(\.|,){digit}+  { 	yylval.floatval = atof(yytext);
+{digit}+\.{digit}+  { 	yylval.floatval = atof(yytext);
 						return FLOAT;
 						}
 

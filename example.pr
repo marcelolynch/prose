@@ -1,15 +1,15 @@
-que a valga 6
+que f valga 6
 
-hasta que pase "a es 0"
+hasta que pase "f es 0"
 hacer:
 
-	que a valga a - 1
-	mostrar 'a = ' + a
+	que f valga f - 1
+	mostrar 'f = ' + f
 
-	si pasa que "a vale 3"
-	entonces: mostrar 'a vale 3!'
-	en cambio si "a vale 5" mostrar 'a vale 5'
-	en otro caso mostrar 'a no vale 3 ni 5'
+	si pasa que "f vale 3"
+	entonces: mostrar 'f vale 3!'
+	en cambio si "f vale 5" mostrar 'f vale 5'
+	en otro caso mostrar 'f no vale 3 ni 5'
 	listo
 
 y repetir.
