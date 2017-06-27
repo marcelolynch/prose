@@ -1,0 +1,9 @@
+que fact valga 5
+que resultado valga fact
+
+mientras que "fact es mayor a 1" hacer:
+  que resultado valga resultado * (fact - 1)
+  que fact valga (fact - 1)
+y repetir.
+
+mostrar resultado
