@@ -7,7 +7,7 @@ tests = {
 }
 
 tests.each do |program, expected|
-  %x(./compile.sh #{program}.pr)
+  %x(./compile.sh ./tests/#{program}.pr)
   res = %x(./prose.out)
   if (res.chomp == expected)
     p "#{program}.pr OK"
