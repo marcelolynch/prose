@@ -94,8 +94,10 @@ mentira					return FALSE;
 							}
 
 \'[^\']+\'			{
-					char * str = malloc(strlen(yytext) - 1);
-					strncpy(str, yytext + 1, strlen(yytext) - 2);
+					int len = strlen(yytext);
+					char * str = malloc(len-1);
+					strncpy(str, yytext + 1, len - 2);
+					str[len-2] = '\0';
 					yylval.strval = str;
 					return STR;
 					}

@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#define ABS(x) ((x) < 0 ? -(x) : (x))
+#define EPSILON 0.001
+
 void print_var(VAR var, int newline){
 	switch(var.type){
 		case INT_T:
@@ -97,7 +100,12 @@ void scan(int type, VAR_ID elem) {
 		float read;
 		scanf("%g", &read);
 		while(getchar() != '\n');
-		assign(elem, anon_float(read));
+		float dif = read - (int)read;
+		if(ABS(dif) < EPSILON){
+			assign(elem, anon_int(read));
+		} else {
+			assign(elem, anon_float(read));
+		}
 	} else if (type == 1) { // TEXTO
 		char * text = malloc(256);
 		scanf("%255[^\n]", text);

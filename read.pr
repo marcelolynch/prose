@@ -1,3 +1,6 @@
+que aaa valga 3.2
+mostrar aaa
+
 mostrar 'Ingrese un numero'
 leer numero a numeroleido
 mostrar numeroleido
@@ -5,3 +8,5 @@ mostrar numeroleido
 mostrar 'Ingrese un texto'
 leer texto a texto_leido
 mostrar texto_leido
+
+mostrar numeroleido + texto_leido

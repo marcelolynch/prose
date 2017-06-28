@@ -22,6 +22,7 @@ static VAR float_div(VAR left, VAR right);
 static VAR string_div(VAR left, VAR right);
 static VAR integer_div(VAR left, VAR right);
 
+#define MAX_DIGITS 30
 
 VAR var_sum(VAR left, VAR right){
 	switch(left.type){
@@ -33,6 +34,9 @@ VAR var_sum(VAR left, VAR right){
 			return float_sum(left, right, 1);
 		case ARRAY_T:
 			return array_sum(left, right);
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", left.type);
+			exit(0);
 	}
 }
 
@@ -46,8 +50,10 @@ VAR var_sub(VAR left, VAR right){
 			return float_sum(left, right, -1);
 		case ARRAY_T:
 			return array_sub(left, right);
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", left.type);
+			exit(0);
 	}
-
 }
 
 VAR var_prod(VAR left, VAR right){
@@ -58,11 +64,14 @@ VAR var_prod(VAR left, VAR right){
 			return string_prod(left, right);
 		case FLOAT_T:
 			return float_prod(left, right);
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", left.type);
+			exit(0);
 		}
 }
 
 
- 
+
 VAR var_div(VAR left, VAR right){
 	switch(left.type){
 		case INT_T:
@@ -71,6 +80,9 @@ VAR var_div(VAR left, VAR right){
 			return string_div(left, right);
 		case FLOAT_T:
 			return float_div(left, right);
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", left.type);
+			exit(0);
 	}
 
 
@@ -107,18 +119,21 @@ static VAR integer_sum(VAR left, VAR right, int sign){
 		}
 		case STR_T:
 		{
-			
+
 			if(sign < 0){
 				printf("Error"); //TODO
 				exit(1);
 			}
 
-			char * str = malloc(strlen(right.value.strValue) + 1000);
+			char * str = malloc(strlen(right.value.strValue) + MAX_DIGITS);
 			sprintf(str, "%d%s", left.value.intValue, right.value.strValue);
 			VAR ret = anon_str(str);
 			free(str);
 			return ret;
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
 
@@ -144,17 +159,19 @@ static VAR float_sum(VAR left, VAR right, int sign){
 				exit(1);
 			}
 
-			char * str = malloc(strlen(right.value.strValue) + 1000);
+			char * str = malloc(strlen(right.value.strValue) + MAX_DIGITS);
 			sprintf(str, "%f%s", left.value.floatValue, right.value.strValue);
 			VAR ret = anon_str(str);
 			free(str);
 			return ret;
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
 
 
-#define MAX_DIGITS 30
 static VAR string_sum(VAR left, VAR right){
 		switch(right.type){
 		case INT_T:
@@ -181,6 +198,9 @@ static VAR string_sum(VAR left, VAR right){
 			free(str);
 			return ret;
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
 
@@ -205,6 +225,9 @@ static VAR array_sum(VAR left, VAR right){
 			array_push((Array)(ary.value.arrValue), var_clone(right));
 			return ary;
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
 
@@ -244,7 +267,7 @@ static int is_initial_substr(const char * str, const char * sub){
 	for (i = 0; str[i] != '\0' && sub[i] != '\0'; i++)
 		if (str[i] != sub[i])
 			return 0;
-	
+
 	return sub[i] == '\0';
 }
 
@@ -257,7 +280,7 @@ static VAR array_sub(VAR left, VAR right){
 			return ans;
 		default:
 			printf("Error: a un %s solo se le puede restar otro %s. El programa no puede continuar.\n", get_typename(ARRAY_T), get_typename(ARRAY_T));
-			exit(1);		
+			exit(1);
 	}
 }
 
@@ -297,6 +320,9 @@ static VAR integer_prod(VAR left, VAR right){
 			}
 			return multi;
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
 
@@ -319,6 +345,9 @@ static VAR float_prod(VAR left, VAR right){
 		{
 			return integer_prod(anon_int(left.value.floatValue), right);
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
 
@@ -341,6 +370,9 @@ static VAR string_prod(VAR left, VAR right){
 			printf("Str * Str is not good \n");
 			exit(1);
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
 
@@ -369,6 +401,9 @@ static VAR integer_div(VAR left, VAR right){
 			printf("Error: se intenta dividir un numero por una lista. El programa no puede continuar\n");
 			exit(1);
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
 
@@ -395,6 +430,9 @@ static VAR float_div(VAR left, VAR right){
 			printf("Error: se intenta dividir un numero por una lista. El programa no puede continuar\n");
 			exit(1);
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
 
@@ -427,7 +465,8 @@ static VAR string_div(VAR left, VAR right){
 			printf("Error: se intenta dividir un texto por una lista. El programa no puede continuar\n");
 			exit(1);
 		}
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
+			exit(0);
 	}
 }
-
-

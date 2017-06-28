@@ -1,0 +1,52 @@
+que tablero valga [['_', '_', '_'], ['_', '_', '_'], ['_', '_', '_']]
+que ganador valga -1
+que jugador valga 0
+
+mientras que "ganador es -1" entonces:
+  mostrar 'Seleccione Fila'
+  leer numero a fila
+  mostrar 'Seleccione Columna'
+  leer numero a columna
+
+  si pasa que "tablero[fila][columna] es '_'" entonces:
+    que tablero[fila][columna] valga jugador
+
+    que auxFila valga 0
+    mientras que "auxFila es menor a 3" entonces:
+      si pasa que "tablero[auxFila][0] es jugador
+        y ademas tablero[auxFila][1] es jugador
+        y ademas tablero[auxFila][2] es jugador" entonces:
+        que ganador valga jugador
+      listo.
+      si pasa que "tablero[0][auxFila] es jugador
+        y ademas tablero[1][auxFila] es jugador
+        y ademas tablero[2][auxFila] es jugador" entonces:
+        que ganador valga jugador
+      listo.
+      incrementar auxFila
+    y repetir.
+
+    si pasa que "tablero[0][0] es jugador
+      y ademas tablero[1][1] es jugador
+      y ademas tablero[2][2] es jugador" entonces:
+      que ganador valga jugador
+    listo.
+
+    si pasa que "tablero[0][2] es jugador
+      y ademas tablero[1][1] es jugador
+      y ademas tablero[2][0] es jugador" entonces:
+      que ganador valga jugador
+    listo.
+
+    que jugador valga 1 - jugador
+
+  de otro modo
+    mostrar 'Jugada Inválida'
+  listo.
+
+  mostrar tablero[0]
+  mostrar tablero[1]
+  mostrar tablero[2]
+y repetir.
+
+mostrar 'El ganador fue ' + ganador

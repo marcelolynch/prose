@@ -12,7 +12,7 @@ VAR * var_table[MAX_VARS] = {0};
 char* name_table[MAX_VARS] = {0};
 
 
-/* Mapea el id de una variable al nombre puesto por el programador 
+/* Mapea el id de una variable al nombre puesto por el programador
 	(para mostrar errores)
  El compilador debería setear esto cuando corresponda.  */
 void map_name(VAR_ID id, char * name){
@@ -29,7 +29,7 @@ char* get_typename(int type){
 		case STR_T:
 			return "texto";
 		case ARRAY_T:
-			return "lista";	
+			return "lista";
 		default:
 			return "(algo desconocido)";
 	}
@@ -43,7 +43,7 @@ VAR get_var(VAR_ID id){
 		fprintf(stderr, "Error fatal: usted intentó utilizar una variable nunca antes definida, de nombre '%s'.\nAsegúrese de no haberse equivocado y recompile. \n", name_table[id]);
 		exit(1);
 	}
-	return *var_table[id];	
+	return *var_table[id];
 }
 
 
@@ -69,7 +69,7 @@ VAR anon_int(int value){
 VAR anon_str(char * value){
 	VAR var;
 	var.type = STR_T;
-	
+
 	var.value.strValue = malloc(strlen(value) + 1);
 	strcpy(var.value.strValue, value);
 
@@ -78,9 +78,9 @@ VAR anon_str(char * value){
 
 
 
-/* Construye una variable del tipo lista y la retorna 
+/* Construye una variable del tipo lista y la retorna
  El primer argumento corresponde al numero de elementos con que se inicializa.
- Si es mayor a cero, se deben pasar como el resto de los parámetros las 
+ Si es mayor a cero, se deben pasar como el resto de los parámetros las
  variables (VAR) con las que se inicializa la lista */
 VAR anon_arr(int num, ...){
 	VAR var;
@@ -92,11 +92,11 @@ VAR anon_arr(int num, ...){
 	int i;
 
 	va_start(valist, num);
-	
+
 	for (i = 0; i < num; i++) {
       array_push(var.value.arrValue, va_arg(valist, VAR));
   	}
-	
+
    	va_end(valist);
 
 	return var;
@@ -152,6 +152,10 @@ VAR var_clone(VAR var){
 			clone.value.arrValue = array_clone(var.value.arrValue);
 			return clone;
 		}
+
+		default:
+			fprintf(stderr, "Error. Tipo desconocido: %d\n", var.type);
+			exit(0);
 	}
 }
 
@@ -185,13 +189,13 @@ VAR assign(VAR_ID id, VAR assigned){
 	free_var_resources(var_table[id]);
 	var_table[id] = var;
 
-	
+
 	return *var;
 
 }
 
-/*Libera los recursos alocados para la variable apuntada 
-(en el caso de string, la cadena, y si es una variable de 
+/*Libera los recursos alocados para la variable apuntada
+(en el caso de string, la cadena, y si es una variable de
 tipo lista, se liberan los recursos de la misma */
 void free_var_resources(VAR* v){
 	if(v == NULL) return;
