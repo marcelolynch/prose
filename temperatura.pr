@@ -1,0 +1,30 @@
+mostrar '¡Bienvenido al convertidor de temperatura!'
+
+que formato sea 0
+
+mientras que "formato no es 'CF' y ademas formato no es 'FC'" hacer
+
+    mostrar 'Si quiere pasar una temperatura de Celsius a Fahrenheit escriba CF'
+    mostrar 'Si quiere pasar una temperatura de Fahrenheit a Celsius escriba FC'
+    mostrar 'Ingrese CF o FC:'
+
+    leer texto a formato
+
+    si pasa que "formato no es 'CF' y ademas formato no es 'FC'" entonces
+        mostrar '\nLo sentimos, el formato ingresado es desconocido. Vuelva a ingresar el formato por favor.\n'
+    listo
+y repetir
+
+mostrar 'Ingrese la temperatura:'
+leer numero a temperatura
+
+si pasa que "formato vale 'CF'" entonces
+    mostrar 'Convirtiendo ' + temperatura + 'Cº de Celsius a Fahrenheit: ' + (temperatura * 1.8 + 32) + 'Fº'
+
+en cambio si "formato vale 'FC'" 
+    mostrar 'Convirtiendo ' + temperatura + 'Fº de Fahrenheit a Celsius : ' + ((temperatura - 32) / 1.8) + 'Cº'
+
+listo
+
+mostrar '¡Muchas gracias por usar nuestro humilde convertidor de temperatura!'
+mostrar 'Que tenga un buen día.'
