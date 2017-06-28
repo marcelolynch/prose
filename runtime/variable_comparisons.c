@@ -35,6 +35,17 @@ int compare(VAR first, VAR second){
 	}
 }
 
+/*
+	Devuelve 1 si las variables first y second son iguales, 0 sino.
+	Notar que si las variables no son del mismo tipo devuelve 0.
+*/
+int is_equals(VAR first, VAR second){
+	if (first.type == second.type)
+		return compare(first, second) == 0;
+	else
+		return 0;
+}
+
 
 static int compare_to_int(VAR intVar, VAR other){
 	int i = intVar.value.intValue;

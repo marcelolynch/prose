@@ -13,6 +13,8 @@ void do_exit_call();
 void do_boolean_binary(BoolNode*node, char* op);
 void do_boolean_condition(BoolNode * node);
 void do_boolean_comp(BoolNode * node, char* op);
+void do_equals(BoolNode * node);
+void do_not_equals(BoolNode * node);
 char* get_expression(ExpressionNode * operation);
 char * get_arith_binary(ExpressionNode* expr, char* funcName);
 void do_array_assignment(ArrayAssignment* a);
@@ -67,11 +69,17 @@ void produce(StatementList * block){
 	}
 }
 
+/* Produce output por salida estandar:
+	codigo que ejecuta una función nativa */
 void do_function_call(FunctionNode * fn){
 	switch(fn->function){
-		case ARR_APPEND:
-			printf("append(%d, %s);\n", *((int*)fn->first), get_expression(fn->second));
+		case ARR_APPEND: 
+		{
+			char * expr = get_expression(fn->second);
+			printf("append(%d, %s);\n", *((int*)fn->first), expr);
+			free(expr);
 			break;
+		}
 		case TO_UPPER:
 			printf("toupper_str(%d);\n", *((int*)fn->first));
 			break;
@@ -87,8 +95,9 @@ void do_function_call(FunctionNode * fn){
 		case SCAN_READ:
 			printf("scan(%d, %d);\n", *((int*)fn->first), *((int*)fn->second));
 			break;
-
 		default:
+			fprintf(stderr, "Error. Operacion desconocida: %d", fn->function);
+			exit(1);
 			break;
 	}
 }
@@ -102,8 +111,8 @@ void do_while(WhileNode* w_node){
 
 		printf("){\n");
 
-			produce(w_node->body);	// El codigo dentro del while es lo mismo que un programa entero
-									// (una serie de Statements)
+		produce(w_node->body);	// El codigo dentro del while es lo mismo que un programa entero
+								// (una serie de Statements)
 
 		printf("}\n\n");
 
@@ -237,11 +246,11 @@ void do_boolean_condition(BoolNode * node){
 			break;
 
 		case COMP_EQ:
-			do_boolean_comp(node, "==");
+			do_equals(node);
 			break;
 
 		case COMP_NEQ:
-			do_boolean_comp(node, "!=");
+			do_not_equals(node);
 			break;
 
 		case COMP_GT:
@@ -269,7 +278,6 @@ void do_boolean_binary(BoolNode*node, char* op){
 	codigo asociado a una expresion booleana de comparacion
 	(se pasa el operador por parametro) */
 void do_boolean_comp(BoolNode * node, char* op){
-
 	char * first = get_expression((ExpressionNode*)node->left);
 	char * second = get_expression((ExpressionNode*)node->right);
 
@@ -277,6 +285,21 @@ void do_boolean_comp(BoolNode * node, char* op){
 
 	free(first);
 	free(second);
+}
+
+void do_equals(BoolNode * node){
+	char * first = get_expression((ExpressionNode*)node->left);
+	char * second = get_expression((ExpressionNode*)node->right);
+
+	printf("(is_equals(%s, %s))", first, second);
+
+	free(first);
+	free(second);
+}
+
+void do_not_equals(BoolNode * node){
+	printf("!");
+	do_equals(node);
 }
 
 void do_exit_call() {

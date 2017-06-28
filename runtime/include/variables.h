@@ -54,6 +54,7 @@ VAR var_clone(VAR var);
 /*Comparacion */
 
 int compare(VAR first, VAR second);
+int is_equals(VAR first, VAR second);
 
 
 
