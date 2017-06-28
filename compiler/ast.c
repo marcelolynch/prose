@@ -326,7 +326,7 @@ char* get_expression(ExpressionNode * operation){
 					list = list->next;
 				}
 				int len = strlen(result);
-				result = realloc(result, len + 1);
+				result = realloc(result, len + 2);
 				sprintf(result+len, ")");
 
 				return result;
