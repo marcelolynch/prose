@@ -15,7 +15,13 @@ digit [0-9]
 mostrar           		return PRINT;
 
 anexar(le)?				return ANEXAR;
-a 						return A;
+a						return A;
+mayusculas?				return MAYUSCULA;
+minusculas?				return MINUSCULA;
+decrementar 			return DECREMENTAR;
+incrementar 			return INCREMENTAR;
+pasar					return PASAR;
+
 
 que						return QUE;
 valga\ 					return VALGA;
@@ -84,7 +90,7 @@ mentira					return FALSE;
 							return IDENTIFIER;
 							}
 
-\'[^\'.]+\'			{
+\'[^\']+\'			{
 					char * str = malloc(strlen(yytext) - 1);
 					strncpy(str, yytext + 1, strlen(yytext) - 2);
 					yylval.strval = str;

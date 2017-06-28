@@ -120,8 +120,14 @@ int list_length(ExpressionList * list){
 
 %token EXIT;
 
+%left NOT
+%left LE GE EQ
 
-%left LE GE EQ AND OR NOT '+' '*' '/' '-';
+%left AND
+%left OR
+
+%left '+' '-';
+%left '*' '/';
 
 
 %type <assignment> asig;

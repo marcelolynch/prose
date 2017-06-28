@@ -10,8 +10,8 @@ map_name(2, "i");
 map_name(3, "j");
 map_name(4, "minimo");
 map_name(5, "aux");
-assign(0, anon_arr(5, anon_float(3.00000), anon_float(1.00000), anon_float(5.00000), anon_float(9.00000), anon_float(6.00000)));
-print_var(anon_str("\nDesordenada:"), 1);
+assign(0, anon_arr(2, anon_int(1), anon_int(1)));
+assign(0, anon_arr(10, anon_int(3), anon_int(4), anon_int(1), anon_int(2), anon_int(5), anon_int(10), anon_int(9), anon_int(8), anon_int(6), anon_int(7)));
 print_var(get_var(0), 1);
 assign(1, anon_int(10));
 assign(2, anon_int(0));
@@ -37,7 +37,5 @@ array_assign(get_var(0), get_var(4), get_var(5));
 assign(2, var_sum(get_var(2), anon_int(1)));
 }
 
-print_var(anon_str("\nOrdenada:"), 1);
 print_var(get_var(0), 1);
-print_var(anon_str("\n"), 1);
 }

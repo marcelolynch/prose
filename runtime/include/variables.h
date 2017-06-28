@@ -17,15 +17,15 @@ typedef int VAR_ID;
 
 
 typedef union{
-		int intValue;
-		float floatValue;
-		char* strValue;
-		void* arrValue;
-	} varValue;
+	int intValue;
+	float floatValue;
+	char* strValue;
+	void* arrValue;
+} varValue;
 
 typedef struct{
   	varValue value;
-		type_t type;
+	type_t type;
 } VAR;
 
 
@@ -65,7 +65,7 @@ VAR var_div(VAR left, VAR right);
 VAR var_minus(VAR var);
 
 
-
+char* get_typename(int type);
 
 
 

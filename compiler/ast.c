@@ -69,9 +69,24 @@ void produce(StatementList * block){
 
 void do_function_call(FunctionNode * fn){
 	switch(fn->function){
-		case 1:
-			printf("assign(%d, var_sum(get_var(%d), %s));", *((int*)fn->first), *((int*)fn->first), get_expression(fn->second));
+		case ARR_APPEND:
+			printf("append(%d, %s);\n", *((int*)fn->first), get_expression(fn->second));
+			break;
+		case TO_UPPER:
+			printf("toupper_str(%d);\n", *((int*)fn->first));
+			break;
+		case TO_LOWER:
+			printf("tolower_str(%d);\n", *((int*)fn->first));
+			break;
+		case INCREMENT:
+			printf("inc(%d);\n", *((int*)fn->first));
+			break;
+		case DECREMENT:
+			printf("dec(%d);\n", *((int*)fn->first));
+			break;
 
+		default:
+			break;
 	}
 }
 
@@ -121,9 +136,9 @@ void do_if(IfNode* if_node){
 /* Produce output por salida estandar:
 	codigo de asignación de un valor a una variable nombrada (con ID) */
 void do_assign(AssignmentNode * a){
-		char * expression = get_expression(a->value);
-		printf("assign(%d, %s);\n", a->var_id, expression);
-		free(expression);
+	char * expression = get_expression(a->value);
+	printf("assign(%d, %s);\n", a->var_id, expression);
+	free(expression);
 }
 
 #define STR_OVERHEAD 25
@@ -240,11 +255,11 @@ void do_boolean_condition(BoolNode * node){
 	codigo asociado a una expresion booleana logica con dos operandos
 	(se pasa el operador por parametro) */
 void do_boolean_binary(BoolNode*node, char* op){
-			printf("(");
-			do_boolean_condition((BoolNode*)node->left);
-			printf(" %s ", op);
-			do_boolean_condition((BoolNode*)node->right);
-			printf(")");
+	printf("(");
+	do_boolean_condition((BoolNode*)node->left);
+	printf(" %s ", op);
+	do_boolean_condition((BoolNode*)node->right);
+	printf(")");
 }
 
 /* Produce output por salida estandar:
@@ -311,13 +326,13 @@ char* get_expression(ExpressionNode * operation){
 				while(list != NULL){
 					char * expr = get_expression(list->expression);
 					int len = strlen(result);
-					result = realloc(result, len + strlen(expr) + 1);
+					result = realloc(result, len + strlen(expr) + 3); //+3 para coma, espacio y '\0'.
 					sprintf(result+len, ", %s", expr);
 					free(expr);
 					list = list->next;
 				}
 				int len = strlen(result);
-				result = realloc(result, len + 1);
+				result = realloc(result, len + 2); //Parentesis y el '\0'
 				sprintf(result+len, ")");
 
 				return result;
