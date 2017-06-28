@@ -77,11 +77,23 @@ Array array_substract(Array source, Array other){
 	return arr;
 }
 
+/* Quita un elemento de un arreglo */
+Array array_remove(Array source, VAR value){
+	Array arr = new_array();
+	int i;
+
+	for (i = 0; i < source->size; i++)
+		if (!is_equals(source->values[i], value))
+			array_push(arr, source->values[i]);
+
+	return arr;
+}
+
 /* Devulve 1 si el arreglo contiene a value, 0 sino */
 int array_contains(Array arr, VAR value){
 	int i;
 	for(i = 0; i < arr->size; i++)
-		if (compare(arr->values[i], value) == 0)
+		if (is_equals(arr->values[i], value))
 			return 1;
 	return 0;
 }
