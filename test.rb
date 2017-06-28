@@ -1,6 +1,9 @@
 tests = {
   "hello_world" => "Hello World",
-  "factorial" => "120"
+  "factorial" => "120",
+  "str_concat" => "HelloWorld",
+  "if" => "OK",
+  "end" => "Antes de terminar"
 }
 
 tests.each do |program, expected|

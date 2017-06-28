@@ -118,6 +118,8 @@ int list_length(ExpressionList * list){
 
 %token TRUE FALSE;
 
+%token EXIT;
+
 
 %left LE GE EQ AND OR NOT '+' '*' '/' '-';
 
@@ -215,15 +217,18 @@ block	: asig{
 			$$->type = IF_THEN_ELSE;
 			$$->node = $1;
 		}
-	    | func_call {
+	  | func_call {
 	 		$$ = malloc(sizeof(*$$));
 	 		$$->type = FUNCTION_CALL;
 	 		$$->node = $1;
 	 	}
-
+		| exit {
+			$$ = malloc(sizeof(*$$));
+			$$->type = EXIT_CALL;
+		}
 		;
 
-
+exit : EXIT;
 
 asig : QUE IDENTIFIER VALGA expression
 	 	{
@@ -290,7 +295,7 @@ expression : STR
 			int id = getId($1);
 			memcpy($$->left, &id, sizeof(int));
 	 	}
-	 
+
 	 | arr_indexing
 	 	{
 	 		$$ = $1;
@@ -303,7 +308,7 @@ expression : STR
 				$$->left = $1;
 				$$->right = $3;
 			}
-	 |  expression '*' expression 
+	 |  expression '*' expression
 	 	{
 	 		$$ = malloc(sizeof(*$$));
 			$$->type = ARIT_PROD;
@@ -311,14 +316,14 @@ expression : STR
 			$$->right = $3;
 
 	 	}
-	 
+
 	 | expression '-' expression {
 	 		$$ = malloc(sizeof(*$$));
 			$$->type = ARIT_SUB;
 			$$->left = $1;
 			$$->right = $3;
 	 }
-	 
+
 	 | expression '/' expression {
 	 		$$ = malloc(sizeof(*$$));
 			$$->type = ARIT_DIV;
@@ -332,7 +337,7 @@ expression : STR
 			$$->type = ARIT_UNARY_MINUS;
 			$$->left = $2;
 	 	}
-	 
+
 	 |	'(' expression ')'
 			{
 				$$ = $2;
@@ -340,7 +345,7 @@ expression : STR
 		;
 
 
-func_call : ANEXAR expression A IDENTIFIER 
+func_call : ANEXAR expression A IDENTIFIER
 			{
 				$$ = malloc(sizeof(*$$));
 				$$->function = ARR_APPEND;
@@ -352,7 +357,7 @@ func_call : ANEXAR expression A IDENTIFIER
 			{
 				$$ = malloc(sizeof(*$$));
 				$$->function = TO_UPPER;
-				$$->first = malloc(sizeof(int));					
+				$$->first = malloc(sizeof(int));
 				*((int*)$$->first) = getId($2);
 			}
 
@@ -360,14 +365,14 @@ func_call : ANEXAR expression A IDENTIFIER
 			{
 				$$ = malloc(sizeof(*$$));
 				$$->function = TO_LOWER;
-				$$->first = malloc(sizeof(int));					
+				$$->first = malloc(sizeof(int));
 				*((int*)$$->first) = getId($2);
 			}
 		  | INCREMENTAR IDENTIFIER
 		  	{
 		  		$$ = malloc(sizeof(*$$));
 				$$->function = INCREMENT;
-				$$->first = malloc(sizeof(int));					
+				$$->first = malloc(sizeof(int));
 				*((int*)$$->first) = getId($2);
 		  	}
 
@@ -375,7 +380,7 @@ func_call : ANEXAR expression A IDENTIFIER
 		  	{
 		  		$$ = malloc(sizeof(*$$));
 				$$->function = DECREMENT;
-				$$->first = malloc(sizeof(int));					
+				$$->first = malloc(sizeof(int));
 				*((int*)$$->first) = getId($2);
 		  	}
 		  ;
@@ -386,7 +391,7 @@ array : '[' explist ']' {
 }
 
 
-arr_indexing: IDENTIFIER '[' expression ']' 
+arr_indexing: IDENTIFIER '[' expression ']'
 			{
 				$$ = malloc(sizeof(*$$));
 				$$->type = INDEXED_ARRAY;
@@ -440,7 +445,7 @@ while 	: WHILE SEP condition SEP DO program WEND
 			{
 				$$ = malloc(sizeof(*$$));
 				$$->condition = malloc(sizeof(*$$->condition));
-				
+
 				$$->condition->type = BOOL_NOT;
 				$$->condition->left = $3;
 
@@ -455,7 +460,7 @@ if 		: IF SEP condition SEP DO program END
 			$$->condition = $3;
 			$$->body = $6;
 			$$->elseif = NULL;
-		
+
 		}
 		| IF SEP condition SEP DO program elseif END
 			{
@@ -541,14 +546,14 @@ bool_comp	: LE { $$ = COMP_LE;  }
 int main()
 {
 	printf("#include <stdlib.h>\n");
-	
+
 	printf("#include \"runtime/include/variables.h\"\n");
-	
+
 	printf("#include \"runtime/include/prose_arrays.h\"\n");
-	
+
 	printf("#include \"runtime/include/prose_functions.h\"\n");
 
-    printf("void main(void) { \n\n");
+    printf("int main(void) { \n\n");
 
     // Start the Parsing (yacc)
     yyparse();

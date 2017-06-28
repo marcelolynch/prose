@@ -28,7 +28,7 @@ typedef enum
 
 typedef enum{
 	VARIABLE,
-	INT_LITERAL, 
+	INT_LITERAL,
 	FLOAT_LITERAL,
 	STR_LITERAL,
 	ARRAY_LITERAL,
@@ -48,6 +48,7 @@ typedef enum{
 	PRINT_CALL,
 	WHILE_LOOP,
 	IF_THEN_ELSE,
+	EXIT_CALL,
 	FUNCTION_CALL
 } stmnt_type;
 
@@ -60,11 +61,11 @@ typedef enum{
 	DECREMENT
 } fn_type;
 
-/* 
-    StatementList funciona como lista encadenada 
+/*
+    StatementList funciona como lista encadenada
 	de sentencias aisladas (los tipos posibles
 	son los definidos en el enum stmnt_type).
-	
+
 	Body apunta al nodo correspondiente a la sentencia,
 	que debe ser casteado oportunamente a alguna estructura
 	de nodo segun corresponda al tipo que indica el campo type
@@ -86,7 +87,7 @@ typedef struct fncall{
 
 /*
 	Nodo para la lista encadenada StatementList,
-	se utiliza en el parser como intermediario de 
+	se utiliza en el parser como intermediario de
 	nodos aislados (en las reducciones de 'abajo' en el arbol)
 	antes de construir la lista.
 
@@ -101,11 +102,11 @@ typedef struct block{
 	Nodo para una expresion booleana
 	El tipo es un bool_operation.
 
-	left y right apuntan a los operandos, que pueden ser BoolNode en el 
+	left y right apuntan a los operandos, que pueden ser BoolNode en el
 	caso de operaciones logicas, o ExpressioNode en el caso de comparaciones.
 
 	En el caso de TRUE_ y FALSE_LITERAL no se utilizan left ni right,
-	BOOL_NOT utiliza solo el campo left para apuntar al BoolNode que se esta negando 
+	BOOL_NOT utiliza solo el campo left para apuntar al BoolNode que se esta negando
 */
 typedef struct bc{
 	bool_operation type;
@@ -152,7 +153,7 @@ typedef struct wn{
 
 
 /*
-	IfNode guarda la información correspondiente a un bloque if-elseif: 
+	IfNode guarda la información correspondiente a un bloque if-elseif:
 	funciona como una cadena de condiciones: la cabeza de la cadena corresponde
 	al if y el resto a else-ifs.
 
@@ -178,18 +179,15 @@ typedef struct asn{
 	ExpressionNode * value;
 } AssignmentNode;
 
-
-
-
 /*
-	Se utiliza para expresiones como 
+	Se utiliza para expresiones como
 	"que a[1+2][2] valga 3 + 4".
 
 	En value se guarda la expresion a asignar (3+4)
 	y array apunta a la expresion de acceso al arreglo,
 	que puede ser INDEXED_ARRAY (a[1+2]) o NESTED_INDEXING (a[1][2]).
-	
-	INDEXED_ARRAY utiliza el campo left de ExpressionNode para guardar 
+
+	INDEXED_ARRAY utiliza el campo left de ExpressionNode para guardar
 		el ID de la variable que tiene el arreglo, y
 		el campo right para la expresion correspondiente al indice.
 		En el caso a[1+2] seria:
@@ -205,7 +203,7 @@ typedef struct asn{
 		  left -> 2
 		  right : puntero a ExpressionNode de INDEXED_ARRAY como se describio arriba
 		 }
-	
+
 	Vease el metodo de construccion do_array_assignment en ast.c para ver como se acceden
 	y castean los campos correspondientes.
 

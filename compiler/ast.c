@@ -8,6 +8,7 @@ void do_assign(AssignmentNode * a);
 void do_while(WhileNode* w_node);
 void do_if(IfNode* if_node);
 void do_function_call(FunctionNode * fn);
+void do_exit_call();
 
 void do_boolean_binary(BoolNode*node, char* op);
 void do_boolean_condition(BoolNode * node);
@@ -24,7 +25,7 @@ void produce(StatementList * block){
 		switch(block->type){
 			/*
 				Cada tipo de statement tiene un nodo asignado: se castea y procesa
-				śegún corresponda.	
+				śegún corresponda.
 			*/
 			case ASSIGNMENT:
 				do_assign((AssignmentNode*)block->body);
@@ -33,7 +34,7 @@ void produce(StatementList * block){
 			case ARRAY_ASSIGNMENT:
 				do_array_assignment((ArrayAssignment*)block->body);
 				break;
-				
+
 			case PRINT_CALL:
 				do_print((ExpressionNode*)block->body);
 				break;
@@ -45,16 +46,19 @@ void produce(StatementList * block){
 			case IF_THEN_ELSE:
 				do_if((IfNode*)block->body);
 				break;
-			
+
 			case FUNCTION_CALL:
 				do_function_call((FunctionNode*)block->body);
 				break;
-		
+
+			case EXIT_CALL:
+				do_exit_call();
+				break;
 
 			default:
 				break;
 		}
-		
+
 		StatementList * prev = block;
 
 		block = block->next;
@@ -75,14 +79,14 @@ void do_function_call(FunctionNode * fn){
 	codigo para un while loop */
 void do_while(WhileNode* w_node){
 		printf("\n\nwhile(");
-		
+
 		do_boolean_condition(w_node->condition); //Se outputea la condicion
-		
+
 		printf("){\n");
 
 			produce(w_node->body);	// El codigo dentro del while es lo mismo que un programa entero
 									// (una serie de Statements)
-		
+
 		printf("}\n\n");
 
 }
@@ -130,14 +134,14 @@ void do_assign(AssignmentNode * a){
 void do_array_assignment(ArrayAssignment* a){
 	ExpressionNode* array = a->array;
 	ExpressionNode* value = a->value;
-	printf("array_assign(");	
+	printf("array_assign(");
 	switch(array->type){
 		case INDEXED_ARRAY:
 		{
 			char * idx = get_expression((ExpressionNode*)array->right);
 			char * val = get_expression(value);
 			printf("get_var(%d), %s, %s);\n", *((int*)array->left), idx, val);
-	
+
 			free(idx);
 
 			break;
@@ -148,14 +152,14 @@ void do_array_assignment(ArrayAssignment* a){
 			/* right apunta a la expresion de indice: en a[10-1] apunta al nodo de expresion para "10-1" */
 			char * idx = get_expression((ExpressionNode*)array->right);
 
-			/* left apunta a un ExpressionNode correspondiente 
+			/* left apunta a un ExpressionNode correspondiente
 				al arreglo que se esta accediendo anidado: ejemplo
-				en arr[1][2], left es la expresion que resuelve arr[1] y 
+				en arr[1][2], left es la expresion que resuelve arr[1] y
 				devuelve ese arreglo.
 			*/
 			char * ary = get_expression((ExpressionNode*)array->left);
-			
-			// Value tiene la expresion a asignar		
+
+			// Value tiene la expresion a asignar
 			char * val = get_expression(value);
 			printf("%s, %s, %s);", ary, idx, val);
 
@@ -233,7 +237,7 @@ void do_boolean_condition(BoolNode * node){
 }
 
 /* Produce output por salida estandar:
-	codigo asociado a una expresion booleana logica con dos operandos 
+	codigo asociado a una expresion booleana logica con dos operandos
 	(se pasa el operador por parametro) */
 void do_boolean_binary(BoolNode*node, char* op){
 			printf("(");
@@ -257,9 +261,11 @@ void do_boolean_comp(BoolNode * node, char* op){
 	free(second);
 }
 
+void do_exit_call() {
+	printf("exit(0);\n");
+}
 
-
-/* Genera un string con el codigo asociado a una expresion 
+/* Genera un string con el codigo asociado a una expresion
 (un valor literal, expresion aritmetica o booleana, una variable nombrada o acceso a la posicion de un arreglo)*/
 char* get_expression(ExpressionNode * operation){
 	char * result;
@@ -301,7 +307,7 @@ char* get_expression(ExpressionNode * operation){
 				result = malloc(STR_OVERHEAD);
 				sprintf(result, "anon_arr(%d", *((int*)operation->right));
 				ExpressionList * list = (ExpressionList*)operation->left;
-	
+
 				while(list != NULL){
 					char * expr = get_expression(list->expression);
 					int len = strlen(result);
@@ -323,7 +329,7 @@ char* get_expression(ExpressionNode * operation){
 
 			result = malloc(STR_OVERHEAD + strlen(idx));
 			sprintf(result, "array_index(get_var(%d), %s)", *((int*)operation->left), idx);
-	
+
 			free(idx);
 
 			break;
@@ -392,4 +398,3 @@ char * get_arith_binary(ExpressionNode* expr, char* funcName){
 			free(right);
 			return result;
 }
-

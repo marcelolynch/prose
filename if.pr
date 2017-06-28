@@ -1,0 +1,12 @@
+que prueba sea 5
+que error sea 'No debe mostrarse esto'
+
+si pasa que "prueba es mayor que 5" entonces
+  mostrar error
+en cambio si "prueba es menor que 5"
+  mostrar error
+en cambio si "prueba es 5"
+  mostrar 'OK'
+de otro modo
+  mostrar error
+listo.
