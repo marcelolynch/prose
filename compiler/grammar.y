@@ -408,7 +408,7 @@ func_call : ANEXAR expression A IDENTIFIER
 				$$->second = malloc(sizeof(int));
 				*((int*)$$->second) = getId($4);
 			}
-		  ;
+		;
 
 
 array : '[' explist ']' {
