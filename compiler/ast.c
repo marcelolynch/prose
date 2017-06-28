@@ -320,13 +320,13 @@ char* get_expression(ExpressionNode * operation){
 				while(list != NULL){
 					char * expr = get_expression(list->expression);
 					int len = strlen(result);
-					result = realloc(result, len + strlen(expr) + 15);
+					result = realloc(result, len + strlen(expr) + 3); //+3 para coma, espacio y '\0'.
 					sprintf(result+len, ", %s", expr);
 					free(expr);
 					list = list->next;
 				}
 				int len = strlen(result);
-				result = realloc(result, len + 2);
+				result = realloc(result, len + 2); //Parentesis y el '\0'
 				sprintf(result+len, ")");
 
 				return result;
