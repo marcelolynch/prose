@@ -2,34 +2,55 @@
 #include "runtime/include/variables.h"
 #include "runtime/include/prose_arrays.h"
 #include "runtime/include/prose_functions.h"
-int main(void) {
+int main(void) { 
 
-map_name(0, "cadenaLoca");
-map_name(1, "mutable");
-map_name(2, "listaLoca");
-map_name(3, "nadaQueVer");
-assign(0, anon_str("HoLa coM0 tE v4 !!!"));
-print_var(get_var(0), 1);
-tolower_str(0);
-print_var(get_var(0), 1);
-toupper_str(0);
-print_var(get_var(0), 1);
-tolower_str(0);
-print_var(get_var(0), 1);
-toupper_str(0);
-print_var(get_var(0), 1);
-assign(1, anon_int(0));
-print_var(get_var(1), 1);
-inc(1);
-print_var(get_var(1), 1);
-dec(1);
-print_var(get_var(1), 1);
-append(0, anon_str("asdasd"));
-print_var(get_var(0), 1);
-assign(2, anon_arr(3, anon_str("asd"), anon_str("loco"), anon_int(12)));
-print_var(get_var(2), 1);
-append(2, anon_str("no tan loco"));
-print_var(get_var(2), 1);
-assign(3, anon_int(6));
-append(3, anon_str("esto explota"));
+map_name(0, "z");
+map_name(1, "x");
+map_name(2, "y");
+assign(0, anon_int(1));
+
+
+while((is_equals(get_var(0), anon_int(1)))){
+print_var(anon_str("Ingrese un numero"), 1);
+scan(0, 1);
+
+
+if((compare(get_var(1), anon_int(0)) <= 0)){
+exit(0);
+}
+
+
+if((compare(get_var(1), anon_int(3)) < 0)){
+
+
+if((is_equals(get_var(1), anon_int(1)))){
+print_var(anon_str("No"), 1);
+exit(0);
+}
+else if(1){
+print_var(anon_str("Si"), 1);
+exit(0);
+} }
+
+
+if((is_equals(var_sub(get_var(1), var_prod(anon_int(2), var_div(get_var(1), anon_int(2)))), anon_int(0)))){
+print_var(anon_str("No, es divisible por 2"), 1);
+exit(0);
+}
+assign(2, anon_int(1));
+
+
+while((compare(var_prod(get_var(2), get_var(2)), get_var(1)) <= 0)){
+
+
+if((is_equals(var_sub(get_var(1), var_prod(get_var(2), var_div(get_var(1), get_var(2)))), anon_int(0)))){
+print_var(var_sum(anon_str("No: es divisible por "), get_var(2)), 1);
+exit(0);
+}
+inc(2);
+}
+
+print_var(var_sum(get_var(1), anon_str(" es primo :)")), 1);
+}
+
 }

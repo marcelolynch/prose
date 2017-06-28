@@ -2,6 +2,11 @@ que tablero valga [['_', '_', '_'], ['_', '_', '_'], ['_', '_', '_']]
 que ganador valga -1
 que jugador valga 0
 
+mostrar 'TA-TE-TI'
+mostrar tablero[0]
+mostrar tablero[1]
+mostrar tablero[2]
+
 mientras que "ganador es -1" hacer:
   que fila valga -1
   que columna valga -1
@@ -57,4 +62,4 @@ mientras que "ganador es -1" hacer:
   mostrar tablero[2]
 y repetir.
 
-mostrar 'El ganador fue el jugador ' + ganador
+mostrar 'El ganador fue el jugador ' + ganador + '!'

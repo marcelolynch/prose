@@ -109,6 +109,7 @@ void scan(int type, VAR_ID elem) {
 	} else if (type == 1) { // TEXTO
 		char * text = malloc(256);
 		scanf("%255[^\n]", text);
+		while(getchar() != '\n');
 		assign(elem, anon_str(text));
 		free(text);
 	}

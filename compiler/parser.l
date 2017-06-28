@@ -30,8 +30,8 @@ que						return QUE;
 valga\ 					return VALGA;
 sea\ 					return VALGA;
 
-mientras\ que			return WHILE;
-mientras\ que\ no 		return UNTIL;
+mientras\ que(\ pase)?		return WHILE;
+mientras\ que\ no(\ pase)?		return UNTIL;
 hasta\ que\ (pase)? 	return UNTIL;
 
 
