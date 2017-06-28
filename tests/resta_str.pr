@@ -1,0 +1,6 @@
+que saludo valga 'hola como te va espero que muy bien!.'
+
+que restado valga saludo - 'como '
+que restado valga restado - 'bien!.'
+que restado valga restado - 'bie'
+mostrar restado

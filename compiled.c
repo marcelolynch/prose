@@ -4,7 +4,11 @@
 #include "runtime/include/prose_functions.h"
 int main(void) { 
 
-print_var(anon_str("Antes de terminar"), 1);
-exit(0);
-print_var(anon_str("No se debería mostrar esto"), 1);
+map_name(0, "saludo");
+map_name(1, "restado");
+assign(0, anon_str("hola como te va espero que muy bien!."));
+assign(1, var_sub(get_var(0), anon_str("como ")));
+assign(1, var_sub(get_var(1), anon_str("bien!.")));
+assign(1, var_sub(get_var(1), anon_str("bie")));
+print_var(get_var(1), 1);
 }
