@@ -65,6 +65,8 @@ es\ mayor\ que\ o\ es 	return GE;
 
 \"						return SEP;
 
+terminar.?	return EXIT;
+
 verdadero				return TRUE;
 verdad 					return TRUE;
 
@@ -82,7 +84,7 @@ mentira					return FALSE;
 						return FLOAT;
 						}
 
-{alpha}({alpha}|{digit})*  { 
+{alpha}({alpha}|{digit})*  {
 							yylval.strval = malloc(strlen(yytext)+1);
 							strcpy(yylval.strval, yytext);
 							return IDENTIFIER;

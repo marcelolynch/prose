@@ -26,7 +26,7 @@ Array array_clone(Array other){
 	
 	int i;
 	for(i=0 ; i < other->size ; i++){
-		array_push(clone, var_clone(other->values[i]));
+		array_push(clone, other->values[i]);
 	}
 
 	return clone;
