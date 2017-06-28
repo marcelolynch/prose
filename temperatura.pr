@@ -4,11 +4,13 @@ que formato sea 0
 
 mientras que "formato no es 'CF' y ademas formato no es 'FC'" hacer
 
-    mostrar 'Si quiere pasar una temperatura de Celsius a Fahrenheit escriba CF'
-    mostrar 'Si quiere pasar una temperatura de Fahrenheit a Celsius escriba FC'
+    mostrar 'Si quiere pasar una temperatura de Celsius a Fahrenheit escriba CF.'
+    mostrar 'Si quiere pasar una temperatura de Fahrenheit a Celsius escriba FC.'
     mostrar 'Ingrese CF o FC:'
 
     leer texto a formato
+
+    pasar formato a mayusculas
 
     si pasa que "formato no es 'CF' y ademas formato no es 'FC'" entonces
         mostrar '\nLo sentimos, el formato ingresado es desconocido. Vuelva a ingresar el formato por favor.\n'
