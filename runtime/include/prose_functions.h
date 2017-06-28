@@ -7,4 +7,5 @@ void toupper_str(int str_id);
 void tolower_str(int str_id);
 void inc(int num_id);
 void dec(int num_id);
+void scan(int type, VAR_ID elem);
 #endif

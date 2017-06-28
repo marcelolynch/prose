@@ -30,7 +30,7 @@ void append(int source_id, VAR elem){
 	VAR source_var = get_var(source_id);
 
 	if (source_var.type != STR_T && source_var.type != ARRAY_T){
-		printf("Error: se intenta anexar a algo que no es una %s ni un %s. El programa no puede continuar\n", 
+		printf("Error: se intenta anexar a algo que no es una %s ni un %s. El programa no puede continuar\n",
 			get_typename(ARRAY_T), get_typename(STR_T));
 		exit(1);
 	}
@@ -90,4 +90,18 @@ void dec(int num_id) {
 	}
 
 	assign(num_id, var_sub(num_var, anon_int(1)));
+}
+
+void scan(int type, VAR_ID elem) {
+	if (type == 0) { // NUMERO
+		float read;
+		scanf("%g", &read);
+		while(getchar() != '\n');
+		assign(elem, anon_float(read));
+	} else if (type == 1) { // TEXTO
+		char * text = malloc(256);
+		scanf("%255[^\n]", text);
+		assign(elem, anon_str(text));
+		free(text);
+	}
 }

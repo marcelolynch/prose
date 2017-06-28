@@ -82,6 +82,9 @@ int list_length(ExpressionList * list){
 %token <floatval> FLOAT;
 
 %token PRINT;
+%token READ;
+%token NUMERO;
+%token TEXTO;
 %token ANEXAR;
 %token A;
 %token MAYUSCULA;
@@ -149,7 +152,7 @@ int list_length(ExpressionList * list){
 %type <boolop> bool_comp;
 %type <boolnode> condition;
 %type <exprnode> expression;
-%type <exprnode> arr_indexing
+%type <exprnode> arr_indexing;
 
 %start entry
 
@@ -389,6 +392,22 @@ func_call : ANEXAR expression A IDENTIFIER
 				$$->first = malloc(sizeof(int));
 				*((int*)$$->first) = getId($2);
 		  	}
+		| READ NUMERO A IDENTIFIER {
+				$$ = malloc(sizeof(*$$));
+				$$->function = SCAN_READ;
+				$$->first = malloc(sizeof(int));
+				*((int*)$$->first) = 0;  // 0 = NUMERO
+				$$->second = malloc(sizeof(int));
+				*((int*)$$->second) = getId($4);
+			}
+		| READ TEXTO A IDENTIFIER {
+				$$ = malloc(sizeof(*$$));
+				$$->function = SCAN_READ;
+				$$->first = malloc(sizeof(int));
+				*((int*)$$->first) = 1;  // 1 = TEXTO
+				$$->second = malloc(sizeof(int));
+				*((int*)$$->second) = getId($4);
+			}
 		  ;
 
 
@@ -437,7 +456,6 @@ print : PRINT expression
 			$$ = $2;
 		}
 	  ;
-
 
 
 

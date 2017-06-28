@@ -84,6 +84,9 @@ void do_function_call(FunctionNode * fn){
 		case DECREMENT:
 			printf("dec(%d);\n", *((int*)fn->first));
 			break;
+		case SCAN_READ:
+			printf("scan(%d, %d);\n", *((int*)fn->first), *((int*)fn->second));
+			break;
 
 		default:
 			break;

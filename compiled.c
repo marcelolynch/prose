@@ -4,7 +4,12 @@
 #include "runtime/include/prose_functions.h"
 int main(void) { 
 
-print_var(anon_str("Antes de terminar"), 1);
-exit(0);
-print_var(anon_str("No se debería mostrar esto"), 1);
+map_name(0, "numeroleido");
+map_name(1, "texto_leido");
+print_var(anon_str("Ingrese un numero"), 1);
+scan(0, 0);
+print_var(get_var(0), 1);
+print_var(anon_str("Ingrese un texto"), 1);
+scan(1, 1);
+print_var(get_var(1), 1);
 }

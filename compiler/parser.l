@@ -6,13 +6,16 @@
 
 %}
 
-alpha [A-Za-z]
+alpha [A-Za-z_$]
 digit [0-9]
 
 %%
 
 [\t \n]
 mostrar           		return PRINT;
+leer							return READ;
+numero						return NUMERO;
+texto							return TEXTO;
 
 anexar(le)?				return ANEXAR;
 a						return A;
