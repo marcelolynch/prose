@@ -249,7 +249,7 @@ static int is_initial_substr(const char * str, const char * sub){
 }
 
 static VAR array_sub(VAR left, VAR right){
-
+	
 }
 
 
