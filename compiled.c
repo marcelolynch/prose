@@ -4,12 +4,32 @@
 #include "runtime/include/prose_functions.h"
 int main(void) { 
 
-map_name(0, "listaLoca");
-map_name(1, "resta");
-assign(0, anon_arr(5, anon_int(1), anon_str("hola"), anon_float(90.20000), anon_str("como"), anon_str("vaaa")));
-assign(1, var_sub(get_var(0), anon_arr(3, anon_float(90.20000), anon_str("com"), anon_str("vaaaaaa"))));
-assign(1, var_sub(get_var(1), anon_int(1)));
-assign(1, var_sub(get_var(1), anon_str("hola")));
-assign(1, var_sub(get_var(1), anon_str("com")));
+map_name(0, "cadenaLoca");
+map_name(1, "mutable");
+map_name(2, "listaLoca");
+map_name(3, "nadaQueVer");
+assign(0, anon_str("HoLa coM0 tE v4 !!!"));
+print_var(get_var(0), 1);
+tolower_str(0);
+print_var(get_var(0), 1);
+toupper_str(0);
+print_var(get_var(0), 1);
+tolower_str(0);
+print_var(get_var(0), 1);
+toupper_str(0);
+print_var(get_var(0), 1);
+assign(1, anon_int(0));
 print_var(get_var(1), 1);
+inc(1);
+print_var(get_var(1), 1);
+dec(1);
+print_var(get_var(1), 1);
+append(0, anon_str("asdasd"));
+print_var(get_var(0), 1);
+assign(2, anon_arr(3, anon_str("asd"), anon_str("loco"), anon_int(12)));
+print_var(get_var(2), 1);
+append(2, anon_str("no tan loco"));
+print_var(get_var(2), 1);
+assign(3, anon_int(6));
+append(3, anon_str("esto explota"));
 }

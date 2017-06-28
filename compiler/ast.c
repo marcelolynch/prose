@@ -69,6 +69,8 @@ void produce(StatementList * block){
 	}
 }
 
+/* Produce output por salida estandar:
+	codigo que ejecuta una función nativa */
 void do_function_call(FunctionNode * fn){
 	switch(fn->function){
 		case ARR_APPEND: 
