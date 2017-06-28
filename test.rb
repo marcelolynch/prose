@@ -4,7 +4,8 @@ tests = {
   "str_concat" => "HelloWorld",
   "if" => "OK",
   "end" => "Antes de terminar",
-  "resta_str" => "hola te va espero que muy "
+  "resta_str" => "hola te va espero que muy ",
+  "array_sub" => "[como, vaaa]"
 }
 
 results = {}

@@ -65,6 +65,27 @@ void array_push(Array arr, VAR value){
 	arr->size++;
 }	
 
+/* Devuelve un nuevo arreglo con los elementos de source que no están en other */
+Array array_substract(Array source, Array other){
+	Array arr = new_array();
+	int i;
+
+	for (i = 0; i < source->size; i++)
+		if (!array_contains(other, source->values[i]))
+			array_push(arr, source->values[i]);
+
+	return arr;
+}
+
+/* Devulve 1 si el arreglo contiene a value, 0 sino */
+int array_contains(Array arr, VAR value){
+	int i;
+	for(i = 0; i < arr->size; i++)
+		if (compare(arr->values[i], value) == 0)
+			return 1;
+	return 0;
+}
+
 /* Append del arreglo other al arreglo arr */
 void array_cat(Array arr, Array other){
 	if(arr == NULL || other == NULL){
@@ -73,7 +94,7 @@ void array_cat(Array arr, Array other){
 	
 	int i;
 	for(i=0 ; i < other->size ; i++){
-		array_push(arr, var_clone(other->values[i]));
+		array_push(arr, other->values[i]);
 	}
 }
 

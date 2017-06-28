@@ -249,9 +249,17 @@ static int is_initial_substr(const char * str, const char * sub){
 }
 
 static VAR array_sub(VAR left, VAR right){
-	
+	VAR ans;
+	switch(right.type) {
+		case ARRAY_T:
+			ans.type = ARRAY_T;
+			ans.value.arrValue = array_substract(left.value.arrValue, right.value.arrValue);
+			return ans;
+		default:
+			printf("Error: a un %s solo se le puede restar otro %s. El programa no puede continuar.\n", get_typename(ARRAY_T), get_typename(ARRAY_T));
+			exit(1);		
+	}
 }
-
 
 static VAR integer_prod(VAR left, VAR right){
 	switch(right.type){
