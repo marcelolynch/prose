@@ -15,7 +15,13 @@ digit [0-9]
 mostrar           		return PRINT;
 
 anexar(le)?				return ANEXAR;
-a 						return A;
+a						return A;
+mayusculas?				return MAYUSCULA;
+minusculas?				return MINUSCULA;
+decrementar 			return DECREMENTAR;
+incrementar 			return INCREMENTAR;
+pasar					return PASAR;
+
 
 que						return QUE;
 valga\ 					return VALGA;

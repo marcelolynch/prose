@@ -1,0 +1,35 @@
+que cadenaLoca valga 'HoLa coM0 tE v4 !!!'
+mostrar cadenaLoca
+
+pasar cadenaLoca a minusculas
+mostrar cadenaLoca
+
+pasar cadenaLoca a mayusculas
+mostrar cadenaLoca
+
+pasar cadenaLoca a minuscula
+mostrar cadenaLoca
+
+pasar cadenaLoca a mayuscula
+mostrar cadenaLoca
+
+que mutable valga 0
+mostrar mutable
+
+incrementar mutable
+mostrar mutable
+
+decrementar mutable
+mostrar mutable
+
+anexar 'asdasd' a cadenaLoca
+mostrar cadenaLoca
+
+que listaLoca sea ['asd', 'loco', 12]
+mostrar listaLoca
+
+anexar 'no tan loco' a listaLoca
+mostrar listaLoca
+
+que nadaQueVer sea 6
+anexar 'esto explota' a nadaQueVer
