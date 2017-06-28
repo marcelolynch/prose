@@ -9,6 +9,11 @@ static VAR float_sum(VAR left, VAR right, int sign);
 static VAR string_sum(VAR left, VAR right);
 static VAR array_sum(VAR left, VAR right);
 
+static VAR string_sub(VAR left, VAR right);
+static VAR perform_string_sub(const char * left_str, const char * right_str);
+static int is_initial_substr(const char * str, const char * sub);
+static VAR array_sub(VAR left, VAR right);
+
 static VAR integer_prod(VAR left, VAR right);
 static VAR string_prod(VAR left, VAR right);
 static VAR float_prod(VAR left, VAR right);
@@ -36,9 +41,11 @@ VAR var_sub(VAR left, VAR right){
 		case INT_T:
 			return integer_sum(left, right, -1);
 		case STR_T:
-			return left;
+			return string_sub(left, right);
 		case FLOAT_T:
 			return float_sum(left, right, -1);
+		case ARRAY_T:
+			return array_sub(left, right);
 	}
 
 }
@@ -64,8 +71,6 @@ VAR var_div(VAR left, VAR right){
 			return string_div(left, right);
 		case FLOAT_T:
 			return float_div(left, right);
-			break;
-
 	}
 
 
@@ -203,6 +208,58 @@ static VAR array_sum(VAR left, VAR right){
 	}
 }
 
+
+static VAR string_sub(VAR left, VAR right){
+	switch(right.type){
+		case STR_T:
+			return perform_string_sub(left.value.strValue, right.value.strValue);
+		default:
+			printf("Error: a un %s solo se le puede restar otro %s. El programa no puede continuar.\n", get_typename(STR_T), get_typename(STR_T));
+			exit(1);
+	}
+}
+
+static VAR perform_string_sub(const char * left_str, const char * right_str){
+	char * str = malloc(strlen(left_str) + 1);
+	int right_len = strlen(right_str);
+	int i, j;
+
+	for (i = j = 0; left_str[i] != '\0'; i++){
+		if (is_initial_substr(&left_str[i], right_str))
+			i += right_len - 1; /* Con el i++ avanza right_len */
+		else
+			str[j++] = left_str[i];
+	}
+
+	str[j] = '\0';
+
+	VAR ans = anon_str(str);
+	free(str);
+	return ans;
+}
+
+static int is_initial_substr(const char * str, const char * sub){
+	int i;
+
+	for (i = 0; str[i] != '\0' && sub[i] != '\0'; i++)
+		if (str[i] != sub[i])
+			return 0;
+	
+	return sub[i] == '\0';
+}
+
+static VAR array_sub(VAR left, VAR right){
+	VAR ans;
+	switch(right.type) {
+		case ARRAY_T:
+			ans.type = ARRAY_T;
+			ans.value.arrValue = array_substract(left.value.arrValue, right.value.arrValue);
+			return ans;
+		default:
+			printf("Error: a un %s solo se le puede restar otro %s. El programa no puede continuar.\n", get_typename(ARRAY_T), get_typename(ARRAY_T));
+			exit(1);		
+	}
+}
 
 static VAR integer_prod(VAR left, VAR right){
 	switch(right.type){
