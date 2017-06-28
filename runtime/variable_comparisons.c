@@ -11,6 +11,8 @@ static int compare_to_int(VAR intVar, VAR other);
 static int compare_to_float(VAR floatVar, VAR other);
 static int compare_to_str(VAR strVar, VAR other);
 
+static int compatible_equals_types(type_t t1, type_t t2);
+
 /*
 	Funciones para comparar dos variables de cualquier tipo;
 	las variables no comparables tienen comportamiento indefinido.
@@ -40,10 +42,14 @@ int compare(VAR first, VAR second){
 	Notar que si las variables no son del mismo tipo devuelve 0.
 */
 int is_equals(VAR first, VAR second){
-	if (first.type == second.type)
+	if (compatible_equals_types(first.type, second.type))
 		return compare(first, second) == 0;
 	else
 		return 0;
+}
+
+static int compatible_equals_types(type_t t1, type_t t2){
+	return t1 == t2 || (t1 == INT_T && t2 == FLOAT_T) || (t1 == FLOAT_T && t2 == INT_T);
 }
 
 
