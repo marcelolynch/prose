@@ -320,7 +320,7 @@ char* get_expression(ExpressionNode * operation){
 				while(list != NULL){
 					char * expr = get_expression(list->expression);
 					int len = strlen(result);
-					result = realloc(result, len + strlen(expr) + 1);
+					result = realloc(result, len + strlen(expr) + 15);
 					sprintf(result+len, ", %s", expr);
 					free(expr);
 					list = list->next;
