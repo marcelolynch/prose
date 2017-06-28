@@ -14,10 +14,8 @@ tests.each do |program, expected|
   %x(./compile.sh ./tests/#{program}.pr)
   res = %x(./prose.out)
   if (res.chomp == expected)
-    p "#{program}.pr OK"
     results[program] = "OK"
   else
-    p "#{program}.pr FAILED -> (expected: #{expected}, real: #{res})"
     results[program] = "FAILED -> (expected: #{expected}, real: #{res})"
   end
 end
