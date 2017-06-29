@@ -2,7 +2,7 @@ que minas valga [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0,
 que campo valga [['-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-']]
 que exploto valga 0
 
-mostrar '* BUSCAMINAS *'
+mostrar '** BUSCAMINAS **'
 
 que numero_magico valga 1234
 
@@ -32,17 +32,18 @@ mientras que "exploto es 0" hacer:
   que columna valga -1
 
   hasta que "fila es mayor que o es 0 y ademas fila es menor que 5" hacer:
-    mostrar 'Seleccione Fila entre 0 y 4'
+    mostrar 'Ingresá una Fila entre 0 y 4'
     leer numero a fila
   y repetir.
 
   hasta que "columna es mayor que o es 0 y ademas columna es menor que 5" hacer:
-    mostrar 'Seleccione Columna entre 0 y 4'
+    mostrar 'Ingresá una Columna entre 0 y 4'
     leer numero a columna
   y repetir.
 
   si pasa que "minas[fila][columna] es '*'" entonces:
     mostrar 'Perdiste! :('
+    que campo[fila][columna] valga '*'
     que exploto valga 1
   si no:
     que bombas_alrededor valga 0
