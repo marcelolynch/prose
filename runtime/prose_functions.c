@@ -6,7 +6,7 @@
 #include <ctype.h>
 
 #define ABS(x) ((x) < 0 ? -(x) : (x))
-#define EPSILON 0.001
+#define EPSILON 0.0001
 
 void print_var(VAR var, int newline){
 	switch(var.type){
@@ -97,12 +97,12 @@ void dec(int num_id) {
 
 void scan(int type, VAR_ID elem) {
 	if (type == 0) { // NUMERO
-		float read;
-		scanf("%g", &read);
+		double read;
+		scanf("%lg", &read);
 		while(getchar() != '\n');
-		float dif = read - (int)read;
+		double dif = read - (long)read;
 		if(ABS(dif) < EPSILON){
-			assign(elem, anon_int(read));
+			assign(elem, anon_int((int)read));
 		} else {
 			assign(elem, anon_float(read));
 		}

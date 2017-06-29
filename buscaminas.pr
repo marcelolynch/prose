@@ -1,0 +1,70 @@
+que minas valga [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+que campo valga [['-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-'], ['-', '-', '-', '-', '-']]
+que exploto valga 0
+
+mostrar '* BUSCAMINAS *'
+
+que numero_magico valga 1234
+
+que fila_a_mostrar valga 0
+mientras que "fila_a_mostrar es menor que 5" hacer:
+  mostrar campo[fila_a_mostrar]
+  incrementar fila_a_mostrar
+y repetir.
+
+que fil valga 0
+que col valga 0
+mientras que "fil es menor que 5" hacer:
+  mientras que "col es menor que 5" hacer:
+    que numero_magico valga (numero_magico) * (fil + col * 3 + 1)
+    que rand valga numero_magico - 2 * (numero_magico / 2)
+
+    si pasa que "rand es 0" entonces:
+      que minas[fil][col] valga '*'
+    listo.
+    incrementar col
+  y repetir.
+  incrementar fil
+y repetir.
+
+mientras que "exploto es 0" hacer:
+  que fila valga -1
+  que columna valga -1
+
+  hasta que "fila es mayor que o es 0 y ademas fila es menor que 5" hacer:
+    mostrar 'Seleccione Fila entre 0 y 4'
+    leer numero a fila
+  y repetir.
+
+  hasta que "columna es mayor que o es 0 y ademas columna es menor que 5" hacer:
+    mostrar 'Seleccione Columna entre 0 y 4'
+    leer numero a columna
+  y repetir.
+
+  si pasa que "minas[fila][columna] es '*'" entonces:
+    mostrar 'Perdiste! :('
+    que exploto valga 1
+  si no:
+    que bombas_alrededor valga 0
+    que i valga fila - 1
+    que j valga columna - 1
+    mientras que "i es menor que o es (fila + 1) y ademas i es mayor que o es 0 y ademas i es menor que 5" entonces:
+      mientras que "j es menor que o es (columna + 1) y ademas j es mayor que o es 0 y ademas j es menor que 5" entonces:
+        si pasa que "minas[i][j] es '*'" entonces:
+          incrementar bombas_alrededor
+        listo.
+        incrementar j
+      y repetir.
+      incrementar i
+    y repetir.
+
+    que campo[fila][columna] valga bombas_alrededor
+  listo.
+
+  que fila_a_mostrar valga 0
+  mientras que "fila_a_mostrar es menor que 5" hacer:
+    mostrar campo[fila_a_mostrar]
+    incrementar fila_a_mostrar
+  y repetir.
+
+y repetir.
