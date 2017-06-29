@@ -1,0 +1,13 @@
+que a valga 4
+que b valga a + 2
+	
+suponga que "a es menor que b"
+	entonces mostrar a
+listo.
+
+que a valga 4
+que b sea (a + 2)
+	
+si pasa que "a es menor que b" entonces:
+ mostrar a
+listo.
