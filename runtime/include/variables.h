@@ -9,7 +9,7 @@
 #define FLOAT_T 3
 #define ARRAY_T 4
 
-#define MAX_VARS 1000
+#define MAX_VARS 10000
 
 typedef uint8_t type_t;
 
@@ -54,6 +54,7 @@ VAR var_clone(VAR var);
 /*Comparacion */
 
 int compare(VAR first, VAR second);
+int is_equals(VAR first, VAR second);
 
 
 

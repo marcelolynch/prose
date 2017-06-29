@@ -1,0 +1,7 @@
+que listaLoca sea [1, 'hola', 90.2, 'como', 'vaaa']
+
+que resta sea listaLoca - [90.2, 'com', 'vaaaaaa']
+que resta sea resta - 1
+que resta sea resta - 'hola'
+que resta sea resta - 'com'
+mostrar resta

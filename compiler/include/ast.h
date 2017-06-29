@@ -58,7 +58,9 @@ typedef enum{
 	TO_UPPER,
 	TO_LOWER,
 	INCREMENT,
-	DECREMENT
+	DECREMENT,
+	SCAN_READ,
+	SCAN_READ_ARR
 } fn_type;
 
 /*

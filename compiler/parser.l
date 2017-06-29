@@ -6,13 +6,16 @@
 
 %}
 
-alpha [A-Za-z]
+alpha [A-Za-z_$]
 digit [0-9]
 
 %%
 
 [\t \n]
 mostrar           		return PRINT;
+leer							return READ;
+numero						return NUMERO;
+texto							return TEXTO;
 
 anexar(le)?				return ANEXAR;
 a						return A;
@@ -27,8 +30,8 @@ que						return QUE;
 valga\ 					return VALGA;
 sea\ 					return VALGA;
 
-mientras\ que			return WHILE;
-mientras\ que\ no 		return UNTIL;
+mientras\ que(\ pase)?		return WHILE;
+mientras\ que\ no(\ pase)?		return UNTIL;
 hasta\ que\ (pase)? 	return UNTIL;
 
 
@@ -91,8 +94,10 @@ mentira					return FALSE;
 							}
 
 \'[^\']+\'			{
-					char * str = malloc(strlen(yytext) - 1);
-					strncpy(str, yytext + 1, strlen(yytext) - 2);
+					int len = strlen(yytext);
+					char * str = malloc(len-1);
+					strncpy(str, yytext + 1, len - 2);
+					str[len-2] = '\0';
 					yylval.strval = str;
 					return STR;
 					}

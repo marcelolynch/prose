@@ -1,0 +1,26 @@
+mostrar 'Ingrese un numero'
+leer numero a x
+si pasa que "x es menor que o es 0" entonces:
+  mostrar 'negativo'
+ terminar. listo.
+
+si pasa que "x es menor a 3" entonces:
+  si pasa que "x es 1" entonces:
+    mostrar 'No'
+    terminar.
+  de otro modo
+    mostrar 'Si'
+    terminar.
+  listo.
+listo.
+
+que y valga 2
+mientras que "y*y es menor que o es x" hacer:
+  si pasa que "x - y*(x/y) es 0" entonces:
+    mostrar 'No: ' + x + ' es divisible por ' + y
+    terminar.
+  listo.
+  incrementar y
+y repetir.
+
+mostrar  x + ' es primo :)'
