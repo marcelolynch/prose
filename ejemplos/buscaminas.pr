@@ -1,23 +1,32 @@
 que exploto valga 0
-que largo valga 6
+que largo valga 3
 que numero_magico valga 0
 
 que minas valga []
 que fila_minas valga []
 que campo valga []
 que fila_campo valga []
-que indice valga 0
 
+que indice valga 0
 mientras que "indice es menor que largo" hacer:
   que fila_minas valga fila_minas + 0
   que fila_campo valga fila_campo + '-'
+  que minas valga minas + '.'
+  que campo valga campo + '.'
   incrementar indice
 y repetir.
 
+que indice valga 0
 mientras que "indice es menor que largo" hacer:
-  que minas valga minas + fila_minas
-  que campo valga campo + fila_campo
+  que minas[indice] valga fila_minas
+  que campo[indice] valga fila_campo
   incrementar indice
+y repetir.
+
+que fila_a_mostrar valga 0
+mientras que "fila_a_mostrar es menor que largo" hacer:
+  mostrar campo[fila_a_mostrar]
+  incrementar fila_a_mostrar
 y repetir.
 
 mostrar '** BUSCAMINAS **'
@@ -28,15 +37,15 @@ hasta que "numero_magico es mayor que 999 y ademas numero_magico es menor que 10
 y repetir.
 
 que fila_a_mostrar valga 0
-mientras que "fila_a_mostrar es menor que tamaño" hacer:
+mientras que "fila_a_mostrar es menor que largo" hacer:
   mostrar campo[fila_a_mostrar]
   incrementar fila_a_mostrar
 y repetir.
 
 que fil valga 0
-mientras que "fil es menor que tamaño" hacer:
+mientras que "fil es menor que largo" hacer:
   que col valga 0
-  mientras que "col es menor que tamaño" hacer:
+  mientras que "col es menor que largo" hacer:
     que numero_magico valga (numero_magico * 2377 + 16493)
     si pasa que "numero_magico es menor que 0" entonces:
       que numero_magico valga numero_magico * -1
@@ -58,13 +67,13 @@ mientras que "exploto es 0" hacer:
   que fila valga -1
   que columna valga -1
 
-  hasta que "fila es mayor que o es 0 y ademas fila es menor que tamaño" hacer:
-    mostrar 'Ingresá una Fila entre 0 y ' + (tamaño - 1)
+  hasta que "fila es mayor que o es 0 y ademas fila es menor que largo" hacer:
+    mostrar 'Ingresá una Fila entre 0 y ' + (largo - 1)
     leer numero a fila
   y repetir.
 
-  hasta que "columna es mayor que o es 0 y ademas columna es menor que tamaño" hacer:
-    mostrar 'Ingresá una Columna entre 0 y ' + (tamaño - 1)
+  hasta que "columna es mayor que o es 0 y ademas columna es menor que largo" hacer:
+    mostrar 'Ingresá una Columna entre 0 y ' + (largo - 1)
     leer numero a columna
   y repetir.
 
@@ -78,8 +87,8 @@ mientras que "exploto es 0" hacer:
     mientras que "i es menor que o es (fila + 1)" entonces:
       que j valga columna - 1
       mientras que "j es menor que o es (columna + 1)" entonces:
-        si pasa que "i es mayor que o es 0 y ademas j es mayor que o es 0 y ademas i es menor que tamaño
-          y ademas j es menor que tamaño y ademas minas[i][j] es '*'" entonces:
+        si pasa que "i es mayor que o es 0 y ademas j es mayor que o es 0 y ademas i es menor que largo
+          y ademas j es menor que largo y ademas minas[i][j] es '*'" entonces:
           incrementar bombas_alrededor
         listo.
         incrementar j
@@ -91,9 +100,27 @@ mientras que "exploto es 0" hacer:
   listo.
 
   que fila_a_mostrar valga 0
-  mientras que "fila_a_mostrar es menor que tamaño" hacer:
+  mientras que "fila_a_mostrar es menor que largo" hacer:
     mostrar campo[fila_a_mostrar]
     incrementar fila_a_mostrar
   y repetir.
 
+  que gano valga 1
+  que fila valga 0
+  mientras que "gano es 1 y ademas fila es menor que largo" hacer:
+    que columna valga 0
+    mientras que "columna es menor que largo" hacer:
+      si pasa que "minas[fila][columna] no es '*'
+        y ademas campo[fila][columna] es '-' " entonces:
+        que gano valga 0
+      listo.
+      incrementar columna
+    y repetir.
+    incrementar fila
+  y repetir.
+
+  si pasa que "gano es 1" entonces:
+    mostrar 'Ganaste! :)'
+    terminar.
+  listo.
 y repetir.
