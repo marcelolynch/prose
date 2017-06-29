@@ -1,11 +1,16 @@
 que exploto valga 0
-que largo valga 3
+que largo valga 0
 que numero_magico valga 0
 
 que minas valga []
 que fila_minas valga []
 que campo valga []
 que fila_campo valga []
+
+hasta que "largo es mayor que 2 y ademas largo es menor que o es 16" hacer:
+  mostrar 'Ingresá el tamaño del tablero (de 3 a 16)'
+  leer numero a largo
+y repetir.
 
 que indice valga 0
 mientras que "indice es menor que largo" hacer:
@@ -23,18 +28,12 @@ mientras que "indice es menor que largo" hacer:
   incrementar indice
 y repetir.
 
-que fila_a_mostrar valga 0
-mientras que "fila_a_mostrar es menor que largo" hacer:
-  mostrar campo[fila_a_mostrar]
-  incrementar fila_a_mostrar
-y repetir.
-
-mostrar '** BUSCAMINAS **'
-
 hasta que "numero_magico es mayor que 999 y ademas numero_magico es menor que 10000" hacer:
   mostrar 'Ingresá un número de 4 dígitos'
   leer numero a numero_magico
 y repetir.
+
+mostrar '** BUSCAMINAS **'
 
 que fila_a_mostrar valga 0
 mientras que "fila_a_mostrar es menor que largo" hacer:
