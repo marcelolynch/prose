@@ -1,5 +1,6 @@
 mostrar 'Ingrese un numero'
 leer numero a x
+
 si pasa que "x es menor que o es 0" entonces:
   mostrar 'negativo'
  terminar. listo.

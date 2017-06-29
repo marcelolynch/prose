@@ -9,6 +9,9 @@
 alpha [A-Za-z_$]
 digit [0-9]
 
+%option nounput
+%option noinput
+
 %%
 
 [\t \n]
@@ -70,11 +73,6 @@ es\ mayor\ que\ o\ es 	return GE;
 
 terminar.?	return EXIT;
 
-verdadero				return TRUE;
-verdad 					return TRUE;
-
-falso					return FALSE;
-mentira					return FALSE;
 
 [\(\)]				{return *yytext;}
 

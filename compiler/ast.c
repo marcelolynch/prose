@@ -348,12 +348,11 @@ char* get_expression(ExpressionNode * operation){
 				result = malloc(STR_OVERHEAD);
 				sprintf(result, "anon_arr(%d", *((int*)operation->right));
 				ExpressionList * list = (ExpressionList*)operation->left;
-
 				while(list != NULL){
 					char * expr = get_expression(list->expression);
 					int len = strlen(result);
 					result = realloc(result, len + strlen(expr) + 3); //+3 para coma, espacio y '\0'.
-					sprintf(result+len, ", %s", expr);
+					sprintf(result+len, ", %s", expr);				  // <---- 
 					free(expr);
 					list = list->next;
 				}
