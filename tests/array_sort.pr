@@ -1,18 +1,17 @@
 que lista sea [1,1]
 
 que lista sea [3,4,1,2,5,10,9,8,6,7]
-mostrar lista
 
 que tam sea 10
 que i sea 0
 
 mientras que "i es menor a tam" hacer:
-	
+
 	que j sea i
 	que minimo sea j
 
 	mientras que "j es menor a tam" hacer:
-		si pasa "lista[j] es menor a lista[minimo]" entonces 
+		si pasa "lista[j] es menor a lista[minimo]" entonces
 			que minimo valga j
 		listo.
 		que j sea j+1
