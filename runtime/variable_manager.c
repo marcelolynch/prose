@@ -12,7 +12,7 @@ VAR * var_table[MAX_VARS] = {0};
 char* name_table[MAX_VARS] = {0};
 
 
-/* Mapea el id de una variable al nombre puesto por el programador
+/* Mapea el id de una variable nombrada al nombre puesto por el programador
 	(para mostrar errores)
  El compilador debería setear esto cuando corresponda.  */
 void map_name(VAR_ID id, char * name){
@@ -21,7 +21,7 @@ void map_name(VAR_ID id, char * name){
 
 
 /* Devuelve el tipo de la variable (para mostrar errores) */
-char* get_typename(int type){
+char* get_typename(type_t type){
 	switch(type){
 		case INT_T:
 		case FLOAT_T:
@@ -37,7 +37,7 @@ char* get_typename(int type){
 }
 
 
-/* Devuelve la variable de ID id */
+/* Devuelve el valor de la variable asociada al ID id */
 VAR get_var(VAR_ID id){
 	if(var_table[id] == NULL){
 		fprintf(stderr, "Error fatal: usted intentó utilizar una variable nunca antes definida, de nombre '%s'.\nAsegúrese de no haberse equivocado y recompile. \n", name_table[id]);
@@ -46,6 +46,10 @@ VAR get_var(VAR_ID id){
 	return *var_table[id];
 }
 
+
+/*
+
+*/
 
 /* Construye una variable del tipo float y la retorna */
 VAR anon_float(float value){

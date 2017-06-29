@@ -65,8 +65,8 @@ VAR var_prod(VAR left, VAR right);
 VAR var_div(VAR left, VAR right);
 VAR var_minus(VAR var);
 
-
-char* get_typename(int type);
+// Para mostrar errores: se pasa un tipo y se devuelve un string con el nombre
+char* get_typename(type_t type);
 
 
 

@@ -5,7 +5,8 @@ tests = {
   "if" => "OK",
   "end" => "Antes de terminar",
   "resta_str" => "hola te va espero que muy ",
-  "array_sub" => "[como, vaaa]"
+  "array_sub" => "[como, vaaa]",
+  "empty_array" => "[]"
 }
 
 results = {}

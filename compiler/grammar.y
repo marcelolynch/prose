@@ -119,7 +119,6 @@ int list_length(ExpressionList * list){
 %token EQ;
 %token NEQ;
 
-%token TRUE FALSE;
 
 %token EXIT;
 
@@ -413,7 +412,12 @@ func_call : ANEXAR expression A IDENTIFIER
 
 array : '[' explist ']' {
 	$$ = $2;
-}
+	}
+	  | '[' ']' {
+	  	$$ = NULL;
+	  }
+
+	  ;
 
 
 arr_indexing: IDENTIFIER '[' expression ']'
