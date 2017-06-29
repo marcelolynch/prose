@@ -1,0 +1,4 @@
+que x valga 5
+mientras que pase "x es menor a 7" hacer:
+	incrementar x
+y repetir.
