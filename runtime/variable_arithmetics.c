@@ -222,7 +222,7 @@ static VAR array_sum(VAR left, VAR right){
 			VAR ary;
 			ary.type = ARRAY_T;
 			ary.value.arrValue = array_clone(left.value.arrValue);
-			array_push((Array)(ary.value.arrValue), var_clone(right));
+			array_push((Array)(ary.value.arrValue), right);
 			return ary;
 		}
 		default:
@@ -443,19 +443,33 @@ static VAR string_div(VAR left, VAR right){
 	switch(right.type){
 		case INT_T:
 		{
-			int len = strlen(left.value.strValue) / right.value.intValue;
-			char * str = malloc(len + 1);
-			memcpy(str, left.value.strValue, len);
-			*(str+len) = 0;
-			VAR divided = anon_str(str);
+			if(right.value.intValue <= 0){
+				printf("Error: se intenta dividir un texto por un numero negativo o cero. El programa no puede continuar\n");
+				exit(1);
+
+			}
+
+			int len = strlen(left.value.strValue);
+			int chunk = strlen(left.value.strValue) / right.value.intValue;
+			if(chunk < 1){
+				chunk = 1;
+			}
+			VAR divided = anon_arr(0);
+			int i = 0;
+			char * str = malloc(chunk + 1);
+			while(i < len){
+				memcpy(str, left.value.strValue + i, chunk);
+				*(str+len) = 0;
+				array_push((Array)(divided.value.arrValue), anon_str(str));
+				i+=chunk;
+			}
 			free(str);
 			return divided;
 		}
 		case FLOAT_T:
-		{
-			float fresult = left.value.intValue / right.value.floatValue;
-			return anon_float(fresult);
-		}
+		
+			return string_div(left, anon_int((int)right.value.floatValue));
+		
 		case STR_T:
 		{
 			printf("Error: se intenta dividir un texto por un texto. El programa no puede continuar\n");

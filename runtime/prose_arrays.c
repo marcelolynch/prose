@@ -119,7 +119,17 @@ void array_print(Array arr){
 	int i;
 	printf("[");
 	for(i = 0; i < arr->size ; i++){
+
+		if(arr->values[i].type == STR_T){
+			printf("'");
+		}
+		
 		print_var(arr->values[i],0);
+
+		if(arr->values[i].type == STR_T){
+			printf("'");
+		}
+
 		if(i < arr->size -1) printf(", ");
 	}	
 	printf("]");
