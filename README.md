@@ -17,4 +17,4 @@ Ejecutar `./prose.out` dentro del directorio raíz
 
 
 ## Testing
-Se pueden ejecutar los test-cases con ruby: `ruby test.rb`. El buen funcionamiento de los testings depende de `make-compile.sh` (y por lo tanto usa el Makefile del directorio `compiler`), y sobreescribe tanto `compiled.c` como `prose.out`.
+Se pueden ejecutar los test-cases con ruby: `ruby test.rb`. El buen funcionamiento de este script depende de `make-compile.sh` (y por lo tanto usa el Makefile del directorio `compiler`), y sobreescribe tanto `compiled.c` como `prose.out`.
