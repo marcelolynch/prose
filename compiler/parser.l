@@ -91,7 +91,7 @@ terminar.?	return EXIT;
 							return IDENTIFIER;
 							}
 
-\'[^\']+\'			{
+\'[^\']*\'			{
 					int len = strlen(yytext);
 					char * str = malloc(len-1);
 					strncpy(str, yytext + 1, len - 2);
