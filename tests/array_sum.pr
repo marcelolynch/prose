@@ -1,0 +1,5 @@
+que listaLoca valga [1, 2, 3, 4]
+que listaSuma valga [5, 5, 5]
+que suma valga listaLoca + listaSuma
+
+mostrar suma

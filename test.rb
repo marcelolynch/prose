@@ -5,6 +5,7 @@ tests = {
   "if" => "OK",
   "end" => "Antes de terminar",
   "resta_str" => "hola te va espero que muy ",
+  "array_sum" => "[1, 2, 3, 4, 5, 5, 5]",
   "array_sub" => "[como, vaaa]",
   "array_sort" => "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
   "array_append" => "[1, 2, 3, 4, 5, Hola]",
