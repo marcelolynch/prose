@@ -19,7 +19,7 @@ tests = {
 results = {}
 
 tests.each do |program, expected|
-  %x(./compile.sh ./tests/#{program}.pr)
+  %x(./make-compile.sh ./tests/#{program}.pr)
   res = %x(./prose.out)
   if (res.chomp == expected)
     results[program] = "OK"

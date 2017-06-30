@@ -14,3 +14,7 @@ Se proveen en el directorio raíz del proyecto dos scripts de automatización de
 
 ## Ejecución de un programa
 Ejecutar `./prose.out` dentro del directorio raíz
+
+
+## Testing
+Se pueden ejecutar los test-cases con ruby: `ruby test.rb`. El buen funcionamiento de los testings depende de `make-compile.sh` y el Makefile de la capeta compiler, y sobreescribe tanto `compiled.c` como `prose.out`.
