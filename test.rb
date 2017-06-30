@@ -18,8 +18,10 @@ tests = {
 
 results = {}
 
+%x(cd compiler ; make all ; cd ..)
+
 tests.each do |program, expected|
-  %x(./make-compile.sh ./tests/#{program}.pr)
+  %x(./compile.sh ./tests/#{program}.pr)
   res = %x(./prose.out)
   if (res.chomp == expected)
     results[program] = "OK"
