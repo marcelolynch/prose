@@ -1,0 +1,25 @@
+que n valga 100
+
+mientras que "n es mayor a 16" hacer
+	mostrar 'Ingrese un numero menor a 16 del cual le quiere calcular el factorial'
+	leer numero a n
+
+	si pasa que "n es mayor a 16" entonces
+		mostrar 'El numero ingresado es mayor a 16, esta calculadora no puede realizar la cuenta. Lo sentimos :('
+	listo.
+y repetir
+
+que b valga n
+que fact valga 1
+
+si pasa que "n es menor que 0" entonces:
+	mostrar 'No existe el factorial de un numero negativo'
+	terminar.
+listo.	
+
+mientras que "b es mayor que 1" hacer:
+	que fact valga fact*b
+	decrementar b
+y repetir
+
+mostrar 'El factorial de ' + n + ' es:' + fact
