@@ -64,13 +64,14 @@ VAR var_prod(VAR left, VAR right){
 			return string_prod(left, right);
 		case FLOAT_T:
 			return float_prod(left, right);
+		case ARRAY_T:
+			printf("Error. Una %s no puede ser multiplicada\n", get_typename(ARRAY_T));
+			exit(0);
 		default:
 			fprintf(stderr, "Error. Tipo desconocido: %d\n", left.type);
 			exit(0);
 		}
 }
-
-
 
 VAR var_div(VAR left, VAR right){
 	switch(left.type){
@@ -80,12 +81,13 @@ VAR var_div(VAR left, VAR right){
 			return string_div(left, right);
 		case FLOAT_T:
 			return float_div(left, right);
+		case ARRAY_T:
+			printf("Error. Una %s no puede ser dividida\n", get_typename(ARRAY_T));
+			exit(0);
 		default:
 			fprintf(stderr, "Error. Tipo desconocido: %d\n", left.type);
 			exit(0);
 	}
-
-
 }
 
 
@@ -131,6 +133,9 @@ static VAR integer_sum(VAR left, VAR right, int sign){
 			free(str);
 			return ret;
 		}
+		case ARRAY_T:
+			printf("Error. No se puede sumar una %s a un %s. El programa no puede continuar.\n", get_typename(ARRAY_T), get_typename(INT_T));
+			exit(0);
 		default:
 			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
 			exit(0);
@@ -165,6 +170,9 @@ static VAR float_sum(VAR left, VAR right, int sign){
 			free(str);
 			return ret;
 		}
+		case ARRAY_T:
+			printf("Error. No se puede sumar una %s a un %s. El programa no puede continuar.\n", get_typename(ARRAY_T), get_typename(FLOAT_T));
+			exit(0);
 		default:
 			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
 			exit(0);
@@ -198,6 +206,9 @@ static VAR string_sum(VAR left, VAR right){
 			free(str);
 			return ret;
 		}
+		case ARRAY_T:
+			printf("Error. No se puede sumar una %s a un %s. El programa no puede continuar.\n", get_typename(ARRAY_T), get_typename(STR_T));
+			exit(0);
 		default:
 			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
 			exit(0);
@@ -357,20 +368,15 @@ static VAR float_prod(VAR left, VAR right){
 static VAR string_prod(VAR left, VAR right){
 	switch(right.type){
 		case INT_T:
-		{
 			return integer_prod(right, left);
-			break;
-		}
 		case FLOAT_T:
-		{
 			return float_prod(right, left);
-			break;
-		}
 		case STR_T:
-		{
-			printf("Str * Str is not good \n");
-			exit(1);
-		}
+			printf("Error. No se puede multiplicar un %s con un %s. El programa no puede continuar.\n", get_typename(STR_T), get_typename(STR_T));
+			exit(0);
+		case ARRAY_T:
+			printf("Error. No se puede multiplicar una %s a un %s. El programa no puede continuar.\n", get_typename(ARRAY_T), get_typename(STR_T));
+			exit(0);
 		default:
 			fprintf(stderr, "Error. Tipo desconocido: %d\n", right.type);
 			exit(0);
