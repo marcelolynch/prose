@@ -311,6 +311,11 @@ static VAR integer_prod(VAR left, VAR right){
 		case STR_T:
 		{
 			// El string se concatena left.value.intValue veces
+			if(right.value.intValue < 0){
+				printf("Error: se intenta multiplicar un texto por un numero negativo. El programa no puede continuar\n");
+				exit(1);
+			}
+
 			int i;
 			int len = strlen(right.value.strValue);
 			char * str = malloc(len*left.value.intValue + 1);
